@@ -1,8 +1,14 @@
+'use client';
+
 import gsap from 'gsap';
 
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+let ScrollTrigger: any;
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  ScrollTrigger = require('gsap/ScrollTrigger').ScrollTrigger;
+
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export { ScrollTrigger };
 
