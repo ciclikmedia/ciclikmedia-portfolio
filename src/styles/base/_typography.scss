@@ -1,0 +1,25 @@
+@use '../tokens/typography' as *;
+
+h1,
+.h1 {
+  font-size: $text-h1;
+  line-height: 1;
+}
+
+h2,
+.h2 {
+  font-size: $text-h2;
+  line-height: 1.1;
+}
+
+h3,
+.h3 {
+  font-size: $text-h3;
+  line-height: 1.1;
+}
+
+p,
+.body {
+  font-size: $text-body;
+  line-height: 1.5;
+}

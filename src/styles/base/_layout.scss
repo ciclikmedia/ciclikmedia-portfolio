@@ -1,0 +1,20 @@
+@use '../tokens/spacing' as *;
+@use '../mixins/media' as *;
+
+.section {
+  position: relative;
+
+  padding-block: $space-lg;
+
+  @include desktop {
+    padding-block: $space-xl;
+  }
+}
+
+.section-sm {
+  padding-block: $space-md;
+}
+
+.section-lg {
+  padding-block: calc($space-xl * 1.5);
+}
