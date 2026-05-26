@@ -6,7 +6,7 @@ export default function HomePage() {
       <section className="section">
         <div className="container">
           <Reveal>
-            <h1>Ciclikmedia Portfolio 2026</h1>
+            <h1>Ciclikmedia Portfolio 2026 David</h1>
           </Reveal>
 
           <Reveal>
