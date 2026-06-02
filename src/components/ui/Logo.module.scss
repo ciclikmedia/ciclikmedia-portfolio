@@ -1,0 +1,25 @@
+.logo {
+  position: relative;
+
+  display: inline-flex;
+
+  text-decoration: none;
+}
+
+.wordmark {
+  display: block;
+
+  width: 273.09px;
+  height: 43.71px;
+}
+
+.symbol {
+  position: absolute;
+
+  left: calc(273.09px + 13px);
+
+  bottom: 22px;
+
+  width: 31.02px;
+  height: 32.65px;
+}

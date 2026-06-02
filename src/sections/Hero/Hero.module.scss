@@ -1,0 +1,172 @@
+@use '@/styles/tokens/colors' as *;
+@use '@/styles/tokens/typography' as *;
+
+/*
+|--------------------------------------------------------------------------
+| Hero Section
+|--------------------------------------------------------------------------
+*/
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+
+  background-color: $color-background;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Content
+|--------------------------------------------------------------------------
+*/
+
+.content {
+  position: relative;
+  z-index: 10;
+
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.headline {
+  margin-top: 1rem;
+}
+
+.description {
+  margin-top: 2rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Symbol
+|--------------------------------------------------------------------------
+*/
+
+.symbol {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  z-index: 1;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Navbar
+|--------------------------------------------------------------------------
+*/
+
+.navbar {
+  position: absolute;
+  inset: 0 0 auto 0;
+
+  z-index: 20;
+}
+
+.navbarInner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  padding-top: 4.375rem;
+}
+
+.logo {
+  font-size: $text-body-lg;
+  font-weight: 300;
+
+  color: $color-text;
+}
+
+.logo a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 0.5rem;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.nav li {
+  font-size: $text-body;
+  font-weight: 400;
+
+  line-height: 1;
+
+  letter-spacing: -0.01em;
+
+  color: $color-text-secondary;
+}
+
+.nav a {
+  display: inline-block;
+
+  color: inherit;
+
+  text-decoration: none;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.nav a:hover {
+  color: $color-text;
+
+  transform: translateX(-4px);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Typography
+|--------------------------------------------------------------------------
+*/
+
+.title {
+  font-size: $text-display-xl;
+
+  line-height: 0.9;
+
+  letter-spacing: -0.02em;
+
+  font-weight: 300;
+
+  color: $color-text;
+}
+
+.dynamicHeadline {
+  font-size: $text-headline;
+
+  line-height: 1;
+
+  letter-spacing: -0.02em;
+
+  font-weight: 300;
+
+  color: $color-text-secondary;
+}
+
+.heroDescription {
+  max-width: 26.25rem;
+
+  font-size: $text-body-lg;
+
+  line-height: 1.4;
+
+  letter-spacing: -0.01em;
+
+  color: $color-text-muted;
+}
