@@ -28,7 +28,10 @@ export default function HeroSymbol() {
         ease: 'power3.out',
       }
     );
+    
   }, []);
+
+  
 
   return (
     <div
