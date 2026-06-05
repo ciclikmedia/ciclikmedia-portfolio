@@ -1,0 +1,157 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+.selectedWork {
+  padding: 220px 0;
+}
+
+.header {
+  margin-bottom: 80px;
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 24px;
+
+    font-size: $text-small;
+    font-weight: 500;
+
+    line-height: 100%;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+
+    color: $color-text-muted;
+  }
+
+  h2 {
+    margin-bottom: 48px;
+
+    font-size: 80px;
+    font-weight: 700;
+
+    line-height: 95%;
+    letter-spacing: -0.02em;
+
+    color: $color-text;
+  }
+
+  p {
+    max-width: 420px;
+
+    margin-bottom: 32px;
+
+    font-size: $text-body-lg;
+    font-weight: 300;
+
+    line-height: 140%;
+    letter-spacing: 0;
+
+    color: $color-text-secondary;
+  }
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+
+  font-size: 13px;
+  font-weight: 900;
+
+  line-height: 100%;
+  letter-spacing: 0;
+
+  text-transform: uppercase;
+
+  color: $color-text;
+
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-accent;
+  }
+}
+
+.project {
+  .counter {
+    display: block;
+
+    margin-bottom: 34px;
+
+    font-size: 20px;
+    font-weight: 500;
+
+    line-height: 100%;
+    letter-spacing: 0.12em;
+
+    color: $color-text-muted;
+  }
+}
+
+.image {
+  position: relative;
+
+  width: 100%;
+  height: 680px;
+
+  margin-bottom: 40px;
+
+  background: #235b5d; // temporal hasta tener imagen real
+
+  overflow: hidden;
+}
+
+.viewProject {
+  position: absolute;
+
+  top: 40px;
+  left: 120px;
+
+  width: 113px;
+  height: 113px;
+
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  backdrop-filter: blur(20px);
+
+  background: rgba($color-white, 0.12);
+  border: 1px solid rgba($color-white, 0.15);
+
+  span {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  small {
+    font-size: 10px;
+    color: $color-white;
+  }
+}
+
+.info {
+  h3 {
+    margin-bottom: 26px; // ojo, en Figma dijiste 26px
+
+    font-size: 40px;
+    font-weight: 300;
+
+    line-height: 95%;
+    letter-spacing: -0.02em;
+
+    color: $color-text;
+  }
+
+  span {
+    font-size: 18px;
+    font-weight: 400;
+
+    line-height: 140%;
+    letter-spacing: 0;
+
+    color: $color-text-secondary;
+  }
+}

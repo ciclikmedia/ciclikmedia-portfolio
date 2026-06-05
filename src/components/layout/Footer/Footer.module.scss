@@ -1,0 +1,91 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.footer {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  
+}
+
+/* ==========================================================
+   SOCIALS
+   ========================================================== */
+
+.socials {
+  display: flex;
+  justify-content: flex-end;
+
+  gap: 24px;
+  padding: 0 18px;
+  margin-bottom: 24px;
+
+  a {
+    font-size: 0.8rem; // 12px
+    font-weight: 600;
+    letter-spacing: 2%;
+
+    line-height: 100%;
+
+    color: $color-text;
+
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $color-accent;
+    }
+  }
+}
+
+/* ==========================================================
+   BOTTOM
+   ========================================================== */
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-top: 18px;
+
+  border-top: 1px solid rgba($color-white, 0.08);
+
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.bottom span {
+  font-size: 0.85rem; // 12px
+  font-weight: 400;
+
+  color: $color-text-muted;
+}
+
+/* ==========================================================
+   SYMBOL
+   ========================================================== */
+
+.symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  opacity: 0.3;
+
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  img {
+    width: 22px;
+    height: auto;
+  }
+}

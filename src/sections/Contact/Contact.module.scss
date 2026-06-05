@@ -1,0 +1,140 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+/* ==========================================================
+   CONTACT
+   ========================================================== */
+
+.contact {
+  padding-top: 220px;
+  padding-bottom: 80px;
+}
+
+/* ==========================================================
+   EYEBROW
+   ========================================================== */
+
+.eyebrow {
+  display: block;
+
+  margin-bottom: 24px;
+
+  font-size: $text-small;
+  font-weight: 500;
+
+  line-height: 100%;
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+
+.hero {
+  position: relative;
+  display: inline-block;
+
+  --title-size: clamp(5rem, 7vw, 7rem);
+
+  margin-bottom: 98px;
+}
+
+.hero h2 {
+  font-size: var(--title-size);
+
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+
+  color: $color-text;
+
+  
+}
+
+.email {
+  position: absolute;
+
+  right: 0;
+
+  /* aprox 1.8 veces la altura visual del título */
+  top: calc(var(--title-size) * 1.85);
+
+  /* proporcional al titular */
+  font-size: calc(var(--title-size) * 0.20);
+
+  font-weight: 600;
+  line-height: 1;
+
+  color: $color-accent;
+
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: $color-text;
+  }
+}
+
+/* ==========================================================
+   CONTENT
+   ========================================================== */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  gap: 48px;
+
+  margin-bottom: 100px;
+
+  transform: translateX(1.6rem);
+}
+
+.content p {
+  max-width: 340px;
+
+  font-size: 1.3rem;
+
+  font-weight: 400;
+
+  line-height: 140%;
+
+  color: $color-text-secondary;
+
+  margin-bottom: 20px;
+}
+
+/* ==========================================================
+   BUTTON
+   ========================================================== */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 10%;
+  padding: 18px 40px;
+
+  border: 1px solid $color-accent;
+
+  font-size: 13px;
+  font-weight: 900;
+
+  line-height: 100%;
+
+  text-transform: uppercase;
+
+  color: $color-text;
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: $color-accent;
+    color: $color-black;
+  }
+}
+
