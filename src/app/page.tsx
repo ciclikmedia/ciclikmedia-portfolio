@@ -4,9 +4,13 @@ import SelectedBrands from "@/sections/Clients/SelectedBrands";
 import About from "@/sections/About/About";
 import Contact from "@/sections/Contact/Contact";
 
+import FloatingSymbol from '@/components/layout/FloatingSymbol/FloatingSymbol';
+
 export default function HomePage() {
   return (
     <main>
+<FloatingSymbol />
+
       <Hero />
       <SelectedWork />
       <SelectedBrands />

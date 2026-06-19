@@ -1,20 +1,72 @@
+'use client';
+
 import styles from "./Footer.module.scss";
 
 import Image from "next/image";
 
+import { useCursor } from '@/hooks/useCursor';
+
 export default function Footer() {
+  const { setVariant } = useCursor();
   return (
     <footer className={styles.footer}>
-      <div className="container">
+      <div className="site-container">
 
         <div className={styles.socials}>
-          <a href="#">LinkedIn</a>
-          <a href="#">GitHub</a>
-          <a href="#">Instagram</a>
+          <a
+            href="#"
+            className={styles.socialLink}
+            onMouseEnter={() => {
+              setVariant('footer');
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+            }}
+          >
+            <span>LinkedIn</span>
+
+            <span className={styles.socialAccent}>
+              LinkedIn
+            </span>
+          </a>
+
+          <a
+            href="#"
+            className={styles.socialLink}
+            onMouseEnter={() => {
+              setVariant('footer');
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+            }}
+          >
+            <span>GitHub</span>
+
+            <span className={styles.socialAccent}>
+              GitHub
+            </span>
+          </a>
+
+          <a
+            href="#"
+            className={styles.socialLink}
+            onMouseEnter={() => {
+              setVariant('footer');
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+            }}
+          >
+            <span>Instagram</span>
+
+            <span className={styles.socialAccent}>
+              Instagram
+            </span>
+          </a>
         </div>
 
         <div className={styles.bottom}>
-          <span>
+          <span className={styles.credit}>
             Designed and Built by David Murillo.
           </span>
 

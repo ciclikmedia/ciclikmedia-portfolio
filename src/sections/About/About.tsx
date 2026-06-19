@@ -1,9 +1,16 @@
+'use client';
+
 import styles from "./About.module.scss";
 
+import { useCursor } from '@/hooks/useCursor';
+
 export default function About() {
+  const { setVariant } =
+    useCursor();
+
   return (
     <section className={styles.about}>
-      <div className="container">
+      <div className="site-container">
 
         <div className={styles.grid}>
 
@@ -38,9 +45,20 @@ export default function About() {
             <a
               href="/about"
               className={styles.link}
+              onMouseEnter={() => {
+                setVariant('link');
+              }}
+              onMouseLeave={() => {
+                setVariant('default');
+              }}
             >
-              MORE ABOUT ME 
-              <span>→</span>
+              <span>
+                MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→
+              </span>
+
+              <span className={styles.linkAccent}>
+                MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→
+              </span>
             </a>
 
           </div>

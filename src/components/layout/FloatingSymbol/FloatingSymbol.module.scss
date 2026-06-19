@@ -1,0 +1,47 @@
+.symbol {
+  position: fixed;
+
+  right: -12%;
+
+  top: 40%;
+
+  width: clamp(
+    900px,
+    55vw,
+    1100px
+  );
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  will-change: transform;
+}
+
+.symbolInner {
+  width: 100%;
+  height: 100%;
+}
+
+.symbolInner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.symbol img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (-webkit-max-device-pixel-ratio: 1.99),
+(max-resolution: 191dpi) {
+  .symbol {
+    opacity: 0;
+  }
+}

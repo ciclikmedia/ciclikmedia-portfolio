@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import Cursor from '@/components/ui/Cursor/Cursor';
+
+import CursorLens from '@/components/experiments/CursorLens/CursorLens';
+
 import "@/styles/globals.scss";
 
 import Providers from "@/providers/Providers";
 
 import Footer from "@/components/layout/Footer/Footer";
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +40,15 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          {children}
-        </Providers>
+          
+          <Cursor />
 
-        <Providers>
-        
-        <Footer />
-      </Providers>
+          {/*<CursorLens />*/}
+
+          {children}
+
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

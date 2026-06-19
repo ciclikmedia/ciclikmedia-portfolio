@@ -2,11 +2,15 @@
 @use "@/styles/tokens/typography" as *;
 
 .selectedWork {
-  padding: 220px 0;
+  padding: 140px 0 0;
 }
 
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
 .header {
-  margin-bottom: 80px;
+  margin-bottom: 60px;
 
   .eyebrow {
     display: block;
@@ -43,114 +47,286 @@
     font-weight: 300;
 
     line-height: 140%;
-    letter-spacing: 0;
 
     color: $color-text-secondary;
   }
 }
 
+/* ==========================================================
+   LINK
+   ========================================================== */
+
 .link {
-  display: inline-flex;
-  align-items: center;
-  gap: 20px;
+  position: relative;
+
+  display: inline-block;
 
   font-size: 13px;
   font-weight: 900;
 
-  line-height: 100%;
-  letter-spacing: 0;
-
   text-transform: uppercase;
 
-  color: $color-text;
+  text-decoration: none;
 
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: $color-accent;
-  }
+  overflow: hidden;
 }
+
+.linkBase {
+  color: $color-text;
+}
+
+.linkAccent {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  color: $color-accent;
+
+  clip-path: inset(0 100% 0 0);
+
+  transition: clip-path 0.7s cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  );
+}
+
+.link:hover .linkAccent {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ==========================================================
+   HORIZONTAL SECTION
+   ========================================================== */
+
+.horizontalSection {
+  position: relative;
+
+  height: 100vh;
+
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+
+  height: 100%;
+
+  will-change: transform;
+
+  transform: translate3d(
+    0,
+    0,
+    0
+  );
+}
+
+/* ==========================================================
+   COUNTER
+   ========================================================== */
+
+.counterFixed {
+  position: absolute;
+
+  bottom: 20px;
+  right: clamp(24px, 1.2vw, 80px);
+
+  z-index: 100;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  color: $color-text-muted;
+
+  pointer-events: none;
+
+  opacity: .2;
+}
+
+/* ==========================================================
+   PROJECT
+   ========================================================== */
 
 .project {
-  .counter {
-    display: block;
+  width: 100vw;
 
-    margin-bottom: 34px;
+  text-decoration: none;
+  color: inherit;
 
-    font-size: 20px;
-    font-weight: 500;
+  flex-shrink: 0;
 
-    line-height: 100%;
-    letter-spacing: 0.12em;
+  padding-inline: clamp(
+    24px,
+    3vw,
+    80px
+  );
 
-    color: $color-text-muted;
-  }
+  padding-top: 60px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
 }
+
+.projectLink {
+  display: block;
+
+  width: 100%;
+
+  text-decoration: none;
+
+  color: inherit;
+}
+
+
+.projectTitle {
+  position: relative;
+
+  display: inline-block;
+
+  overflow: hidden;
+
+  margin-bottom: 12px;
+}
+
+.projectTitle span:first-child {
+  color: $color-text;
+}
+
+.titleAccent {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  color: $color-accent;
+
+  clip-path: inset(
+    0 100% 0 0
+  );
+
+  transition: clip-path 0.7s cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  );
+}
+
+/* HOVER ROSA */
+
+/*.projectLink:hover .titleAccent {
+  clip-path: inset(
+    0 0 0 0
+  );
+}*/
+
+/* ==========================================================
+   IMAGE
+   ========================================================== */
 
 .image {
   position: relative;
 
   width: 100%;
-  height: 680px;
 
-  margin-bottom: 40px;
-
-  background: #235b5d; // temporal hasta tener imagen real
+  height: clamp(
+    420px,
+    62vh,
+    720px
+  );
 
   overflow: hidden;
+
+  margin-bottom: 40px;
 }
+
+/* ==========================================================
+   VIEW PROJECT
+   ========================================================== */
 
 .viewProject {
   position: absolute;
 
-  top: 40px;
-  left: 120px;
+  right: 40px;
+  bottom: 40px;
 
-  width: 113px;
-  height: 113px;
+  width: 120px;
+  height: 120px;
 
   border-radius: 50%;
 
   display: flex;
   flex-direction: column;
+
   align-items: center;
   justify-content: center;
 
   backdrop-filter: blur(20px);
 
-  background: rgba($color-white, 0.12);
-  border: 1px solid rgba($color-white, 0.15);
+  background: rgba(
+    $color-white,
+    0.12
+  );
+
+  border: 1px solid rgba(
+    $color-white,
+    0.15
+  );
 
   span {
     font-size: 16px;
+
     margin-bottom: 4px;
   }
 
   small {
     font-size: 10px;
+
     color: $color-white;
   }
 }
 
-.info {
-  h3 {
-    margin-bottom: 26px; // ojo, en Figma dijiste 26px
+/* ==========================================================
+   INFO
+   ========================================================== */
 
-    font-size: 40px;
+.info {
+  max-width: 900px;
+
+  .projectTitle span {
+    font-size: clamp(
+      42px,
+      4vw,
+      72px
+    );
+
     font-weight: 300;
 
-    line-height: 95%;
-    letter-spacing: -0.02em;
+    line-height: 0.95;
 
-    color: $color-text;
+    letter-spacing: -0.03em;
   }
 
-  span {
+  span.description {
+    display: block;
+
     font-size: 18px;
-    font-weight: 400;
 
     line-height: 140%;
-    letter-spacing: 0;
 
     color: $color-text-secondary;
   }

@@ -1,0 +1,332 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+.cursor {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 18px;
+  height: 18px;
+
+  border: 1px solid #ffffff;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  transform: translate(-50%, -50%);
+
+  mix-blend-mode: difference;
+
+  transition:
+    width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+
+  will-change:
+    transform,
+    width,
+    height,
+    background-color,
+    border-color;
+}
+
+.default {
+  width: 18px;
+  height: 18px;
+
+  border-color: $color-white;
+}
+
+.link {
+  width: 42px;
+  height: 42px;
+  border: 1.9px solid $color-accent;
+  border-color: $color-accent;
+  mix-blend-mode: normal;
+}
+
+.socialLink {
+  position: relative;
+
+  display: inline-block;
+
+  overflow: hidden;
+
+  text-decoration: none;
+}
+
+.socialLink span:first-child {
+  color: $color-text-secondary;
+}
+
+.socialAccent {
+  position: absolute;
+
+  inset: 0;
+
+  color: $color-accent;
+
+  clip-path: inset(
+    0 100% 0 0
+  );
+
+  transition: clip-path .7s cubic-bezier(
+    0.22,
+    1,
+    0.36,
+    1
+  );
+}
+
+.socialLink:hover .socialAccent {
+  clip-path: inset(
+    0 0 0 0
+  );
+}
+
+.footer {
+  width: 28px;
+  height: 28px;
+
+  border: 1.6px solid $color-accent;
+
+  border-color: $color-accent;
+
+  mix-blend-mode: normal;
+}
+
+.nav {
+  width: 54px;
+  height: 54px;
+
+  border: 2.4px solid $color-accent;
+
+  mix-blend-mode: normal;
+}
+
+.button {
+  width: 56px;
+  height: 56px;
+
+  border-color: $color-accent;
+
+  background-color: rgba(
+    255,
+    87,
+    219,
+    0.08
+  );
+}
+
+.view {
+  width: 113px;
+  height: 113px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.15
+  );
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.20
+  );
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  mix-blend-mode: normal;
+}
+
+.hero {
+  width: 100px;
+  height: 100px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.03
+  );
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.10
+  );
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  mix-blend-mode: normal;
+}
+
+.label {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  pointer-events: none;
+
+  white-space: pre-line;
+}
+
+.label svg,
+.labelIcon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.labelText {
+  font-size: 13px;
+  font-weight: 400;
+
+  line-height: 1.2;
+
+  letter-spacing: -0.01em;
+}
+
+
+.labelArrow {
+  margin-top: 4px;
+
+  font-size: 18px;
+
+  line-height: 1;
+
+  animation: heroArrow 2s ease-in-out infinite;
+}
+
+@keyframes heroArrow {
+  0%,
+  100% {
+    transform: translateY(0);
+
+    opacity: .7;
+  }
+
+  50% {
+    transform: translateY(4px);
+
+    opacity: 1;
+  }
+}
+
+.drag {
+  width: 110px;
+  height: 110px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.16
+  );
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  mix-blend-mode: normal;
+}
+
+
+.drag {
+  width: 90px;
+  height: 90px;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.08
+  );
+
+  border: 1px solid rgba(
+    255,
+    255,
+    255,
+    0.18
+  );
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  mix-blend-mode: normal;
+}
+
+.dragActive {
+  width: 120px;
+  height: 60px;
+
+  border: none;
+
+  background: transparent;
+
+  mix-blend-mode: normal;
+}
+
+.dragIndicator {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 18px;
+
+  pointer-events: none;
+}
+
+.dragArrow {
+  font-size: 18px;
+
+  color: #ff57db;
+}
+
+.dragDot {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  background: rgba(
+    255,
+    87,
+    219,
+    0.2
+  );
+
+  border: 1px solid #ff57db;
+
+  backdrop-filter: blur(16px);
+}

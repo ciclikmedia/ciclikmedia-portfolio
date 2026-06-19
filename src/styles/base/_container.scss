@@ -1,19 +1,13 @@
-@use '../tokens/spacing' as *;
 @use '../mixins/media' as *;
 
-.container {
+.site-container {
   width: 100%;
 
   margin-inline: auto;
 
-  padding-inline: $space-sm;
-
-  @include tablet {
-    padding-inline: $space-md;
-  }
-
-  @include desktop {
-    padding-inline: $space-lg;
-    max-width: 1720px;
-  }
+  padding-inline: clamp(
+    24px,
+    3vw,
+    80px
+  );
 }

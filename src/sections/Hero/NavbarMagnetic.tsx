@@ -11,12 +11,47 @@ import { useCursor } from '@/hooks/useCursor';
 import styles from './Hero.module.scss';
 
 export default function Navbar() {
-  const {
-    setVariant,
-    setLabel,
-  } = useCursor();
+  const { setVariant } =
+    useCursor();
 
   const navbarRef = useRef<HTMLDivElement>(null);
+
+  const handleMagneticMove = (
+  e: React.MouseEvent<HTMLAnchorElement>
+) => {
+  const element = e.currentTarget;
+
+  const rect =
+    element.getBoundingClientRect();
+
+  const x =
+    e.clientX -
+    rect.left -
+    rect.width / 2;
+
+  const y =
+    e.clientY -
+    rect.top -
+    rect.height / 2;
+
+  gsap.to(element, {
+    x: x * 0.15,
+    y: y * 0.15,
+    duration: 0.4,
+    ease: 'power3.out',
+  });
+};
+
+const handleMagneticLeave = (
+  e: React.MouseEvent<HTMLAnchorElement>
+) => {
+  gsap.to(e.currentTarget, {
+    x: 0,
+    y: 0,
+    duration: 0.6,
+    ease: 'power3.out',
+  });
+};
 
   useLayoutEffect(() => {
     if (!navbarRef.current) return;
@@ -71,36 +106,24 @@ export default function Navbar() {
           ref={navbarRef}
           className={styles.navbarInner}
         >
-          <div
-            className={styles.logo}
-            onMouseEnter={() => {
-              setVariant('default');
-              setLabel('');
-            }}
-            onMouseLeave={() => {
-              setVariant('hero');
-              setLabel('Discover\n↓');
-            }}
-          >
+          <div className={styles.logo}>
             <Logo />
           </div>
 
-          <nav
-            aria-label="Main navigation"
-            onMouseEnter={() => {
-              setVariant('nav');
-              setLabel('');
-            }}
-            onMouseLeave={() => {
-              setVariant('hero');
-              setLabel('Discover\n↓');
-            }}
-          >
+          <nav aria-label="Main navigation">
             <ul className={styles.nav}>
               <li>
                 <Link
                   href="/work"
                   className={styles.navLink}
+                  onMouseEnter={() => {
+                    setVariant('nav');
+                  }}
+                  onMouseMove={handleMagneticMove}
+                  onMouseLeave={(e) => {
+                    handleMagneticLeave(e);
+                    setVariant('default');
+                  }}
                 >
                   <span className={styles.navBase}>
                     Work
@@ -116,6 +139,14 @@ export default function Navbar() {
                 <Link
                   href="/expertise"
                   className={styles.navLink}
+                  onMouseEnter={() => {
+                    setVariant('nav');
+                  }}
+                  onMouseMove={handleMagneticMove}
+                  onMouseLeave={(e) => {
+                    handleMagneticLeave(e);
+                    setVariant('default');
+                  }}
                 >
                   <span className={styles.navBase}>
                     Expertise
@@ -131,6 +162,14 @@ export default function Navbar() {
                 <Link
                   href="/about"
                   className={styles.navLink}
+                  onMouseEnter={() => {
+                    setVariant('nav');
+                  }}
+                 onMouseMove={handleMagneticMove}
+                  onMouseLeave={(e) => {
+                    handleMagneticLeave(e);
+                    setVariant('default');
+                  }}
                 >
                   <span className={styles.navBase}>
                     About
@@ -146,6 +185,14 @@ export default function Navbar() {
                 <Link
                   href="/contact"
                   className={styles.navLink}
+                  onMouseEnter={() => {
+                    setVariant('nav');
+                  }}
+                  onMouseMove={handleMagneticMove}
+                  onMouseLeave={(e) => {
+                    handleMagneticLeave(e);
+                    setVariant('default');
+                  }}
                 >
                   <span className={styles.navBase}>
                     Contact

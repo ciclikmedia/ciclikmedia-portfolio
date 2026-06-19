@@ -9,17 +9,47 @@
 .wordmark {
   display: block;
 
-  width: 273.09px;
-  height: 43.71px;
+  width: clamp(
+    218.47px,
+    11vw,
+    340px
+  );
+
+  height: auto;
 }
 
 .symbol {
   position: absolute;
 
-  left: calc(273.09px + 13px);
+  left: calc(
+    clamp(
+      218.47px,
+      11vw,
+      340px
+    ) + (
+      clamp(
+        218.47px,
+        11vw,
+        340px
+      ) * 0.0476
+    )
+  );
 
-  bottom: 22px;
+  bottom: calc(
+    clamp(
+      218.47px,
+      11vw,
+      340px
+    ) * 0.0805
+  );
 
-  width: 31.02px;
-  height: 32.65px;
+  width: calc(
+    clamp(
+      218.47px,
+      11vw,
+      340px
+    ) * 0.1136
+  );
+
+  height: auto;
 }

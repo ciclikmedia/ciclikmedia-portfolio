@@ -1,9 +1,18 @@
+'use client';
+
 import styles from "./Contact.module.scss";
 
+import { useCursor } from '@/hooks/useCursor';
+
 export default function Contact() {
+  const { setVariant, setLabel } =
+    useCursor();
+
   return (
-    <section className={styles.contact}>
-      <div className="container">
+    <section 
+    id="contact-section"
+    className={styles.contact}>
+      <div className="site-container">
 
         <span className={styles.eyebrow}>
           CONTACT
@@ -19,8 +28,22 @@ export default function Contact() {
           <a
             href="mailto:hello@ciclikmedia.com"
             className={styles.email}
+            onMouseEnter={() => {
+              setVariant('view');
+              setLabel('↗\nLet’s talk?');
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+              setLabel('');
+            }}
           >
-            hello@ciclikmedia.com
+            <span className={styles.emailBase}>
+              hello@ciclikmedia.com
+            </span>
+
+            <span className={styles.emailAccent}>
+              hello@ciclikmedia.com
+            </span>
           </a>
 
           <h2>
@@ -40,11 +63,19 @@ export default function Contact() {
           <a
             href="/contact"
             className={styles.button}
+            onMouseEnter={() => {
+              setVariant('view');
+              setLabel('↗\nStart Project');
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+              setLabel('');
+            }}
           >
-            START A PROJECT
+            <span>START A PROJECT</span>
           </a>
         </div>
-        
+
       </div>
     </section>
   );

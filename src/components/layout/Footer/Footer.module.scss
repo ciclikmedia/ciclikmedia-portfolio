@@ -7,7 +7,7 @@
 
 .footer {
   padding-top: 40px;
-  padding-bottom: 40px;
+  padding-bottom: 0;
   
 }
 
@@ -24,7 +24,7 @@
   margin-bottom: 24px;
 
   a {
-    font-size: 0.8rem; // 12px
+    font-size: 1rem; // 12px
     font-weight: 600;
     letter-spacing: 2%;
 
@@ -50,6 +50,7 @@
   align-items: center;
 
   padding-top: 18px;
+  padding-bottom: 40px;
 
   border-top: 1px solid rgba($color-white, 0.08);
 
@@ -58,8 +59,8 @@
 }
 
 .bottom span {
-  font-size: 0.85rem; // 12px
-  font-weight: 400;
+  font-size: 1rem; // 12px
+  font-weight: 500;
 
   color: $color-text-muted;
 }
@@ -87,5 +88,133 @@
   img {
     width: 22px;
     height: auto;
+  }
+}
+
+
+.socialLink {
+  position: relative;
+
+  display: inline-block;
+
+  overflow: hidden;
+
+  text-decoration: none;
+}
+
+.socialLink span:first-child {
+  color: $color-text-secondary;
+}
+
+.socialAccent {
+  position: absolute;
+
+  inset: 0;
+
+  color: $color-accent;
+
+  white-space: nowrap;
+
+  clip-path: inset(
+    0 100% 0 0
+  );
+
+  transition:
+    clip-path 0.7s cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.socialLink:hover .socialAccent {
+  clip-path: inset(
+    0 0 0 0
+  );
+}
+
+
+.socialLink {
+  position: relative;
+
+  display: inline-block;
+
+  overflow: hidden;
+
+  text-decoration: none;
+}
+
+.socialLink span:first-child {
+  color: $color-text-secondary;
+}
+
+.socialAccent {
+  position: absolute;
+
+  inset: 0;
+
+  color: $color-accent;
+
+  white-space: nowrap;
+
+  clip-path: inset(
+    0 100% 0 0
+  );
+
+  transition:
+    clip-path 0.7s cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.socialLink:hover .socialAccent {
+  clip-path: inset(
+    0 0 0 0
+  );
+}
+
+.credit {
+  transition:
+    color 0.5s cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.symbol {
+  transition:
+    filter 0.5s cubic-bezier(
+      0.22,
+      1,
+      0.36,
+      1
+    );
+}
+
+.bottom:hover .credit {
+  color: $color-accent;
+}
+
+.bottom:hover .symbol {
+  
+    opacity: 1;
+
+  animation:
+    footerSpin 8s linear infinite;
+}
+
+@keyframes footerSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
   }
 }
