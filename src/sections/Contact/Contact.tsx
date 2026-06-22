@@ -2,6 +2,8 @@
 
 import styles from "./Contact.module.scss";
 
+import Magnetic from '@/components/ui/Magnetic/Magnetic';
+
 import { useCursor } from '@/hooks/useCursor';
 
 export default function Contact() {
@@ -60,20 +62,22 @@ export default function Contact() {
             full-time opportunities.
           </p>
 
-          <a
-            href="/contact"
-            className={styles.button}
-            onMouseEnter={() => {
-              setVariant('view');
-              setLabel('↗\nStart Project');
-            }}
-            onMouseLeave={() => {
-              setVariant('default');
-              setLabel('');
-            }}
-          >
-            <span>START A PROJECT</span>
-          </a>
+          <Magnetic>
+  <a
+    href="/contact"
+    className={styles.button}
+    onMouseEnter={() => {
+      setVariant('view');
+      setLabel('↗\nStart Project');
+    }}
+    onMouseLeave={() => {
+      setVariant('default');
+      setLabel('');
+    }}
+  >
+    <span>START A PROJECT</span>
+  </a>
+</Magnetic>
         </div>
 
       </div>

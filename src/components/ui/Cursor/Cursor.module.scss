@@ -20,7 +20,7 @@
 
   transform: translate(-50%, -50%);
 
-  mix-blend-mode: difference;
+  mix-blend-mode: normal;
 
   transition:
     width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -129,29 +129,17 @@
   width: 113px;
   height: 113px;
 
-  background: rgba(
-    255,
-    255,
-    255,
-    0.15
-  );
+  background: transparent;
 
-  border: 1px solid rgba(
-    255,
-    255,
-    255,
-    0.20
-  );
+  border: none;
 
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  mix-blend-mode: normal;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .hero {
-  width: 100px;
-  height: 100px;
+  width: 113px;
+  height: 113px;
 
   background: rgba(
     255,
@@ -188,11 +176,26 @@
 
   text-align: center;
 
-  color: #ffffff;
+  color: #ffffff!important;
+
+  text-shadow:
+  0 0 8px rgba(
+    255,
+    255,
+    255,
+    .15
+  );
+
+  mix-blend-mode: normal !important;
 
   pointer-events: none;
 
   white-space: pre-line;
+}
+
+.label * {
+  color: #fff !important;
+  mix-blend-mode: normal !important;
 }
 
 .label svg,
@@ -237,33 +240,8 @@
 }
 
 .drag {
-  width: 110px;
-  height: 110px;
-
-  background: rgba(
-    255,
-    255,
-    255,
-    0.08
-  );
-
-  border: 1px solid rgba(
-    255,
-    255,
-    255,
-    0.16
-  );
-
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  mix-blend-mode: normal;
-}
-
-
-.drag {
-  width: 90px;
-  height: 90px;
+  width: 113px;
+  height: 113px;
 
   background: rgba(
     255,

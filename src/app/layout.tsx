@@ -5,6 +5,8 @@ import Cursor from '@/components/ui/Cursor/Cursor';
 
 import CursorLens from '@/components/experiments/CursorLens/CursorLens';
 
+import CursorLensGlass from '@/components/experiments/CursorLens/CursorLensGlass';
+
 import "@/styles/globals.scss";
 
 import Providers from "@/providers/Providers";
@@ -40,10 +42,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          
-          <Cursor />
 
           {/*<CursorLens />*/}
+           <CursorLensGlass />
+          
+          <Cursor />          
 
           {children}
 

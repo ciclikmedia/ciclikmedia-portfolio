@@ -308,13 +308,13 @@ export default function SelectedBrandsLerp() {
     );
 
     return () => {
-  setVariant('default');
+      setVariant('default');
 
-  setLabel('');
+      setLabel('');
 
-  gsap.ticker.remove(
-    tick
-  );
+      gsap.ticker.remove(
+        tick
+      );
 
       dragArea.removeEventListener(
         'pointerdown',
