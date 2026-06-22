@@ -104,6 +104,8 @@ export default function FloatingSymbol() {
         alt=""
         width={1005}
         height={1039}
+        priority
+
       />
     </div>
   </div>

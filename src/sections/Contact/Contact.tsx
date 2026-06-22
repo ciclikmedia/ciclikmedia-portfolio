@@ -1,21 +1,21 @@
 'use client';
 
-import styles from "./Contact.module.scss";
-
-import Magnetic from '@/components/ui/Magnetic/Magnetic';
+import styles from './Contact.module.scss';
 
 import { useCursor } from '@/hooks/useCursor';
 
 export default function Contact() {
-  const { setVariant, setLabel } =
-    useCursor();
+  const {
+    setVariant,
+    setLabel,
+  } = useCursor();
 
   return (
-    <section 
-    id="contact-section"
-    className={styles.contact}>
+    <section
+      id="contact-section"
+      className={styles.contact}
+    >
       <div className="site-container">
-
         <span className={styles.eyebrow}>
           CONTACT
         </span>
@@ -28,6 +28,7 @@ export default function Contact() {
           </h2>
 
           <a
+            data-magnetic="true"
             href="mailto:hello@ciclikmedia.com"
             className={styles.email}
             onMouseEnter={() => {
@@ -39,47 +40,56 @@ export default function Contact() {
               setLabel('');
             }}
           >
-            <span className={styles.emailBase}>
+            <span
+              className={
+                styles.emailBase
+              }
+            >
               hello@ciclikmedia.com
             </span>
 
-            <span className={styles.emailAccent}>
+            <span
+              className={
+                styles.emailAccent
+              }
+            >
               hello@ciclikmedia.com
             </span>
           </a>
 
-          <h2>
-            GREAT.
-          </h2>
+          <h2>GREAT.</h2>
         </div>
 
         <div className={styles.content}>
           <p>
-            Available for freelance projects,
+            Available for freelance
+            projects,
             <br />
             creative collaborations and
             <br />
             full-time opportunities.
           </p>
 
-          <Magnetic>
-  <a
-    href="/contact"
-    className={styles.button}
-    onMouseEnter={() => {
-      setVariant('view');
-      setLabel('↗\nStart Project');
-    }}
-    onMouseLeave={() => {
-      setVariant('default');
-      setLabel('');
-    }}
-  >
-    <span>START A PROJECT</span>
-  </a>
-</Magnetic>
+          <a
+            data-magnetic="true"
+            href="/contact"
+            className={styles.button}
+            onMouseEnter={() => {
+              setVariant('view');
+              setLabel(
+                '↗\nStart Project'
+              );
+            }}
+            onMouseLeave={() => {
+              setVariant('default');
+              setLabel('');
+            }}
+          >
+            <span>
+              START A PROJECT
+            </span>
+          </a>
         </div>
-
       </div>
     </section>
   );
