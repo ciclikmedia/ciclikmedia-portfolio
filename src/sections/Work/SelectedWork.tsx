@@ -64,6 +64,9 @@ export default function SelectedWork() {
   const trackRef =
     useRef<HTMLDivElement>(null);
 
+  const projectRefs =
+    useRef<(HTMLDivElement | null)[]>([]);
+
   useLayoutEffect(() => {
     if (
       !horizontalRef.current ||
@@ -143,6 +146,118 @@ export default function SelectedWork() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+  projectRefs.current.forEach(
+    (card) => {
+      if (!card) return;
+
+      const handleMove = (
+        e: MouseEvent
+      ) => {
+        const rect =
+          card.getBoundingClientRect();
+
+        const styles =
+          window.getComputedStyle(card);
+
+        const paddingLeft =
+          parseFloat(
+            styles.paddingLeft
+          );
+
+        const paddingRight =
+          parseFloat(
+            styles.paddingRight
+          );
+
+        const x =
+          e.clientX - rect.left;
+
+        const y =
+          e.clientY - rect.top;
+
+        if (
+          x < paddingLeft ||
+          x > rect.width - paddingRight
+        ) {
+          gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out',
+          });
+
+          return;
+        }
+
+        const usableWidth =
+          rect.width -
+          paddingLeft -
+          paddingRight;
+
+        const normalizedX =
+          (x - paddingLeft) /
+          usableWidth;
+
+        const normalizedY =
+          y / rect.height;
+
+        const rotateY =
+          (normalizedX - 0.5) * 4;
+
+        const rotateX =
+          (normalizedY - 0.5) * -4;
+
+        gsap.to(card, {
+          rotateX,
+          rotateY,
+          scale: 1.01,
+          duration: 0.4,
+          ease: 'power3.out',
+          transformPerspective: 1000,
+        });
+              };
+
+      const handleLeave = () => {
+        gsap.to(card, {
+          rotateX: 0,
+          rotateY: 0,
+
+          scale: 1,
+
+          duration: 0.8,
+
+          ease:
+            'elastic.out(1,0.4)',
+        });
+      };
+
+      card.addEventListener(
+        'mousemove',
+        handleMove
+      );
+
+      card.addEventListener(
+        'mouseleave',
+        handleLeave
+      );
+
+      return () => {
+        card.removeEventListener(
+          'mousemove',
+          handleMove
+        );
+
+        card.removeEventListener(
+          'mouseleave',
+          handleLeave
+        );
+      };
+    }
+  );
+}, []);
+
   return (
     <section
       ref={sectionRef}
@@ -209,30 +324,25 @@ export default function SelectedWork() {
           className={styles.track}
         >
           {projects.map(
-            (project) => (
+            (project, index) => (
               <div
                 key={project.number}
+                ref={(el) => {
+                  projectRefs.current[index] = el;
+                }}
                 className={styles.project}
+                onMouseEnter={() => {
+                  setVariant('view');
+                  setLabel('↗\nView work');
+                }}
+                onMouseLeave={() => {
+                  setVariant('default');
+                  setLabel('');
+                }}
               >
                 <Link
                   href={project.href}
-                  className={
-                    styles.projectLink
-                  }
-                  onMouseEnter={() => {
-                    setVariant('view');
-
-                    setLabel(
-                      '↗\nView work'
-                    );
-                  }}
-                  onMouseLeave={() => {
-                    setVariant(
-                      'default'
-                    );
-
-                    setLabel('');
-                  }}
+                  className={styles.projectLink}
                 >
                   <div
                     className={
