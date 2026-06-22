@@ -14,7 +14,8 @@ type CursorVariant =
   | 'view'
   | 'hero'
   | 'footer'
-  | 'drag';
+  | 'drag'
+  | 'dragActive';
 
 interface CursorContextType {
   variant: CursorVariant;
