@@ -214,24 +214,28 @@ export default function SelectedBrandsLerp() {
       };
 
     const onPointerUp =
-      () => {
-        isDragging = false;
+  () => {
+    isDragging = false;
 
-        targetX =
-          gsap.utils.clamp(
-            minX,
-            0,
-            targetX
-          );
+    targetX =
+      gsap.utils.clamp(
+        minX,
+        0,
+        targetX
+      );
 
-        setVariant(
-          'drag'
-        );
+    if (
+      dragArea.matches(':hover')
+    ) {
+      setVariant('drag');
 
-        setLabel(
-          'DRAG'
-        );
-      };
+      setLabel('DRAG');
+    } else {
+      setVariant('default');
+
+      setLabel('');
+    }
+  };
 
     const onWheel = (
       e: WheelEvent
@@ -304,9 +308,13 @@ export default function SelectedBrandsLerp() {
     );
 
     return () => {
-      gsap.ticker.remove(
-        tick
-      );
+  setVariant('default');
+
+  setLabel('');
+
+  gsap.ticker.remove(
+    tick
+  );
 
       dragArea.removeEventListener(
         'pointerdown',
@@ -370,13 +378,15 @@ export default function SelectedBrandsLerp() {
           }
 
           onMouseEnter={() => {
-            setVariant(
-              'drag'
-            );
+            setVariant('drag');
 
-            setLabel(
-              'DRAG'
-            );
+            setLabel('DRAG');
+          }}
+
+          onMouseLeave={() => {
+            setVariant('default');
+
+            setLabel('');
           }}
         >
           <div
