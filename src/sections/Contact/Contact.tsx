@@ -29,6 +29,7 @@ export default function Contact() {
 
           <a
             data-magnetic="true"
+            data-magnetic-strength="0.15"
             href="mailto:hello@ciclikmedia.com"
             className={styles.email}
             onMouseEnter={() => {
@@ -72,6 +73,7 @@ export default function Contact() {
 
           <a
             data-magnetic="true"
+            data-magnetic-strength="0.25"
             href="/contact"
             className={styles.button}
             onMouseEnter={() => {
