@@ -2,12 +2,14 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import Link from 'next/link';
-
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import styles from './SelectedWork.module.scss';
+
+import { projects } from './constants/projects';
+
+import ProjectCard from './ProjectCard/ProjectCard';
 
 import { useCursor } from '@/hooks/useCursor';
 
@@ -17,36 +19,7 @@ ScrollTrigger.config({
   limitCallbacks: true,
 });
 
-const projects = [
-  {
-    number: '01',
-    title: 'Ciclikmedia Portfolio',
-    meta: 'Frontend Development · Motion Design · 2025',
-    color: '#FF57DB',
-    href: '/work/ciclikmedia-portfolio',
-  },
-  {
-    number: '02',
-    title: 'Nordic Studio',
-    meta: 'Creative Development · Branding · 2025',
-    color: '#4F7CFF',
-    href: '/work/nordic-studio',
-  },
-  {
-    number: '03',
-    title: 'Vertex Labs',
-    meta: 'UX/UI Design · Product Systems · 2024',
-    color: '#22C55E',
-    href: '/work/vertex-labs',
-  },
-  {
-    number: '04',
-    title: 'Atelier Motion',
-    meta: 'Motion Design · WebGL · 2025',
-    color: '#F97316',
-    href: '/work/atelier-motion',
-  },
-];
+
 
 export default function SelectedWork() {
   const { setVariant, setLabel } =
@@ -316,7 +289,7 @@ export default function SelectedWork() {
           {String(
             activeProject
           ).padStart(2, '0')}
-          /04
+          /{String(projects.length).padStart(2, '0')}
         </div>
 
         <div
@@ -340,42 +313,7 @@ export default function SelectedWork() {
                   setLabel('');
                 }}
               >
-                <Link
-                  href={project.href}
-                  className={styles.projectLink}
-                >
-                  <div
-                    className={
-                      styles.image
-                    }
-                    style={{
-                      backgroundColor:
-                        project.color,
-                    }}
-                  />
-
-                  <div
-                    className={
-                      styles.info
-                    }
-                  >
-                    <h3 className={styles.projectTitle}>
-                      <span>
-                        {project.title}
-                      </span>
-
-                      <span className={styles.titleAccent}>
-                        {project.title}
-                      </span>
-                    </h3>
-
-                    <span className={styles.description}>
-                      {
-                        project.meta
-                      }
-                    </span>
-                  </div>
-                </Link>
+                <ProjectCard project={project} />
               </div>
             )
           )}
