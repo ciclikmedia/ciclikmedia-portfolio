@@ -37,8 +37,44 @@ export default function SelectedWork() {
   const trackRef =
     useRef<HTMLDivElement>(null);
 
+  const counterRef =
+    useRef<HTMLDivElement>(null);
+
+  const currentProjectRef =
+    useRef(1);
+
+  const directionRef = useRef<1 | -1>(1);
+
+  const numberRef =
+    useRef<HTMLSpanElement>(null);
+
   const projectRefs =
     useRef<(HTMLDivElement | null)[]>([]);
+
+    useLayoutEffect(() => {
+  if (!numberRef.current) return;
+
+  gsap.killTweensOf(numberRef.current);
+
+  const fromY =
+    directionRef.current === 1
+      ? 12
+      : -12;
+
+  gsap.fromTo(
+    numberRef.current,
+    {
+      y: fromY,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      ease: "expo.out",
+    }
+  );
+}, [activeProject]);
 
   useLayoutEffect(() => {
     if (
@@ -56,6 +92,11 @@ export default function SelectedWork() {
       const track =
         trackRef.current!;
 
+        gsap.set(counterRef.current, {
+          autoAlpha: 0,
+          y: 20,
+        });
+
       gsap.to(track, {
         x: () =>
           -(
@@ -66,40 +107,76 @@ export default function SelectedWork() {
         ease: 'none',
 
         scrollTrigger: {
-          trigger:
-            horizontalRef.current,
+        trigger: projectRefs.current[0] ?? horizontalRef.current,
 
-          start: 'top top',
+        start: "center center",
 
-          end: () =>
-            `+=${
-              track.scrollWidth -
-              window.innerWidth
-            }`,
+        end: () =>
+          `+=${track.scrollWidth - window.innerWidth}`,
 
-          pin: true,
+        pin: horizontalRef.current,
 
-          scrub: 0.8,
+        scrub: 0.8,
 
-          invalidateOnRefresh: true,
-          
+        invalidateOnRefresh: true,
 
-          onUpdate: (self) => {
-            const project =
-              Math.min(
-                projects.length,
-                Math.floor(
-                  self.progress *
-                    projects.length
-                ) + 1
-              );
-
-            setActiveProject(
-              project
-            );
-          },
+        onEnter: () => {
+          gsap.to(counterRef.current, {
+            autoAlpha: .2,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
         },
-      });
+
+        onLeave: () => {
+          gsap.to(counterRef.current, {
+            autoAlpha: 0,
+            y: -20,
+            duration: 0.2,
+            ease: "power3.out",
+          });
+        },
+
+        onEnterBack: () => {
+          gsap.to(counterRef.current, {
+            autoAlpha: .2,
+            y: 0,
+            duration: 0.6,
+            ease: "power3.out",
+          });
+        },
+
+      onLeaveBack: () => {
+        gsap.to(counterRef.current, {
+          autoAlpha: 0,
+          y: 20,
+          duration: 0.2,
+          ease: "power3.out",
+        });
+      },
+
+      onUpdate: (self) => {
+        const project = Math.min(
+          projects.length,
+          Math.floor(self.progress * projects.length) + 1
+        );
+
+        if (project === currentProjectRef.current) {
+          return;
+        }
+
+        directionRef.current = self.direction as 1 | -1;
+
+        currentProjectRef.current = project;
+
+        setActiveProject(project);
+      },
+      },
+
+});
+
+ScrollTrigger.refresh();
 
       ScrollTrigger.refresh();
     }, sectionRef);
@@ -186,7 +263,7 @@ export default function SelectedWork() {
           rotateX,
           rotateY,
           scale: 1.01,
-          duration: 0.4,
+          duration: 0.2,
           ease: 'power3.out',
           transformPerspective: 1000,
         });
@@ -202,7 +279,7 @@ export default function SelectedWork() {
           duration: 0.8,
 
           ease:
-            'elastic.out(1,0.4)',
+            'elastic.out(1,0.2)',
         });
       };
 
@@ -233,92 +310,98 @@ export default function SelectedWork() {
 
   return (
     <section
-      ref={sectionRef}
-      className={styles.selectedWork}
-    >
-      <div className="site-container">
-        <div className={styles.header}>
-          <span className={styles.eyebrow}>
-            Selected Work
-          </span>
+  ref={sectionRef}
+  className={styles.selectedWork}
+>
+  <div className="site-container">
+    <div className={styles.header}>
+      <span className={styles.eyebrow}>
+        Selected Work
+      </span>
 
-          <h2>
-            Selected Work
-          </h2>
+      <h2>
+        Selected Work
+      </h2>
 
-          <p>
-            A curated selection of
-            digital experiences,
-            interfaces and systems.
-          </p>
+      <p>
+        A curated selection of
+        digital experiences,
+        interfaces and systems.
+      </p>
 
-          <a
-            href="/work"
-            className={styles.link}
-            onMouseEnter={() =>
-              setVariant('link')
-            }
-            onMouseLeave={() =>
-              setVariant('default')
-            }
-          >
-            <span className={styles.linkBase}>
-              SEE THE WORK
-              &nbsp;&nbsp;&nbsp;&nbsp;→
-            </span>
-
-            <span className={styles.linkAccent}>
-              SEE THE WORK
-              &nbsp;&nbsp;&nbsp;&nbsp;→
-            </span>
-          </a>
-        </div>
-      </div>
-
-      <div
-        ref={horizontalRef}
-        id="work-section"
-        className={styles.horizontalSection}
+      <a
+        href="/work"
+        className={styles.link}
+        onMouseEnter={() =>
+          setVariant("link")
+        }
+        onMouseLeave={() =>
+          setVariant("default")
+        }
       >
-        <div
-          className={
-            styles.counterFixed
-          }
-        >
-          Work{' '}
-          {String(
-            activeProject
-          ).padStart(2, '0')}
-          /{String(projects.length).padStart(2, '0')}
-        </div>
+        <span className={styles.linkBase}>
+          SEE THE WORK
+          &nbsp;&nbsp;&nbsp;&nbsp;→
+        </span>
 
-        <div
-          ref={trackRef}
-          className={styles.track}
-        >
-          {projects.map(
-            (project, index) => (
-              <div
-                key={project.number}
-                ref={(el) => {
-                  projectRefs.current[index] = el;
-                }}
-                className={styles.project}
-                onMouseEnter={() => {
-                  setVariant('view');
-                  setLabel('↗\nView work');
-                }}
-                onMouseLeave={() => {
-                  setVariant('default');
-                  setLabel('');
-                }}
-              >
-                <ProjectCard project={project} />
-              </div>
-            )
-          )}
-        </div>
-      </div>
-    </section>
+        <span className={styles.linkAccent}>
+          SEE THE WORK
+          &nbsp;&nbsp;&nbsp;&nbsp;→
+        </span>
+      </a>
+    </div>
+  </div>
+
+  {/* CONTADOR */}
+  <div
+    ref={counterRef}
+    className={styles.counterFixed}
+  > 
+
+    <span
+      ref={numberRef}
+      className={styles.activeNumber}
+    >
+      {String(activeProject).padStart(2, "0")}
+    </span>
+
+    <span className={styles.totalProjects}>
+      /{String(projects.length).padStart(2, "0")}
+    </span>
+  </div>
+
+  <div
+    ref={horizontalRef}
+    id="work-section"
+    className={styles.horizontalSection}
+  >
+    <div
+      ref={trackRef}
+      className={styles.track}
+    >
+      {projects.map(
+        (project, index) => (
+          <div
+            key={project.number}
+            ref={(el) => {
+              projectRefs.current[index] = el;
+            }}
+            className={styles.project}
+            onMouseEnter={() => {
+              setVariant("view");
+              setLabel("↗\nView work");
+            }}
+            onMouseLeave={() => {
+              setVariant("default");
+              setLabel("");
+            }}
+          >
+            <ProjectCard project={project} />
+          </div>
+        )
+      )}
+    </div>
+  </div>
+</section>
   );
 }

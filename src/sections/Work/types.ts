@@ -1,8 +1,6 @@
 export interface Project {
   id: string;
 
-  number: string;
-
   title: string;
 
   meta: string;
@@ -10,8 +8,6 @@ export interface Project {
   href: string;
 
   cover: string;
-
-  previewVideo?: string;
 
   accent: string;
 }

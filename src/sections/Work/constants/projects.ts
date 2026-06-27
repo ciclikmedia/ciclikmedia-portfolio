@@ -4,27 +4,20 @@ export const projects: Project[] = [
   {
     id: 'cliniem',
 
-    number: '01',
-
     title: 'Cliniem',
 
     meta:
-      'Frontend Development · UX/UI Design · Motion · 2025',
+      'Frontend Development · UX/UI Design · Motion',
 
     href: '/work/cliniem',
 
-    cover: '/images/work/cliniem-cover.webp',
-
-    previewVideo:
-      '/videos/cliniem-preview-web.mp4',
+    cover: '/images/work/cliniem-cover.webp',   
 
     accent: '#C68B8B',
   },
 
   {
     id: 'portfolio',
-
-    number: '02',
 
     title: 'Ciclikmedia Portfolio',
 
@@ -41,8 +34,6 @@ export const projects: Project[] = [
   {
     id: 'teyame',
 
-    number: '03',
-
     title: 'Teyame Platform',
 
     meta:
@@ -57,8 +48,6 @@ export const projects: Project[] = [
 
   {
     id: 'enterprise',
-
-    number: '04',
 
     title: 'Enterprise Platform',
 

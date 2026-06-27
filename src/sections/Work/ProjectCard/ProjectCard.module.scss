@@ -17,6 +17,7 @@
    gap: clamp(28px, 2vw, 48px);
 
   align-items: center;
+  padding: 20px 0;
 }
 
 .media {
@@ -24,11 +25,7 @@
 
   width: 100%;
 
-  height: clamp(
-    580px,
-    78vh,
-    980px
-  );
+  aspect-ratio: 16 / 9;
 
   overflow: hidden;
 }
@@ -37,64 +34,19 @@
    COVER
    ========================================================== */
 
-.coverWrapper {
-  position: absolute;
-
-  inset: 0;
-
-  z-index: 1;
-
-  opacity: 1;
-
-  transform: scale(1);
-
-  will-change: opacity, transform;
-
-  backface-visibility: hidden;
-
-  transform-origin: center;
-}
-
 .cover {
-  width: 100%;
-  height: 100%;
-
   object-fit: contain;
   object-position: center top;
 
-  pointer-events: none;
   user-select: none;
-}
-
-/* ==========================================================
-   VIDEO
-   ========================================================== */
-
-.video {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-  object-position: center top;
-
-  opacity: 0;
-
-  z-index: 2;
-
   pointer-events: none;
 
-  transform: scale(1.05);
-
-  will-change: opacity, transform;
-
-  backface-visibility: hidden;
-
-  transform-origin: center;
+  transition:
+    transform .8s cubic-bezier(.22,1,.36,1),
+    filter .8s cubic-bezier(.22,1,.36,1);
+    border-radius: 8px;
 }
+
 
 /* ==========================================================
    INFO
@@ -102,27 +54,13 @@
 
 .info {
   display: flex;
-
   flex-direction: column;
 
-   justify-content: flex-start;
-  padding-top: 60px;
+  justify-content: center;
+
   height: 100%;
 }
 
-.number {
-  margin-bottom: 24px;
-
-  font-size: 15px;
-
-  font-weight: 700;
-
-  letter-spacing: .18em;
-
-  text-transform: uppercase;
-
-  color: $color-text-muted;
-}
 
 .projectTitle {
   position: relative;
@@ -139,15 +77,17 @@
 .projectTitle span {
   display: block;
 
-  font-size: clamp(
-    52px,
-    4.5vw,
-    88px
-  );
+ font-size: clamp(
+  58px,
+  5vw,
+  92px
+);
 
-  font-weight: 300;
+font-weight: 250;
 
-  letter-spacing: -.04em;
+letter-spacing: -.055em;
+
+line-height: .88;
 }
 
 .projectTitle span:first-child {
@@ -186,6 +126,8 @@
   line-height: 1.7;
 
   color: $color-text-secondary;
+
+   white-space: pre-line;
 }
 
 .viewProject {

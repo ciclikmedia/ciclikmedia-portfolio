@@ -116,16 +116,11 @@
 
 .track {
   display: flex;
+  align-items: flex-start;
 
-  height: 100%;
+  height: auto;
 
   will-change: transform;
-
-  transform: translate3d(
-    0,
-    0,
-    0
-  );
 }
 
 /* ==========================================================
@@ -133,21 +128,22 @@
    ========================================================== */
 
 .counterFixed {
-  position: absolute;
+  position: fixed;
 
+  right: 20px;
   bottom: 20px;
-  right: clamp(24px, 1.2vw, 80px);
 
-  z-index: 100;
+  z-index: 1000;
 
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 500;
 
   color: $color-text-muted;
+  opacity: .1;
 
   pointer-events: none;
-
-  opacity: .2;
+  font-variant-numeric: tabular-nums;
+  
 }
 
 /* ==========================================================
@@ -157,10 +153,12 @@
 .project {
   width: 100vw;
 
-  text-decoration: none;
-  color: inherit;
-
   flex-shrink: 0;
+
+  display: flex;
+  align-items: top;
+  justify-content: center;
+  align-self: flex-start;
 
   padding-inline: clamp(
     24px,
@@ -168,16 +166,13 @@
     80px
   );
 
-  padding-top: 60px;
-
-  display: flex;
-  flex-direction: column;
-
-  justify-content: flex-start;
+  padding-top: 0;
 
   transform-style: preserve-3d;
 
-  will-change: transform;   
+  will-change: transform;
+
+  box-sizing: border-box;
 }
 
 .projectLink {
@@ -335,3 +330,9 @@
     color: $color-text-secondary;
   }
 }
+.activeNumber {
+  display: inline-block;
+
+  will-change: transform;
+}
+
