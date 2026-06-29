@@ -137,6 +137,17 @@
   -webkit-backdrop-filter: none;
 }
 
+.viewDark {
+  @extend .view;
+
+  .label,
+  .label * {
+    color: #A5A5A5 !important;
+
+    text-shadow: none !important;
+  }
+}
+
 .hero {
   width: 113px;
   height: 113px;

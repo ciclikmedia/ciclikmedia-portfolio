@@ -382,7 +382,7 @@ ScrollTrigger.refresh();
       {projects.map(
         (project, index) => (
           <div
-            key={project.number}
+            key={project.id}
             ref={(el) => {
               projectRefs.current[index] = el;
             }}

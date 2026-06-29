@@ -19,7 +19,8 @@ export default function ProjectCard({
       className={styles.projectLink}
     >
       <div className={styles.content}>
-        <div className={styles.media}>
+        <div className={styles.media} data-cursor-invert>
+          
           <Image
             src={project.cover}
             alt={project.title}

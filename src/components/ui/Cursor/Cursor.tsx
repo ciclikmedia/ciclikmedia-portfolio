@@ -18,72 +18,82 @@ export default function Cursor() {
   } = useCursorContext();
 
   useEffect(() => {
-    if (!cursorRef.current) return;
+  if (!cursorRef.current) return;
 
-    const cursor =
-      cursorRef.current;
+  const cursor = cursorRef.current;
 
-    let mouseX =
-      window.innerWidth / 2;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
 
-    let mouseY =
-      window.innerHeight / 2;
+  let currentX = mouseX;
+  let currentY = mouseY;
 
-    let currentX = mouseX;
-    let currentY = mouseY;
+  const xSet = gsap.quickSetter(
+    cursor,
+    "x",
+    "px"
+  );
 
-    const xSet =
-      gsap.quickSetter(
-        cursor,
-        'x',
-        'px'
-      );
+  const ySet = gsap.quickSetter(
+    cursor,
+    "y",
+    "px"
+  );
 
-    const ySet =
-      gsap.quickSetter(
-        cursor,
-        'y',
-        'px'
-      );
+  const updateCursorVariant = () => {
+    const element = document.elementFromPoint(
+      currentX,
+      currentY
+    );
 
-    const move = (
-      e: PointerEvent
-    ) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    };
+    const invert = element?.closest(
+      "[data-cursor-invert]"
+    );
 
-    const tick = () => {
-      currentX +=
-        (mouseX - currentX) *
-        0.14;
+    cursor.classList.toggle(
+      styles.viewDark,
+      !!invert
+    );
+  };
 
-      currentY +=
-        (mouseY - currentY) *
-        0.14;
+  const move = (
+    e: PointerEvent
+  ) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  };
 
-      xSet(currentX);
-      ySet(currentY);
-    };
+  const tick = () => {
+    currentX +=
+      (mouseX - currentX) * 0.14;
 
-    window.addEventListener(
-      'pointermove',
+    currentY +=
+      (mouseY - currentY) * 0.14;
+
+    xSet(currentX);
+    ySet(currentY);
+
+    updateCursorVariant();
+  };
+
+  window.addEventListener(
+    "pointermove",
+    move
+  );
+
+  gsap.ticker.add(tick);
+
+  return () => {
+    window.removeEventListener(
+      "pointermove",
       move
     );
 
-    gsap.ticker.add(tick);
-
-    return () => {
-      window.removeEventListener(
-        'pointermove',
-        move
-      );
-
-      gsap.ticker.remove(
-        tick
-      );
-    };
-  }, []);
+    gsap.ticker.remove(
+      tick
+    );
+  };
+}, []);
 
   return (
     <div
