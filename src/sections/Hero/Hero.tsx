@@ -64,6 +64,7 @@ export default function Hero() {
 
   return (
     <section
+      id="hero"
       ref={heroRef}
       className={styles.hero}
       onMouseEnter={() => {

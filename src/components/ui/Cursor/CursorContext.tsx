@@ -10,6 +10,7 @@ type CursorVariant =
   | 'default'
   | 'link'
   | 'nav'
+  | 'header'
   | 'button'
   | 'view'
   | 'hero'

@@ -111,6 +111,17 @@
   mix-blend-mode: normal;
 }
 
+.header {
+  width: 30px;
+  height: 30px;
+
+  border: 2px solid $color-accent;
+
+  border-color: $color-accent;
+
+  mix-blend-mode: normal;
+}
+
 .button {
   width: 56px;
   height: 56px;
