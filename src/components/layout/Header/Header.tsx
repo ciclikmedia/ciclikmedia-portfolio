@@ -34,11 +34,11 @@ export default function Header() {
       scrollTrigger: {
         trigger: "#hero",
 
-        start: "bottom top+=80",
+        start: "bottom top+=120",
 
         end: "bottom top",
 
-        scrub: 1,
+        scrub: 0.1,
       },
     });
 
@@ -59,6 +59,34 @@ export default function Header() {
         },
         0
       );
+
+      /* Sin transicion */
+      {/*const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "bottom top+=140",
+          toggleActions: "play none reverse reverse",
+        },
+      });
+
+      tl
+        .to(heroNavbar, {
+          opacity: 0,
+          y: -20,
+          duration: 0.2,
+          ease: "power2.out",
+        })
+        .to(
+          headerRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            pointerEvents: "auto",
+            duration: 0.2,
+            ease: "power2.out",
+          },
+          0
+        );*/}
 
     return () => {
       tl.scrollTrigger?.kill();
@@ -85,14 +113,12 @@ export default function Header() {
       scrub: 0.4,
     },
   });
-  
 
   return () => {
     tween.scrollTrigger?.kill();
     tween.kill();
   };
 }, []);
-
 
   return (
     <header
