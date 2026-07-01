@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from 'react';
 
-import Image from 'next/image';
+import HeroSymbol from "@/components/ui/HeroSymbol/HeroSymbol";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -29,46 +29,58 @@ export default function FloatingSymbol() {
 
   if (!symbolInner) return;
 
-  gsap.fromTo(
+  const intro = gsap.timeline({
+  delay: 0.2,
+});
+
+intro
+  .fromTo(
     symbol,
     {
-      scale: 0.8,
-      opacity: 0,
+      y: 450,
+      scale: 0.7,
+      rotate: -180,
     },
     {
+      y: 0,
       scale: 1,
-      opacity: 0.3,
-      duration: 1.8,
-      delay: 0.3,
-      ease: 'power3.out',
+      rotate: 0,
+      duration: 2,
+      ease: "power4.out",
+      force3D: true,
     }
-  );
-
-  gsap.fromTo(
+  )
+  .fromTo(
     symbolInner,
     {
-      rotate: -5,
+      rotate: -45,
     },
     {
       rotate: 0,
-      duration: 1.8,
-      delay: 0.3,
-      ease: 'power3.out',
-    }
-  );
-
-  gsap.to(symbolInner, {
-    rotate: 1080,
-
-    ease: 'none',
-
-    scrollTrigger: {
-      trigger: document.body,
-      start: 'top top',
-      end: 'max',
-      scrub: true,
+      duration: 2,
+      ease: "power4.out",
+      force3D: true,
     },
-  });
+    0
+  );
+    intro.eventCallback("onComplete", () => {
+      gsap.to(symbolInner, {
+        rotate: "+=1080",
+        ease: "none",
+        force3D: true,
+
+        scrollTrigger: {
+          trigger: document.body,
+          start: "top top",
+          end: "max",
+          scrub: true,
+          immediateRender: false,
+        },
+      });
+    });
+  
+
+ 
 
   const workSection =
   document.getElementById(
@@ -77,37 +89,37 @@ export default function FloatingSymbol() {
 
   if (!workSection) return; 
   
-    gsap.to(symbol, {
+    gsap.fromTo(
+  symbol,
+  {
+    y: 0,
+  },
+  {
     y: -550,
-        
-    ease: 'none',
+
+    ease: "none",
 
     scrollTrigger: {
-        trigger: '#contact-section',
-        start: 'top bottom',
-        end: 'top center',
-        scrub: true,
-        markers: false,
-        
+      trigger: "#contact-section",
+      start: "top bottom",
+      end: "top center",
+      scrub: true,
+      immediateRender: false,
+      invalidateOnRefresh: true,
+      markers: false,
     },
-    });
+  }
+);
 }, []);
 
-  return (
+ return (
   <div
-    ref={symbolRef}
-    className={styles.symbol}
-  >
-    <div className={styles.symbolInner}>
-      <Image
-        src="/symbols/hero-symbol.svg"
-        alt=""
-        width={1005}
-        height={1039}
-        priority
-
-      />
-    </div>
+  ref={symbolRef}
+  className={styles.symbol}
+>
+  <div className={styles.symbolInner}>
+    <HeroSymbol className={styles.heroSymbol} />
   </div>
+</div>
 );
 }

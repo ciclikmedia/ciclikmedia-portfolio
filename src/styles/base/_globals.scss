@@ -21,6 +21,7 @@ html {
   );
 }
 
+
 body {
   background-color: $color-background;
   color: $color-text;
@@ -30,4 +31,121 @@ body {
   line-height: 1.4;
 
   overflow-x: hidden;
+
+  transition: background-color 1.8s cubic-bezier(.22,1,.36,1);
 }
+
+/*----------------------------------*/
+/* ATMOSPHERE LAYER */
+/*----------------------------------*/
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: -35%;
+
+  pointer-events: none;
+
+  z-index: -1;
+
+  opacity: 0;
+
+  transform: scale(1.15);
+
+  will-change: transform, opacity;
+
+  background:
+
+    /* Main light */
+    radial-gradient(
+      circle at 84% 30%,
+      rgba(90,145,255,.10) 0%,
+      rgba(55,100,225,.08) 14%,
+      rgba(28,60,165,.06) 28%,
+      rgba(12,28,90,.04) 46%,
+      transparent 68%
+    ),
+
+    /* Secondary light */
+    radial-gradient(
+      circle at 73% 72%,
+      rgba(45,90,220,.05) 0%,
+      rgba(18,45,130,.035) 24%,
+      transparent 56%
+    ),
+
+    /* Small highlight */
+    radial-gradient(
+      circle at 92% 18%,
+      rgba(170,205,255,.035) 0%,
+      transparent 22%
+    ),
+
+    /* Ambient fill */
+    radial-gradient(
+      ellipse at 82% 48%,
+      rgba(8,20,70,.12),
+      transparent 72%
+    );
+
+  transition:
+    opacity 1.6s cubic-bezier(.22,1,.36,1);
+
+  animation:
+    contactMesh 22s ease-in-out infinite alternate;
+}
+
+/*----------------------------------*/
+/* CONTACT THEME */
+/*----------------------------------*/
+
+body.contact-theme {
+
+  background-color: #06080C;
+
+}
+
+body.contact-theme::before {
+
+  opacity: 1;
+
+}
+
+/*----------------------------------*/
+/* ANIMATION */
+/*----------------------------------*/
+
+@keyframes contactMesh {
+
+  0% {
+
+    transform:
+      translate3d(0,0,0)
+      scale(1.12);
+
+  }
+
+  50% {
+
+    transform:
+      translate3d(-18px,12px,0)
+      scale(1.15);
+
+  }
+
+  100% {
+
+    transform:
+      translate3d(16px,-12px,0)
+      scale(1.13);
+
+  }
+
+}
+
+
+
+

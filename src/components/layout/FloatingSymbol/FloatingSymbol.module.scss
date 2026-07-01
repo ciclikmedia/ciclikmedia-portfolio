@@ -1,47 +1,52 @@
 .symbol {
   position: fixed;
 
+  top: 40%;
   right: -12%;
 
-  top: 40%;
+  width: clamp(900px, 55vw, 1100px);
 
-  width: clamp(
-    900px,
-    55vw,
-    1100px
-  );
+  opacity: 0.01;
 
-  opacity: 0;
+  transform: translate3d(0, 350px, 0) scale(0.7) rotate(-180deg);
 
   pointer-events: none;
-
   z-index: 0;
 
+  backface-visibility: hidden;
   will-change: transform;
 }
 
 .symbolInner {
   width: 100%;
   height: 100%;
-}
 
-.symbolInner img {
+  transform: translateZ(0);
+}
+.symbolInner svg {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
-  object-fit: contain;
 }
 
-.symbol img {
+.heroSymbol {
+  display: block;
+
   width: 100%;
   height: auto;
-  display: block;
-  object-fit: contain;
+
+  color: #bdbdbd;
+
+  filter: blur(3px);
+
+  transform: translateZ(0);
+
+  overflow: visible;
 }
 
 @media (-webkit-max-device-pixel-ratio: 1.99),
 (max-resolution: 191dpi) {
   .symbol {
-    opacity: 0;
+    opacity: 0.03;
   }
 }

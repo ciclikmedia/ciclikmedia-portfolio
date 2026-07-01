@@ -30,7 +30,7 @@ export default function Header() {
       `.${stylesHero.navbar}`
     );
 
-    const tl = gsap.timeline({
+    {/*const tl = gsap.timeline({
       scrollTrigger: {
         trigger: "#hero",
 
@@ -58,10 +58,10 @@ export default function Header() {
           ease: "none",
         },
         0
-      );
+      );*/}
 
       /* Sin transicion */
-      {/*const tl = gsap.timeline({
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: "#hero",
           start: "bottom top+=140",
@@ -86,7 +86,7 @@ export default function Header() {
             ease: "power2.out",
           },
           0
-        );*/}
+        );
 
     return () => {
       tl.scrollTrigger?.kill();

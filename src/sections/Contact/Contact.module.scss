@@ -7,7 +7,9 @@
 
 .contact {
   padding-top: 220px;
-  padding-bottom: 80px;
+  padding-bottom: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 /* ==========================================================
@@ -121,7 +123,7 @@
 
   gap: 48px;
 
-  margin-bottom: 100px;
+  margin-bottom: 40px;
 
   transform: translateX(1.6rem);
 }

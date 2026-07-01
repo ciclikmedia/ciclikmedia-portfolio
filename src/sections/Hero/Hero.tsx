@@ -8,7 +8,6 @@ import Navbar from "./Navbar";
 import HeroTitle from "./HeroTitle";
 import DynamicHeadline from "./DynamicHeadline";
 import HeroDescription from "./HeroDescription";
-import HeroSymbol from "./HeroSymbol";
 
 import { useCursor } from '@/hooks/useCursor';
 

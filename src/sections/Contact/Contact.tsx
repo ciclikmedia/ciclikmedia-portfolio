@@ -1,5 +1,10 @@
 'use client';
 
+import { useLayoutEffect, useRef } from "react";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import styles from "./Contact.module.scss";
 
 import { useCursor } from '@/hooks/useCursor';
@@ -8,8 +13,38 @@ export default function Contact() {
   const { setVariant, setLabel } =
     useCursor();
 
+  const sectionRef =
+    useRef<HTMLElement>(null);
+
+    useLayoutEffect(() => {
+  if (!sectionRef.current) return;
+
+  const st = ScrollTrigger.create({
+    trigger: sectionRef.current,
+
+    start: "top 60%",
+
+    end: "bottom bottom",
+
+    onEnter: () => {
+      document.body.classList.add(
+        "contact-theme"
+      );
+    },
+
+    onLeaveBack: () => {
+      document.body.classList.remove(
+        "contact-theme"
+      );
+    },
+  });
+
+  return () => st.kill();
+}, []);
+
   return (
     <section 
+    ref={sectionRef}
     id="contact-section"
     className={styles.contact}>
       <div className="site-container">

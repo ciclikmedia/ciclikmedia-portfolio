@@ -9,7 +9,8 @@ import FloatingSymbol from '@/components/layout/FloatingSymbol/FloatingSymbol';
 export default function HomePage() {
   return (
     <main>
-<FloatingSymbol />
+    
+      <FloatingSymbol />
 
       <Hero />
       <SelectedWork />

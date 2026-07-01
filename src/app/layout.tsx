@@ -5,8 +5,6 @@ import Header from "@/components/layout/Header";
 
 import Cursor from '@/components/ui/Cursor/Cursor';
 
-import CursorLens from '@/components/experiments/CursorLens/CursorLens';
-
 import CursorLensGlass from '@/components/experiments/CursorLens/CursorLensGlass';
 
 import "@/styles/globals.scss";
