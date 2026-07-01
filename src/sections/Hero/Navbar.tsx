@@ -6,16 +6,10 @@ import gsap from 'gsap';
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo';
 
-import { useCursor } from '@/hooks/useCursor';
-
 import styles from './Hero.module.scss';
 
 export default function Navbar() {
-  const {
-    setVariant,
-    setLabel,
-  } = useCursor();
-
+ 
   const navbarRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -73,28 +67,14 @@ export default function Navbar() {
         >
           <div
             className={styles.logo}
-            onMouseEnter={() => {
-              setVariant('default');
-              setLabel('');
-            }}
-            onMouseLeave={() => {
-              setVariant('hero');
-              setLabel('Discover\n↓');
-            }}
+            data-cursor="header"
           >
             <Logo />
           </div>
 
           <nav
             aria-label="Main navigation"
-            onMouseEnter={() => {
-              setVariant('nav');
-              setLabel('');
-            }}
-            onMouseLeave={() => {
-              setVariant('hero');
-              setLabel('Discover\n↓');
-            }}
+            data-cursor="nav"
           >
             <ul className={styles.nav}>
               <li>

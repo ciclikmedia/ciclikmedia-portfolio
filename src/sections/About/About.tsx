@@ -7,14 +7,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import styles from "./About.module.scss";
 
-import { useCursor } from "@/hooks/useCursor";
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
-  const { setVariant } =
-    useCursor();
-
+ 
   const sectionRef = useRef<HTMLElement>(null);
 
   const pinContainerRef =
@@ -229,12 +225,7 @@ export default function About() {
                   <a
                     href="/about"
                     className={styles.link}
-                    onMouseEnter={() => {
-                      setVariant("link");
-                    }}
-                    onMouseLeave={() => {
-                      setVariant("default");
-                    }}
+                    data-cursor="link"
                   >
                     <span>
                       MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→

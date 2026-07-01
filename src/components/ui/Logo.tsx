@@ -11,22 +11,21 @@ export default function Logo() {
       className={styles.logo}
       aria-label="Ciclikmedia"
     >
-      <Image
+      <img
         className={styles.wordmark}
         src="/logos/ciclikmedia-wordmark.svg"
         alt="Ciclikmedia"
-        width={273.09}
-        height={43.71}
-        priority
+        width={273}
+        height={44}
       />
 
-      <Image
+      <img
         className={styles.symbol}
         src="/logos/ciclikmedia-symbol.svg"
         alt=""
-        width={31.02}
-        height={32.65}
-        priority
+        width={31}
+        height={33}
+        aria-hidden="true"
       />
     </Link>
   );

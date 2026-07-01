@@ -12,14 +12,10 @@ import styles from "./Header.module.scss";
 
 import Logo from "@/components/ui/Logo";
 
-import { useCursor } from "@/hooks/useCursor";
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
-
-  const { setVariant, setLabel } = useCursor();
 
   const logoWrapperRef = useRef<HTMLDivElement>(null);
 
@@ -132,28 +128,14 @@ export default function Header() {
           <div
             className={styles.logo}
             ref={logoWrapperRef}
-            onMouseEnter={() => {
-              setVariant("header");
-              setLabel("");
-            }}
-            onMouseLeave={() => {
-              setVariant("default");
-              setLabel("");
-            }}
+            data-cursor="header"
           >
             <Logo />
           </div>
 
           <nav
             className={styles.nav}
-            onMouseEnter={() => {
-              setVariant("header");
-              setLabel("");
-            }}
-            onMouseLeave={() => {
-              setVariant("default");
-              setLabel("");
-            }}
+            data-cursor="header"
           >
 
             <Link

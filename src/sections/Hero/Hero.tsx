@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import styles from "./Hero.module.scss";
 
@@ -9,75 +9,17 @@ import HeroTitle from "./HeroTitle";
 import DynamicHeadline from "./DynamicHeadline";
 import HeroDescription from "./HeroDescription";
 
-import { useCursor } from '@/hooks/useCursor';
-
 export default function Hero() {
-  const {
-    setVariant,
-    setLabel,
-  } = useCursor();
-
   const heroRef =
     useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const hero =
-      heroRef.current;
-
-    if (!hero) return;
-
-    const handleMove = (
-      e: MouseEvent
-    ) => {
-      const rect =
-        hero.getBoundingClientRect();
-
-      const inside =
-        e.clientX >= rect.left &&
-        e.clientX <= rect.right &&
-        e.clientY >= rect.top &&
-        e.clientY <= rect.bottom;
-
-      if (inside) {
-        setVariant('hero');
-
-        setLabel(
-          'Discover\n↓'
-        );
-      }
-    };
-
-    window.addEventListener(
-      'mousemove',
-      handleMove,
-      { once: true }
-    );
-
-    return () => {
-      window.removeEventListener(
-        'mousemove',
-        handleMove
-      );
-    };
-  }, [setVariant, setLabel]);
 
   return (
     <section
       id="hero"
       ref={heroRef}
       className={styles.hero}
-      onMouseEnter={() => {
-        setVariant('hero');
-
-        setLabel(
-          'Discover\n↓'
-        );
-      }}
-      onMouseLeave={() => {
-        setVariant('default');
-
-        setLabel('');
-      }}
+      data-cursor="hero"
+      data-cursor-label="Discover"
     >
       <Navbar />
 

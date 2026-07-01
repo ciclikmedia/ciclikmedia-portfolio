@@ -3,7 +3,6 @@
 import { useLayoutEffect, useRef } from 'react';
 
 import gsap from 'gsap';
-import { useCursor } from '@/hooks/useCursor';
 
 import styles from './SelectedBrands.module.scss';
 
@@ -65,12 +64,8 @@ export default function SelectedBrandsLerp() {
   const progressRef =
     useRef<HTMLSpanElement>(null);
 
-  const {
-    setVariant,
-    setLabel,
-  } = useCursor();
-
-  useLayoutEffect(() => {
+  
+    useLayoutEffect(() => {
     if (
       !dragAreaRef.current ||
       !gridRef.current
@@ -172,19 +167,18 @@ export default function SelectedBrandsLerp() {
 
     gsap.ticker.add(tick);
 
-    const onPointerDown =
-      (e: PointerEvent) => {
-        isDragging = true;
+   const onPointerDown = (
+      e: PointerEvent
+    ) => {
+      isDragging = true;
 
-        startX = e.clientX;
+      startX = e.clientX;
 
-        dragStart =
-          targetX;
+      dragStart = targetX;
 
-        setVariant(
-          'dragActive'
-        );
-      };
+      dragArea.dataset.cursor =
+        "dragActive";
+    };
 
     const onPointerMove =
       (e: PointerEvent) => {
@@ -225,15 +219,17 @@ export default function SelectedBrandsLerp() {
       );
 
     if (
-      dragArea.matches(':hover')
+      dragArea.matches(":hover")
     ) {
-      setVariant('drag');
+      dragArea.dataset.cursor =
+        "drag";
 
-      setLabel('DRAG');
+      dragArea.dataset.cursorLabel =
+        "DRAG";
     } else {
-      setVariant('default');
+      delete dragArea.dataset.cursor;
 
-      setLabel('');
+      delete dragArea.dataset.cursorLabel;
     }
   };
 
@@ -308,43 +304,34 @@ export default function SelectedBrandsLerp() {
     );
 
     return () => {
-      setVariant('default');
+  gsap.ticker.remove(tick);
 
-      setLabel('');
+  dragArea.removeEventListener(
+    "pointerdown",
+    onPointerDown
+  );
 
-      gsap.ticker.remove(
-        tick
-      );
+  window.removeEventListener(
+    "pointermove",
+    onPointerMove
+  );
 
-      dragArea.removeEventListener(
-        'pointerdown',
-        onPointerDown
-      );
+  window.removeEventListener(
+    "pointerup",
+    onPointerUp
+  );
 
-      window.removeEventListener(
-        'pointermove',
-        onPointerMove
-      );
+  dragArea.removeEventListener(
+    "wheel",
+    onWheel
+  );
 
-      window.removeEventListener(
-        'pointerup',
-        onPointerUp
-      );
-
-      dragArea.removeEventListener(
-        'wheel',
-        onWheel
-      );
-
-      window.removeEventListener(
-        'resize',
-        onResize
-      );
-    };
-  }, [
-    setVariant,
-    setLabel,
-  ]);
+  window.removeEventListener(
+    "resize",
+    onResize
+  );
+};
+ }, []);
 
   return (
     <section className={styles.selectedBrands}>
@@ -373,21 +360,9 @@ export default function SelectedBrandsLerp() {
 
         <div
           ref={dragAreaRef}
-          className={
-            styles.dragArea
-          }
-
-          onMouseEnter={() => {
-            setVariant('drag');
-
-            setLabel('DRAG');
-          }}
-
-          onMouseLeave={() => {
-            setVariant('default');
-
-            setLabel('');
-          }}
+          className={styles.dragArea}
+          data-cursor="drag"
+          data-cursor-label="DRAG"
         >
           <div
             ref={gridRef}

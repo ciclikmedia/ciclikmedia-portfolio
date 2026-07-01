@@ -7,12 +7,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import styles from "./Contact.module.scss";
 
-import { useCursor } from '@/hooks/useCursor';
-
 export default function Contact() {
-  const { setVariant, setLabel } =
-    useCursor();
-
+ 
   const sectionRef =
     useRef<HTMLElement>(null);
 
@@ -63,14 +59,8 @@ export default function Contact() {
           <a
             href="mailto:hello@ciclikmedia.com"
             className={styles.email}
-            onMouseEnter={() => {
-              setVariant('view');
-              setLabel('↗\nLet’s talk?');
-            }}
-            onMouseLeave={() => {
-              setVariant('default');
-              setLabel('');
-            }}
+            data-cursor="view"
+            data-cursor-label="Let's talk?"
           >
             <span className={styles.emailBase}>
               hello@ciclikmedia.com
@@ -98,14 +88,8 @@ export default function Contact() {
           <a
             href="/contact"
             className={styles.button}
-            onMouseEnter={() => {
-              setVariant('view');
-              setLabel('↗\nStart Project');
-            }}
-            onMouseLeave={() => {
-              setVariant('default');
-              setLabel('');
-            }}
+            data-cursor="view"
+            data-cursor-label="Start Project"
           >
             <span>START A PROJECT</span>
           </a>

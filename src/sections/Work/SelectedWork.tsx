@@ -11,8 +11,6 @@ import { projects } from './constants/projects';
 
 import ProjectCard from './ProjectCard/ProjectCard';
 
-import { useCursor } from '@/hooks/useCursor';
-
 gsap.registerPlugin(ScrollTrigger);
 
 ScrollTrigger.config({
@@ -21,9 +19,7 @@ ScrollTrigger.config({
 
 
 
-export default function SelectedWork() {
-  const { setVariant, setLabel } =
-    useCursor();
+export default function SelectedWork() {  
 
   const [activeProject, setActiveProject] =
     useState(1);
@@ -52,29 +48,29 @@ export default function SelectedWork() {
     useRef<(HTMLDivElement | null)[]>([]);
 
     useLayoutEffect(() => {
-  if (!numberRef.current) return;
+      if (!numberRef.current) return;
 
-  gsap.killTweensOf(numberRef.current);
+      gsap.killTweensOf(numberRef.current);
 
-  const fromY =
-    directionRef.current === 1
-      ? 12
-      : -12;
+      const fromY =
+        directionRef.current === 1
+          ? 12
+          : -12;
 
-  gsap.fromTo(
-    numberRef.current,
-    {
-      y: fromY,
-      opacity: 0,
-    },
-    {
-      y: 0,
-      opacity: 1,
-      duration: 0.8,
-      ease: "expo.out",
-    }
-  );
-}, [activeProject]);
+      gsap.fromTo(
+        numberRef.current,
+        {
+          y: fromY,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "expo.out",
+        }
+      );
+    }, [activeProject]);
 
   useLayoutEffect(() => {
     if (
@@ -197,28 +193,30 @@ ScrollTrigger.refresh();
   }, []);
 
   useLayoutEffect(() => {
+  const cleanups: (() => void)[] = [];
+
   projectRefs.current.forEach(
     (card) => {
       if (!card) return;
+
+      const computed =
+        window.getComputedStyle(card);
+
+      const paddingLeft =
+        parseFloat(
+          computed.paddingLeft
+        );
+
+      const paddingRight =
+        parseFloat(
+          computed.paddingRight
+        );
 
       const handleMove = (
         e: MouseEvent
       ) => {
         const rect =
-          card.getBoundingClientRect();
-
-        const styles =
-          window.getComputedStyle(card);
-
-        const paddingLeft =
-          parseFloat(
-            styles.paddingLeft
-          );
-
-        const paddingRight =
-          parseFloat(
-            styles.paddingRight
-          );
+          card.getBoundingClientRect();        
 
         const x =
           e.clientX - rect.left;
@@ -293,26 +291,31 @@ ScrollTrigger.refresh();
         handleLeave
       );
 
-      return () => {
+      cleanups.push(() => {
         card.removeEventListener(
-          'mousemove',
+          "mousemove",
           handleMove
         );
 
         card.removeEventListener(
-          'mouseleave',
+          "mouseleave",
           handleLeave
         );
-      };
+      });
     }
   );
+    return () => {
+    cleanups.forEach(
+      (cleanup) => cleanup()
+    );
+  };
 }, []);
 
   return (
     <section
-  ref={sectionRef}
-  className={styles.selectedWork}
->
+      ref={sectionRef}
+      className={styles.selectedWork}
+    >
   <div className="site-container">
     <div className={styles.header}>
       <span className={styles.eyebrow}>
@@ -332,12 +335,7 @@ ScrollTrigger.refresh();
       <a
         href="/work"
         className={styles.link}
-        onMouseEnter={() =>
-          setVariant("link")
-        }
-        onMouseLeave={() =>
-          setVariant("default")
-        }
+        data-cursor="link"
       >
         <span className={styles.linkBase}>
           SEE THE WORK
@@ -387,14 +385,8 @@ ScrollTrigger.refresh();
               projectRefs.current[index] = el;
             }}
             className={styles.project}
-            onMouseEnter={() => {
-              setVariant("view");
-              setLabel("↗\nView work");
-            }}
-            onMouseLeave={() => {
-              setVariant("default");
-              setLabel("");
-            }}
+            data-cursor="view"
+            data-cursor-label="View work"
           >
             <ProjectCard project={project} />
           </div>
