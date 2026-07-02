@@ -8,7 +8,7 @@ export default function Container({
   children,
 }: ContainerProps) {
   return (
-    <div className="container">
+    <div className="site-container">
       {children}
     </div>
   );

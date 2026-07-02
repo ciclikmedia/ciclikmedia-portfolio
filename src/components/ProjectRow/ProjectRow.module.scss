@@ -1,0 +1,70 @@
+@use "@/styles/tokens/colors" as *;
+
+.project {
+  display: grid;
+
+  grid-template-columns: 120px 1fr;
+
+  align-items: start;
+
+  padding: 5rem 0;
+
+  border-top: 1px solid rgba($color-white, .08);
+
+  
+
+    cursor: none;
+}
+
+
+
+.number {
+  font-size: .9rem;
+
+  color: $color-text-muted;
+}
+
+.content {
+  max-width: 700px;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+
+  font-size: clamp(48px, 5vw, 96px);
+
+  font-weight: 300;
+
+  line-height: .95;
+
+  letter-spacing: -.03em;
+
+  color: $color-text;
+}
+
+.services {
+  display: flex;
+
+  gap: .75rem;
+
+  flex-wrap: wrap;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  color: $color-text-secondary;
+
+  li::after {
+    content: "•";
+
+    margin-left: .75rem;
+
+    opacity: .4;
+  }
+
+  li:last-child::after {
+    display: none;
+  }
+}

@@ -1,0 +1,59 @@
+.preview {
+
+  position: fixed;
+
+  left: 0;
+  top: 0;
+
+  width: 560px;
+
+  aspect-ratio: 16 / 9;
+
+  transform:
+    translate(-50%, -50%)
+    scale(.94);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 999;
+
+  overflow: hidden;
+
+}
+
+.visible {
+  opacity: 1;
+
+  transform: translateY(-50%) scale(1);
+}
+
+.imageWrapper {
+
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+}
+
+.imageLayer {
+
+  position: absolute;
+
+  inset: 35px;
+
+  will-change: transform;
+
+}
+
+.image {
+
+  object-fit: cover;
+  object-position: left top;
+
+}
+
+

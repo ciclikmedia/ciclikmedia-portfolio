@@ -67,7 +67,7 @@ export default function Navbar() {
         >
           <div
             className={styles.logo}
-            data-cursor="header"
+            /*data-cursor="header"*/
           >
             <Logo />
           </div>

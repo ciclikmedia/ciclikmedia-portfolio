@@ -2,8 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import clsx from "clsx";
-
 import gsap from 'gsap';
 
 import styles from './Cursor.module.scss';

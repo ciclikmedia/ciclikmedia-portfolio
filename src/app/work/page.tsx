@@ -1,12 +1,11 @@
-import Container from "@/components/layout/Container/Container";
-import PageHero from "@/components/layout/PageHero/PageHero";
+import WorkHero from "@/sections/WorkHero/WorkHero";
+import WorkArchive from "@/sections/WorkArchive/WorkArchive";
 
 export default function WorkPage() {
   return (
-    <PageHero>
-      <Container>
-        <h1>Work</h1>
-      </Container>
-    </PageHero>
+    <>
+      <WorkHero />
+      <WorkArchive />
+    </>
   );
 }

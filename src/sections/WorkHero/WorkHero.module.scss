@@ -1,0 +1,90 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+.hero {
+  min-height: 72vh;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  padding-bottom: 5rem;
+}
+.content {
+  width: 100%;
+  transform: translateY(-2rem);
+
+  
+}
+
+.title {
+  font-size: clamp(
+    7rem,
+    13vw,
+    13rem
+  );
+
+  line-height: .9;
+
+  font-weight: 600;
+
+  letter-spacing: -.04em;
+
+  margin: 0;
+
+  color: $color-text;
+}
+
+.eyebrow {
+    display: block;
+
+    margin-bottom: 24px;
+
+    font-size: $text-small;
+    font-weight: 500;
+
+    line-height: 100%;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    color: $color-text-muted;
+  }
+
+.description {
+  max-width: 44rem;
+
+  margin-top: 2.5rem;
+
+  font-size: clamp(
+    1.1rem,
+    1.2vw,
+    1.4rem
+  );
+
+  line-height: 1.6;
+
+  color: $color-text-secondary;
+}
+
+.meta {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-top: 5rem;
+
+  font-size: .95rem;
+
+  color: $color-text-muted;
+
+  border-top: 1px solid rgba(
+    $color-white,
+    .08
+  );
+
+  padding-top: 1.5rem;
+}
