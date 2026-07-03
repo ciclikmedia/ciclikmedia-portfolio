@@ -5,7 +5,9 @@ export interface PreviewProject {
 }
 
 export interface PreviewHandle {
-  show: (project: PreviewProject) => void;
-  hide: () => void;
-  move: (x: number, y: number) => void;
+    show(project: PreviewProject): void;
+    hide(): void;
+    move(x: number, y: number): void;
+    freeze(): void;
+    getBounds(): DOMRect | null;
 }

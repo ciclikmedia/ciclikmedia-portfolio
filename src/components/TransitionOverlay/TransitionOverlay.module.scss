@@ -1,0 +1,37 @@
+.overlay {
+
+    position: fixed;
+
+    overflow: hidden;
+
+    z-index: 99999;
+
+}
+
+.imageWrapper {
+
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+}
+
+.imageLayer {
+
+    position: absolute;
+
+    inset: 35px;
+
+    will-change: transform;
+
+}
+
+.image {
+
+    object-fit: cover;
+
+    object-position: left top;
+
+}

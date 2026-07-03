@@ -1,15 +1,18 @@
 'use client';
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import Container from "@/components/layout/Container/Container";
 
 import ProjectPreview from "@/components/ProjectPreview/ProjectPreview";
+import TransitionOverlay from "@/components/TransitionOverlay/TransitionOverlay";
+
 import ProjectRow from "@/components/ProjectRow/ProjectRow";
 
 import {
   PreviewHandle,
 } from "@/components/ProjectPreview/ProjectPreview.types";
+
 
 import { projects } from "./data";
 
@@ -17,11 +20,16 @@ import styles from "./WorkArchive.module.scss";
 
 export default function WorkArchive() {
   const previewRef = useRef<PreviewHandle>(null);
+  const [transitionProject, setTransitionProject] =
+    useState(null);
 
   return (
     <section className={styles.archive}>
 
       <ProjectPreview ref={previewRef} />
+          <TransitionOverlay
+        project={transitionProject}
+    />
 
       <Container>
 
@@ -45,6 +53,29 @@ export default function WorkArchive() {
                 }}
                 onMove={(x, y) => {
                     previewRef.current?.move(x, y);
+                }}
+
+                onClick={() => {
+
+                    previewRef.current?.freeze();
+
+                    const bounds =
+                        previewRef.current?.getBounds();
+
+                    if (!bounds) return;
+
+                    setTransitionProject({
+
+                        title: project.title,
+
+                        image: project.image,
+
+                        slug: project.slug,
+
+                        bounds,
+
+                    });
+
                 }}
             />
           ))}

@@ -28,6 +28,8 @@ const ProjectPreview = forwardRef<
     const previewRef =
         useRef<HTMLDivElement>(null);
 
+    const tickRef = useRef<(() => void) | null>(null);
+
     const imageWrapperRef =
         useRef<HTMLDivElement>(null);
 
@@ -56,6 +58,8 @@ const ProjectPreview = forwardRef<
         x: 0,
         y: 0,
     });
+
+    const frozen = useRef(false);
     
 
     const [project, setProject] =
@@ -70,6 +74,11 @@ const ProjectPreview = forwardRef<
 
             current.current.x = target.current.x;
             current.current.y = target.current.y;
+
+            gsap.set(previewRef.current, {
+                xPercent: -50,
+                yPercent: -50,
+            });
 
             const calculatePhysics = () => {
 
@@ -125,15 +134,17 @@ const ProjectPreview = forwardRef<
             };  
         
 
-        const tick = () => {
+        tickRef.current = () => {
             calculatePhysics();
             render();
         };
 
-        gsap.ticker.add(tick);
+        gsap.ticker.add(tickRef.current);
 
         return () => {
-            gsap.ticker.remove(tick);
+            if (tickRef.current) {
+            gsap.ticker.remove(tickRef.current);
+        }
         };
 
         }, []);
@@ -196,7 +207,8 @@ hide() {
     if (!previewRef.current) return;
 
     projectRef.current = null;
-
+    frozen.current = false;
+    
     gsap.to(previewRef.current, {
         opacity: 0,
         scale: .96,
@@ -208,9 +220,27 @@ hide() {
 
 move(x, y) {
 
-    target.current.x = x;
+    if (frozen.current) return;
 
+    target.current.x = x;
     target.current.y = y;
+},
+
+freeze() {
+
+    frozen.current = true;
+
+    if (tickRef.current) {
+        gsap.ticker.remove(tickRef.current);
+    }
+
+},
+
+getBounds() {
+
+    if (!previewRef.current) return null;
+
+    return previewRef.current.getBoundingClientRect();
 
 },
 

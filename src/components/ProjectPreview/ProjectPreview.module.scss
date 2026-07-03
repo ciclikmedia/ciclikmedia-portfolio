@@ -1,26 +1,21 @@
 .preview {
-
   position: fixed;
 
   left: 0;
   top: 0;
 
   width: 560px;
-
-  aspect-ratio: 16 / 9;
-
-  transform:
-    translate(-50%, -50%)
-    scale(.94);
+  aspect-ratio: 16/9;
 
   opacity: 0;
+
+  overflow: hidden;
 
   pointer-events: none;
 
   z-index: 999;
 
-  overflow: hidden;
-
+  will-change: transform;
 }
 
 .visible {
