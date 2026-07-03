@@ -14,7 +14,10 @@ interface ProjectRowProps {
     x: number,
     y: number
   ) => void;
+
+  onClick: () => void;
 }
+
 
 export default function ProjectRow({
   id,
@@ -23,6 +26,7 @@ export default function ProjectRow({
   onEnter,
   onLeave,
   onMove,
+  onClick,
 }: ProjectRowProps) {
   return (
     <article
@@ -33,10 +37,11 @@ export default function ProjectRow({
         onMouseLeave={onLeave}
         onMouseMove={(e) => {
             onMove(
-            e.clientX,
-            e.clientY
+                e.clientX,
+                e.clientY
             );
         }}
+        onClick={onClick}
     >
       <span className={styles.number}>
         {id}

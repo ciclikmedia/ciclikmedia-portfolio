@@ -214,6 +214,18 @@ move(x, y) {
 
 },
 
+getBounds() {
+
+    if (!previewRef.current) {
+
+        return null;
+
+    }
+
+    return previewRef.current.getBoundingClientRect();
+
+},
+
   }));
 
   return (

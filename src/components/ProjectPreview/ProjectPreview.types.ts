@@ -8,4 +8,6 @@ export interface PreviewHandle {
   show: (project: PreviewProject) => void;
   hide: () => void;
   move: (x: number, y: number) => void;
+
+  getBounds: () => DOMRect | null;
 }

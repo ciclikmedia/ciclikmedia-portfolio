@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 
 import Cursor from '@/components/ui/Cursor/Cursor';
 
-import CursorLensGlass from '@/components/experiments/CursorLens/CursorLensGlass';
+import TransitionOverlay from "@/components/TransitionOverlay/TransitionOverlay";
 
 import "@/styles/globals.scss";
 
@@ -44,6 +44,8 @@ export default function RootLayout({
         <Providers>
 
           <Cursor />      
+
+          <TransitionOverlay />
 
            <Header />    
 
