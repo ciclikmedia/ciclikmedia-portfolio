@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from "next/navigation";
+
 import styles from "./TransitionOverlay.module.scss";
 
 import { useTransitionStore } from "@/stores/useTransitionStore";
@@ -11,11 +13,17 @@ import gsap from "gsap";
 
 export default function TransitionOverlay() {
 
-    const project = useTransitionStore(
+   const project = useTransitionStore(
         (state) => state.project
     );
 
+    const setProject = useTransitionStore(
+        (state) => state.setProject
+    );
+
     const previewRef = useRef<HTMLDivElement>(null);
+
+    const router = useRouter();
 
     useLayoutEffect(() => {
 
@@ -31,6 +39,27 @@ export default function TransitionOverlay() {
             borderRadius: 0,
             duration: 1.1,
             ease: "expo.inOut",
+        });
+
+        gsap.to(previewRef.current, {
+
+            left: 0,
+            top: 0,
+            width: window.innerWidth,
+            height: window.innerHeight,
+            borderRadius: 0,
+
+            duration: 1.1,
+            ease: "expo.inOut",
+
+            onComplete: () => {
+
+                router.push(`/work/${project.slug}`);
+
+                setProject(null);
+
+            },
+
         });
 
     }, [project]);
