@@ -6,8 +6,14 @@ interface TransitionStore {
 
     project: TransitionProject | null;
 
+    overlayVisible: boolean;
+
     setProject: (
         project: TransitionProject | null
+    ) => void;
+
+    setOverlayVisible: (
+        visible: boolean
     ) => void;
 
 }
@@ -17,7 +23,12 @@ export const useTransitionStore =
 
         project: null,
 
+        overlayVisible: false,
+
         setProject: (project) =>
             set({ project }),
+
+        setOverlayVisible: (overlayVisible) =>
+            set({ overlayVisible }),
 
     }));

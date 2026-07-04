@@ -23,3 +23,11 @@
     object-fit: cover;
 
 }
+
+.overlayHidden {
+
+    opacity: 0;
+
+    transition: opacity .35s ease;
+
+}

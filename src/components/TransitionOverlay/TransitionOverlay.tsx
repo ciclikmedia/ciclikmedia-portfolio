@@ -21,6 +21,14 @@ export default function TransitionOverlay() {
         (state) => state.setProject
     );
 
+    const overlayVisible = useTransitionStore(
+        (state) => state.overlayVisible
+    );
+
+    const setOverlayVisible = useTransitionStore(
+        (state) => state.setOverlayVisible
+    );
+
     const previewRef = useRef<HTMLDivElement>(null);
 
     const router = useRouter();
@@ -29,38 +37,27 @@ export default function TransitionOverlay() {
 
         if (!project) return;
 
-        if (!previewRef.current) return;
+        if (!previewRef.current) return;  
+        
+        setOverlayVisible(true);
 
-        gsap.to(previewRef.current, {
+        const tween = gsap.to(previewRef.current, {
             left: 0,
             top: 0,
             width: window.innerWidth,
             height: window.innerHeight,
             borderRadius: 0,
-            duration: 1.1,
-            ease: "expo.inOut",
-        });
-
-        gsap.to(previewRef.current, {
-
-            left: 0,
-            top: 0,
-            width: window.innerWidth,
-            height: window.innerHeight,
-            borderRadius: 0,
-
             duration: 1.1,
             ease: "expo.inOut",
 
             onComplete: () => {
-
                 router.push(`/work/${project.slug}`);
-
-                setProject(null);
-
             },
-
         });
+
+        return () => {
+            tween.kill();
+        };
 
     }, [project]);
 
@@ -70,7 +67,13 @@ export default function TransitionOverlay() {
 
     return (
 
-            <div className={styles.overlay}>
+            <div
+                className={`${styles.overlay} ${
+                    !overlayVisible
+                        ? styles.overlayHidden
+                        : ""
+                }`}
+            >
 
                 <div
                     ref={previewRef}
@@ -88,7 +91,7 @@ export default function TransitionOverlay() {
                         alt={project.title}
                         fill
                         priority
-                        sizes="560px"
+                        sizes="100vw"
                         className={styles.image}
                     />
 
