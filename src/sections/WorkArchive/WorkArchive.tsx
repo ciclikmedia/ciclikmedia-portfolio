@@ -59,20 +59,24 @@ export default function WorkArchive() {
                   }}
                   onClick={() => {
 
-                      const bounds =
-                          previewRef.current?.getBounds();
+                      requestAnimationFrame(() => {
 
-                      if (!bounds) return;
+                          const bounds =
+                              previewRef.current?.getBounds();
 
-                      setProject({
+                          if (!bounds) return;
 
-                          title: project.title,
+                          setProject({
 
-                          image: project.image,
+                              title: project.title,
 
-                          slug: project.slug,
+                              image: project.image,
 
-                          bounds,
+                              slug: project.slug,
+
+                              bounds,
+
+                          });
 
                       });
 

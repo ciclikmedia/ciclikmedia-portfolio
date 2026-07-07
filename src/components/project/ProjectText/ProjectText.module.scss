@@ -1,0 +1,21 @@
+.text {
+
+    max-width: 760px;
+
+}
+
+.text p {
+
+    margin: 0;
+
+    font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+
+    line-height: 1.6;
+
+}
+
+.text p + p {
+
+    margin-top: 2rem;
+
+}

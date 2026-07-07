@@ -1,0 +1,29 @@
+.chapter {
+
+    margin-bottom: 5rem;
+
+}
+
+.chapter span {
+
+    display: block;
+
+    margin-bottom: 1rem;
+
+    opacity: .45;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+}
+
+.chapter h2 {
+
+    font-size: clamp(3rem,6vw,6rem);
+
+    line-height: .95;
+
+    margin: 0;
+
+}

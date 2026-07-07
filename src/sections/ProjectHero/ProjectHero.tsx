@@ -7,13 +7,19 @@ import { useTransitionStore } from "@/stores/useTransitionStore";
 
 import styles from "./ProjectHero.module.scss";
 
+import Container from "@/components/layout/Container/Container";
+
+import ProjectSection from "@/components/project/ProjectSection/ProjectSection";
+import ProjectOverview from "@/components/project/ProjectOverview/ProjectOverview";
+
+import ProjectChapter from "@/components/project/ProjectChapter/ProjectChapter";
+import ProjectFullscreenImage from "@/components/project/ProjectFullscreenImage/ProjectFullscreenImage";
+import ProjectText from "@/components/project/ProjectText/ProjectText";
+
+import { Project } from "@/types/project";
+
 interface Props {
-  project: {
-    title: string;
-    image: string;
-    slug: string;
-    services: string[];
-  };
+  project: Project;
 }
 
 export default function ProjectHero({
@@ -58,31 +64,101 @@ export default function ProjectHero({
 
     <main className={styles.page}>
 
-      <section className={styles.hero}>
-
-        <div
-          className={styles.heroImage}
-          id="project-hero-image"
+        <section
+            className={styles.hero}
+            data-cursor="hero"
+            data-cursor-label="Scroll"
         >
 
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            priority
-            sizes="100vw"
-            className={styles.image}
+        <div
+            className={styles.heroImage}
+            id="project-hero-image"
+        >
+            <Image
+                src={project.image}
+                alt={project.title}
+                fill
+                priority
+                sizes="100vw"
+                className={styles.image}
+            />
+        </div>
+
+        <Container>
+
+            <div className={styles.contentWrapper}>
+
+                <div className={styles.content}>
+
+                    <h1>{project.title}</h1>
+
+                    <p className={styles.subtitle}>
+                        {project.subtitle}
+                    </p>
+
+                    <div className={styles.meta}>
+
+                        <div>
+                            <span>Client</span>
+                            <p>{project.client}</p>
+                        </div>
+
+                        <div>
+                            <span>Year</span>
+                            <p>{project.year}</p>
+                        </div>
+
+                        <div>
+                            <span>Role</span>
+                            <p>{project.role}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </Container>
+
+    </section>
+
+      <ProjectSection>
+
+          <ProjectChapter
+              number="01"
+              title="Overview"
           />
 
-        </div>
+          <ProjectOverview
+              overview={project.overview}
+              client={project.client}
+              year={project.year}
+              role={project.role}
+              services={project.services}
+          />
 
-        <div className={styles.content}>
+      </ProjectSection>
 
-          <h1>{project.title}</h1>
+      <ProjectFullscreenImage
+          src={project.heroImage}
+          alt={project.title}
+      />
 
-        </div>
+      <ProjectSection>
 
-      </section>
+      <ProjectChapter
+          number="02"
+          title="Challenge"
+      />
+
+      <ProjectText>
+
+          <p>{project.challenge}</p>
+
+      </ProjectText>
+
+  </ProjectSection>
 
     </main>
 

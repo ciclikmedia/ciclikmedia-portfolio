@@ -1,0 +1,39 @@
+.overview {
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr;
+
+    gap: 8rem;
+
+    align-items: start;
+
+}
+
+.text {
+
+    max-width: 760px;
+
+}
+
+.text p {
+
+    margin: 0;
+
+    font-size: clamp(1.4rem, 2vw, 2rem);
+
+    line-height: 1.45;
+
+}
+
+@media (max-width: 960px) {
+
+    .overview {
+
+        grid-template-columns: 1fr;
+
+        gap: 4rem;
+
+    }
+
+}

@@ -1,0 +1,43 @@
+.meta {
+
+    display: grid;
+
+    gap: 2.5rem;
+
+}
+
+.meta span {
+
+    display: block;
+
+    margin-bottom: .5rem;
+
+    opacity: .45;
+
+    font-size: .875rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: .08em;
+
+}
+
+.meta p {
+
+    margin: 0;
+
+}
+
+.meta ul {
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+
+    display: grid;
+
+    gap: .4rem;
+
+}
