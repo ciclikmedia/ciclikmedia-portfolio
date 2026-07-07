@@ -59,26 +59,30 @@ export default function WorkArchive() {
                   }}
                   onClick={() => {
 
-                      requestAnimationFrame(() => {
+                      const bounds =
+                          previewRef.current?.getBounds();
 
-                          const bounds =
-                              previewRef.current?.getBounds();
+                      if (!bounds) return;
 
-                          if (!bounds) return;
+                      setProject({
 
-                          setProject({
+                          title: project.title,
 
-                              title: project.title,
+                          image: project.image,
 
-                              image: project.image,
+                          slug: project.slug,
 
-                              slug: project.slug,
-
-                              bounds,
-
-                          });
+                          bounds,
 
                       });
+
+                      setTimeout(() => {
+
+                          router.push(
+                              `/work/${project.slug}`
+                          );
+
+                      }, 250);
 
                   }}
               />

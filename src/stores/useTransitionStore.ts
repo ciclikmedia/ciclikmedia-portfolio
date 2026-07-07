@@ -8,6 +8,10 @@ interface TransitionStore {
 
     overlayVisible: boolean;
 
+    heroReady: boolean;
+
+    heroBounds: DOMRect | null;
+
     setProject: (
         project: TransitionProject | null
     ) => void;
@@ -16,19 +20,52 @@ interface TransitionStore {
         visible: boolean
     ) => void;
 
+    setHeroReady: (
+        ready: boolean
+    ) => void;
+
+    setHeroBounds: (
+        bounds: DOMRect | null
+    ) => void;
+
+    reset: () => void;
+
 }
 
 export const useTransitionStore =
-    create<TransitionStore>((set) => ({
+create<TransitionStore>((set) => ({
 
-        project: null,
+    project: null,
 
-        overlayVisible: false,
+    overlayVisible: false,
 
-        setProject: (project) =>
-            set({ project }),
+    heroReady: false,
 
-        setOverlayVisible: (overlayVisible) =>
-            set({ overlayVisible }),
+    heroBounds: null,
 
-    }));
+    setProject: (project) =>
+        set({ project }),
+
+    setOverlayVisible: (overlayVisible) =>
+        set({ overlayVisible }),
+
+    setHeroReady: (heroReady) =>
+        set({ heroReady }),
+
+    setHeroBounds: (heroBounds) =>
+        set({ heroBounds }),
+
+    reset: () =>
+        set({
+
+            project: null,
+
+            overlayVisible: false,
+
+            heroReady: false,
+
+            heroBounds: null,
+
+        }),
+
+}));

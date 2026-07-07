@@ -226,6 +226,12 @@ getBounds() {
 
 },
 
+getElement() {
+
+    return previewRef.current;
+
+},
+
   }));
 
   return (

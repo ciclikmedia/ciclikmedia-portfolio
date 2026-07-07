@@ -2,14 +2,17 @@
 
 import gsap from 'gsap';
 
-let ScrollTrigger: any;
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Flip } from 'gsap/Flip';
 
-if (typeof window !== 'undefined') {
-  ScrollTrigger = require('gsap/ScrollTrigger').ScrollTrigger;
+gsap.registerPlugin(
+  ScrollTrigger,
+  Flip,
+);
 
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-export { ScrollTrigger };
+export {
+  ScrollTrigger,
+  Flip,
+};
 
 export default gsap;

@@ -15,9 +15,13 @@ export default function Providers({
 }: ProvidersProps) {
   return (
     <CursorProvider>
+
       <SmoothScrolling>
+
         {children}
+
       </SmoothScrolling>
+
     </CursorProvider>
   );
 }
