@@ -1,6 +1,6 @@
 import gsap from "@/lib/gsap";
 
-class TransitionManager {
+class Transition {
 
     private clone: HTMLElement | null = null;
 
@@ -8,11 +8,9 @@ class TransitionManager {
 
         this.destroy();
 
-        this.clone =
-            element.cloneNode(true) as HTMLElement;
+        const rect = element.getBoundingClientRect();
 
-        const rect =
-            element.getBoundingClientRect();
+        this.clone = element.cloneNode(true) as HTMLElement;
 
         Object.assign(this.clone.style, {
 
@@ -28,9 +26,11 @@ class TransitionManager {
 
             margin: "0",
 
+            pointerEvents: "none",
+
             zIndex: "999999",
 
-            pointerEvents: "none",
+            transform: "none",
 
             overflow: "hidden",
 
@@ -40,12 +40,11 @@ class TransitionManager {
 
     }
 
-    animateTo(target: HTMLElement) {
+    finish(target: HTMLElement) {
 
         if (!this.clone) return;
 
-        const rect =
-            target.getBoundingClientRect();
+        const rect = target.getBoundingClientRect();
 
         gsap.to(this.clone, {
 
@@ -57,7 +56,7 @@ class TransitionManager {
 
             height: rect.height,
 
-            duration: 1.2,
+            duration: 1.15,
 
             ease: "expo.inOut",
 
@@ -65,7 +64,7 @@ class TransitionManager {
 
                 this.destroy();
 
-            },
+            }
 
         });
 
@@ -81,4 +80,4 @@ class TransitionManager {
 
 }
 
-export default new TransitionManager();
+export default new Transition();

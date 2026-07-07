@@ -4,8 +4,6 @@ import { useRef } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { useTransitionStore } from "@/stores/useTransitionStore";
-
 import Container from "@/components/layout/Container/Container";
 
 import ProjectPreview from "@/components/ProjectPreview/ProjectPreview";
@@ -24,10 +22,6 @@ export default function WorkArchive() {
   const previewRef = useRef<PreviewHandle>(null);
 
   const router = useRouter();
-
-  const setProject = useTransitionStore(
-    (state) => state.setProject
-  );
 
   return (
     <section className={styles.archive}>
@@ -59,30 +53,9 @@ export default function WorkArchive() {
                   }}
                   onClick={() => {
 
-                      const bounds =
-                          previewRef.current?.getBounds();
-
-                      if (!bounds) return;
-
-                      setProject({
-
-                          title: project.title,
-
-                          image: project.image,
-
-                          slug: project.slug,
-
-                          bounds,
-
-                      });
-
-                      setTimeout(() => {
-
-                          router.push(
-                              `/work/${project.slug}`
-                          );
-
-                      }, 250);
+                      router.push(
+                          `/work/${project.slug}`
+                      );
 
                   }}
               />
