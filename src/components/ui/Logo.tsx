@@ -1,6 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { RefObject } from "react";
 
 import styles from "./Logo.module.scss";
 

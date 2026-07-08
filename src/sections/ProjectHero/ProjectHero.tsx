@@ -1,7 +1,5 @@
 'use client';
 
-import { useRef } from "react";
-
 import Image from "next/image";
 
 import styles from "./ProjectHero.module.scss";

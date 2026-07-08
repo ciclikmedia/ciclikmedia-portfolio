@@ -342,14 +342,14 @@ export default function SelectedBrandsLerp() {
           </span>
 
           <h2>
-            Brands I've worked with.
+            Brands {"I've"} worked with.
           </h2>
 
           <p>
             Through agencies,
             collaborations and
             direct engagements,
-            I've contributed to
+            {"I've"} contributed to
             digital products,
             campaigns and
             experiences for global

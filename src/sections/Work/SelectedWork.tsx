@@ -2,6 +2,8 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import Link from "next/link";
+
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -332,7 +334,7 @@ ScrollTrigger.refresh();
         interfaces and systems.
       </p>
 
-      <a
+      <Link
         href="/work"
         className={styles.link}
         data-cursor="link"
@@ -346,7 +348,7 @@ ScrollTrigger.refresh();
           SEE THE WORK
           &nbsp;&nbsp;&nbsp;&nbsp;→
         </span>
-      </a>
+      </Link>
     </div>
   </div>
 
