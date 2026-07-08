@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from "react";
-import Image from "next/image";
+import { useRef } from "react";
 
-import { useTransitionStore } from "@/stores/useTransitionStore";
+import Image from "next/image";
 
 import styles from "./ProjectHero.module.scss";
 
@@ -11,10 +10,11 @@ import Container from "@/components/layout/Container/Container";
 
 import ProjectSection from "@/components/project/ProjectSection/ProjectSection";
 import ProjectOverview from "@/components/project/ProjectOverview/ProjectOverview";
-
 import ProjectChapter from "@/components/project/ProjectChapter/ProjectChapter";
 import ProjectFullscreenImage from "@/components/project/ProjectFullscreenImage/ProjectFullscreenImage";
 import ProjectText from "@/components/project/ProjectText/ProjectText";
+
+import { useTransition } from "@/transition";
 
 import { Project } from "@/types/project";
 
@@ -24,42 +24,10 @@ interface Props {
 
 export default function ProjectHero({
   project,
-}: Props) {
+}: Props) {  
 
-    const projectTransition = useTransitionStore(
-        (state) => state.project
-    );
-
-    const setOverlayVisible = useTransitionStore(
-        (state) => state.setOverlayVisible
-    );
-
-    const setProject = useTransitionStore(
-        (state) => state.setProject
-    );
-
-  useEffect(() => {
-
-        if (!projectTransition) return;
-
-        requestAnimationFrame(() => {
-
-            setOverlayVisible(false);
-
-            setTimeout(() => {
-
-                setProject(null);
-
-            }, 350);
-
-        });
-
-    }, [
-        projectTransition,
-        setOverlayVisible,
-        setProject,
-    ]);
-
+    const transition = useTransition();
+        
   return (
 
     <main className={styles.page}>
@@ -72,7 +40,7 @@ export default function ProjectHero({
 
         <div
             className={styles.heroImage}
-            id="project-hero-image"
+            data-transition-target
         >
             <Image
                 src={project.image}
@@ -81,6 +49,10 @@ export default function ProjectHero({
                 priority
                 sizes="100vw"
                 className={styles.image}
+                onLoad={() => {
+                    transition.finish();
+                    
+                }}
             />
         </div>
 

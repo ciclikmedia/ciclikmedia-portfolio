@@ -62,17 +62,19 @@
 
     overflow: hidden;
 
+    opacity: 0;
+
 }
 
 
 
 .image {
 
-    object-fit: contain;
+    object-fit: cover;
 
-    object-position: 58% 58%;
+    object-position: center;
 
-    transform: scale(.92);
+    transform: scale(1);
 
     will-change: transform;
 

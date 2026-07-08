@@ -55,13 +55,14 @@ const ProjectPreview = forwardRef<
     const offset = useRef({
         x: 0,
         y: 0,
-    });
-    
+    });  
 
-    const [project, setProject] =
-        useState<PreviewProject | null>(null);
+   
 
     const projectRef = useRef<PreviewProject | null>(null);
+
+    const [project, setProject] =
+    useState<PreviewProject | null>(null);
 
         useEffect(() => {
             
@@ -147,6 +148,7 @@ const ProjectPreview = forwardRef<
     const isFirstProject = !projectRef.current;
 
     projectRef.current = projectData;
+
     setProject(projectData);
 
     if (!isFirstProject) {
@@ -203,6 +205,8 @@ hide() {
         duration: .35,
         ease: "power3.out",
     });
+    setProject(null);
+
 
 },
 

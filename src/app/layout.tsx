@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from "@/components/layout/Header";
 
-import Cursor from '@/components/ui/Cursor/Cursor';
+import { TransitionProvider } from "@/transition/TransitionProvider";
 
-import TransitionOverlay from "@/components/TransitionOverlay/TransitionOverlay";
+import Cursor from '@/components/ui/Cursor/Cursor';
 
 import "@/styles/globals.scss";
 
@@ -46,11 +46,13 @@ export default function RootLayout({
 
           <Cursor />      
 
-          <TransitionOverlay />
-
            <Header />    
 
+           <TransitionProvider>
+
           {children}
+
+          </TransitionProvider>
 
           <Footer />
         </Providers>
