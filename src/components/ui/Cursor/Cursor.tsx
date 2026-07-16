@@ -37,6 +37,11 @@ export default function Cursor() {
   const lensRef =
     useRef<HTMLDivElement>(null);
 
+  const forcedPosition = useRef<{
+    x: number;
+    y: number;
+  } | null>(null);
+
   useEffect(() => {
   if (!cursorRef.current) return;
 
@@ -116,20 +121,42 @@ export default function Cursor() {
   }
 };
 
-  const move = (
+ const move = (
   e: PointerEvent
-  ) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+) => {
 
-  };
+  if (forcedPosition.current) {
+    forcedPosition.current = null;
+  }
 
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+};
   const tick = () => {
+  if (forcedPosition.current) {
+
+ const pos = forcedPosition.current;
+
+if (pos) {
+
+  currentX +=
+    (pos.x - currentX) * 0.18;
+
+  currentY +=
+    (pos.y - currentY) * 0.18;
+
+}
+
+} else {
+
   currentX +=
     (mouseX - currentX) * 0.14;
 
   currentY +=
     (mouseY - currentY) * 0.14;
+
+}
 
   xSet(currentX);
   ySet(currentY);
@@ -142,6 +169,71 @@ export default function Cursor() {
   updateCursorVariant();
 };
 
+const showCursor = (event: Event) => {
+
+  const e = event as CustomEvent<{
+    x: number;
+    y: number;
+  }>;
+
+  if (!e.detail) return;
+
+gsap.killTweensOf([cursor, lens]);
+
+gsap.fromTo(
+  [cursor, lens],
+  {
+    autoAlpha: 0,
+    scale: 0.1,
+  },
+  {
+    autoAlpha: 1,
+    scale: 1,
+    duration: 0.8,
+    ease: "elastic.out(1, 0.55)",
+  }
+);
+
+ forcedPosition.current = {
+    x: e.detail.x,
+    y: e.detail.y,
+  };
+
+  currentX = e.detail.x;
+  currentY = e.detail.y;
+
+  xSet(currentX);
+  ySet(currentY);
+
+  gsap.set(lens, {
+    x: currentX,
+    y: currentY,
+  });
+
+};
+const hideCursor = () => {
+
+  gsap.set(cursor, {
+    autoAlpha: 0,
+  });
+
+  gsap.set(lens, {
+    autoAlpha: 0,
+  });
+
+};
+
+window.addEventListener(
+  "cursor:show",
+  showCursor
+);
+
+window.addEventListener(
+  "cursor:hide",
+  hideCursor
+);
+
+
   window.addEventListener(
     "pointermove",
     move
@@ -149,17 +241,32 @@ export default function Cursor() {
 
   gsap.ticker.add(tick);
 
-  return () => {
-    window.removeEventListener(
-      "pointermove",
-      move
-    );
+return () => {
 
-    gsap.ticker.remove(
-      tick
-    );
-  };
+  window.removeEventListener(
+    "pointermove",
+    move
+  );
+
+  window.removeEventListener(
+    "cursor:show",
+    showCursor
+  );
+
+  window.removeEventListener(
+    "cursor:hide",
+    hideCursor
+  );
+
+  gsap.ticker.remove(
+    tick
+  );
+
+};
+
 }, []);
+
+
 
   return (
   <>
