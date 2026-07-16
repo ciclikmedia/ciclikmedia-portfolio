@@ -21,15 +21,49 @@ export default function SmoothScrolling({
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    const update = (time: number) => {
+  lenis.raf(time * 1000);
+};
+
+gsap.ticker.add(update);
+
+const stopLenis = () => {
+  lenis.stop();
+};
+
+const startLenis = () => {
+  lenis.start();
+};
+
+window.addEventListener(
+  "lenis:stop",
+  stopLenis
+);
+
+window.addEventListener(
+  "lenis:start",
+  startLenis
+);
 
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      lenis.destroy();
-    };
+
+  gsap.ticker.remove(update);
+
+  window.removeEventListener(
+    "lenis:stop",
+    stopLenis
+  );
+
+  window.removeEventListener(
+    "lenis:start",
+    startLenis
+  );
+
+  lenis.destroy();
+
+};
   }, []);
 
   return <>{children}</>;

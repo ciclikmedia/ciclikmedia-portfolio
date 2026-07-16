@@ -89,6 +89,9 @@ export function TransitionProvider({
 
  state.current = "expanding";
 
+ document.documentElement.style.overflow = "hidden";
+document.body.style.overflow = "hidden";
+
 window.dispatchEvent(new Event("cursor:hide"));
 
 window.dispatchEvent(new Event("cursor:hide"));
@@ -187,6 +190,9 @@ const wrapperFadeDuration = 0.25;
           })
         );
         window.dispatchEvent(new Event("cursor:show"));
+
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
         window.dispatchEvent(new Event("lenis:start"));
 
         wrapperRef.current = null;
