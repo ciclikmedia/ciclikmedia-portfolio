@@ -45,12 +45,15 @@ export default function Cursor() {
   useEffect(() => {
 
     window.addEventListener("focus", () => {
+  console.log("WINDOW FOCUS");
 });
 
 window.addEventListener("blur", () => {
+  console.log("WINDOW BLUR");
 });
 
 document.addEventListener("visibilitychange", () => {
+  console.log(document.visibilityState);
 });
   if (!cursorRef.current) return;
 
@@ -130,11 +133,9 @@ document.addEventListener("visibilitychange", () => {
   }
 };
 
-const move = (
+ const move = (
   e: PointerEvent
 ) => {
-
-  
 
   if (forcedPosition.current) {
     forcedPosition.current = null;
@@ -145,7 +146,6 @@ const move = (
 
 };
   const tick = () => {
-    
   if (forcedPosition.current) {
 
  const pos = forcedPosition.current;
