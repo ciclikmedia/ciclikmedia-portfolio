@@ -7,16 +7,14 @@
 .contentWrapper {
 
     position: absolute;
-
     inset: 0;
 
     display: flex;
-
-    align-items: center;      // Centrado vertical
+    align-items: center;
 
     width: 100%;
 
-    padding-inline: clamp(24px, 2vw, 48px);
+    padding-inline: clamp(56px, 6vw, 140px);
 
     z-index: 5;
 
@@ -58,11 +56,22 @@
 
     position: absolute;
 
-    inset: 0;
+    right: clamp(32px, 4vw, 72px);
+
+    top: 50%;
+
+    width: min(60vw, 1120px);
+
+    aspect-ratio: 16 / 9;
+
+    transform: translateY(-50%);
 
     overflow: hidden;
 
     opacity: 0;
+
+    will-change: transform, width, height;
+
 
 }
 
@@ -82,9 +91,13 @@
 
 .content {
 
-    max-width: 680px;
+    max-width: 100%;
 
-    transform: translate(5vw, -5%);
+    transform: translate(0,-5%);
+
+    position: relative;
+
+    z-index: 10;
 
 }
 .content h1 {
@@ -93,7 +106,7 @@
 
     font-size: clamp(72px, 6.8vw, 138px);
 
-    line-height: .88;
+    line-height: 100%;
 
     letter-spacing: -.055em;
 
@@ -154,3 +167,14 @@
     font-size: 1rem;
 
 }
+
+.contentMask{
+
+    overflow:hidden;
+
+    display:inline-block;
+    width: 100%;
+
+}
+
+

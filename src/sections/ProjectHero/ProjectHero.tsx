@@ -1,5 +1,7 @@
 'use client';
 
+import { useLayoutEffect } from "react";
+
 import Image from "next/image";
 
 import styles from "./ProjectHero.module.scss";
@@ -25,6 +27,20 @@ export default function ProjectHero({
 }: Props) {  
 
     const transition = useTransition();
+
+    useLayoutEffect(() => {
+
+        if (transition.isTransitioning) return;
+
+        const hero = document.querySelector(
+            "[data-transition-target]"
+        ) as HTMLElement | null;
+
+        if (!hero) return;
+
+        hero.style.opacity = "1";
+
+    }, [transition.isTransitioning]);
         
   return (
 
@@ -58,9 +74,16 @@ export default function ProjectHero({
 
             <div className={styles.contentWrapper}>
 
-                <div className={styles.content}>
+                <div className={styles.contentMask}>
 
-                    <h1>{project.title}</h1>
+                    <div
+                        className={styles.content}
+                        data-hero-content
+                    >
+
+                    <h1 className={styles.title}>
+                        {project.title}
+                    </h1>
 
                     <p className={styles.subtitle}>
                         {project.subtitle}
@@ -82,6 +105,8 @@ export default function ProjectHero({
                             <span>Role</span>
                             <p>{project.role}</p>
                         </div>
+
+                    </div>
 
                     </div>
 

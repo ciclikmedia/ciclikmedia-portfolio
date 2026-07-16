@@ -13,4 +13,5 @@ export interface TransitionPayload {
 export interface TransitionAPI {
   start(payload: TransitionPayload): Promise<void>;
   finish(): void;
+  isTransitioning: boolean;
 }

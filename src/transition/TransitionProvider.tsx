@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useState, } from "react";
 import gsap from "gsap";
 
 import { TransitionContext } from "./TransitionContext";
@@ -39,6 +39,9 @@ export function TransitionProvider({
 
   const timelineRef =
     useRef<gsap.core.Timeline | null>(null);
+
+  const [isTransitioning, setIsTransitioning] =
+    useState(false);
 
   const createWrapper = (payload: TransitionPayload) => {
 
@@ -84,7 +87,14 @@ export function TransitionProvider({
 
   if (state.current !== "idle") return;
 
-  state.current = "expanding";
+ state.current = "expanding";
+
+window.dispatchEvent(new Event("cursor:hide"));
+
+window.dispatchEvent(new Event("cursor:hide"));
+window.dispatchEvent(new Event("lenis:stop"));
+
+  setIsTransitioning(true);
 
   payloadRef.current = payload;
 
@@ -126,64 +136,132 @@ timelineRef.current.to(wrapper, {
 
     if (!hero) return;
 
+    const rect = hero.getBoundingClientRect();
+
+    const content = document.querySelector(
+        "[data-hero-content]"
+    ) as HTMLElement | null;
+        
+
     gsap.set(hero, {
         opacity: 1,
     });
 
+  gsap.set(content, {
+      opacity: 1,
+      x: 500,
+      scale: 1.22,
+      clipPath: "inset(0 100% 0 0)",
+      transformOrigin: "left center",
+  });
+
+const imageDuration = 0.8;
+
+const textDelay = 0.05;      // Cuándo empieza el texto respecto a la imagen
+const textKickDuration = 0.15; // Duración del primer impulso
+const textElastic = 1.75;      // Duración del rebote
+
+const wrapperFadeDelay = 0.15; // Cuándo empieza el fade del wrapper
+const wrapperFadeDuration = 0.25;
+
     gsap.timeline({
 
-        onComplete() {
+    onComplete() {
 
-          if (payloadRef.current?.element) {
+        if (payloadRef.current?.element) {
 
-    gsap.set(payloadRef.current.element, {
-        opacity: 1,
-    });
+            gsap.set(payloadRef.current.element, {
+                opacity: 1,
+            });
 
-}
+        }
 
-            wrapper.remove();
+        wrapper.remove();
 
-            wrapperRef.current = null;
+        window.dispatchEvent(
+          new CustomEvent("cursor:show", {
+            detail: {
+              x: window.innerWidth / 2,
+              y: window.innerHeight * 0.86,
+            },
+          })
+        );
+        window.dispatchEvent(new Event("cursor:show"));
+        window.dispatchEvent(new Event("lenis:start"));
 
-            payloadRef.current = null;
+        wrapperRef.current = null;
 
-            timelineRef.current = null;
+        payloadRef.current = null;
 
-            state.current = "idle";
+        timelineRef.current = null;
 
-        },
+        setIsTransitioning(false);
 
-    })
+        state.current = "idle";
 
-    .to(wrapper, {
+    },
 
-        opacity: 0,
+})
 
-        duration: .35,
+.to(wrapper, {
 
-        ease: "power2.out",
+    left: rect.left,
+    top: rect.top,
+    width: rect.width,
+    height: rect.height,
 
-    })
+    duration: imageDuration,
+    ease: "power4.inOut",
 
-    .to(hero, {
+})
 
-        opacity: 1,
+.to(content, {
 
-        duration: .35,
+    clipPath: "inset(0 0% 0 0)",
 
-        ease: "power2.out",
+    x: 500,
 
-    }, "<");
+    scale: 2.98,
+
+    duration: textKickDuration,
+
+    ease: "power4.out",
+
+    opacity: 0,
+
+}, `<+=${textDelay}`)
+
+.to(content, {
+
+    x: 0,
+
+    scale: 1,
+
+    opacity: 1,
+
+    duration: textElastic,
+
+    ease: "elastic.out(1, 0.55)",
+
+}, `-=${textKickDuration}`)
+
+.to(wrapper, {
+
+    opacity: 0,
+
+    duration: wrapperFadeDuration,
+
+}, `-=${wrapperFadeDelay}`);
 
 };
 
   return (
     <TransitionContext.Provider
-      value={{
-        start,
-        finish,
-      }}
+        value={{
+            start,
+            finish,
+            isTransitioning,
+        }}
     >
       {children}
 
