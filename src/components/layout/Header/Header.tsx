@@ -2,6 +2,8 @@
 
 import { useLayoutEffect, useRef } from "react";
 
+import { usePathname } from "next/navigation";
+
 import Link from "next/link";
 
 import gsap from "gsap";
@@ -19,8 +21,27 @@ export default function Header() {
 
   const logoWrapperRef = useRef<HTMLDivElement>(null);
 
+  const pathname = usePathname();
+
   useLayoutEffect(() => {
+
   if (!headerRef.current) return;
+
+  // Reinicia cualquier estado anterior del header
+  gsap.set(headerRef.current, {
+    clearProps: "all",
+  });
+
+  // Si no estamos en Home, el header siempre debe ser visible
+  if (pathname !== "/") {
+    gsap.set(headerRef.current, {
+      opacity: 1,
+      y: 0,
+      pointerEvents: "auto",
+    });
+
+    return;
+  }
 
   const heroNavbar = document.querySelector(
     `.${stylesHero.navbar}`
@@ -30,37 +51,7 @@ export default function Header() {
 
   if (!hero) return;
 
-    {/*const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#hero",
-
-        start: "bottom top+=120",
-
-        end: "bottom top",
-
-        scrub: 0.1,
-      },
-    });
-
-    tl
-      .to(heroNavbar, {
-        opacity: 0,
-        y: -20,
-        ease: "none",
-      })
-
-      .to(
-        headerRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          pointerEvents: "auto",
-          ease: "none",
-        },
-        0
-      );*/}
-
-      /* Sin transicion */
+     /* Sin transicion */
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: hero,
@@ -92,11 +83,13 @@ export default function Header() {
       tl.scrollTrigger?.kill();
       tl.kill();
     };
-  }, []);
+ }, [pathname]);
 
 
   useLayoutEffect(() => {
   if (!logoWrapperRef.current) return;
+
+  if (pathname !== "/") return;
 
   const images = logoWrapperRef.current.querySelectorAll("img");
   const hero = document.querySelector("#hero");
@@ -121,7 +114,7 @@ if (!hero) return;
     tween.scrollTrigger?.kill();
     tween.kill();
   };
-}, []);
+}, [pathname]);
 
   return (
     <header

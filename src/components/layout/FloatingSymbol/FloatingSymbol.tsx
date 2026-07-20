@@ -19,6 +19,9 @@ export default function FloatingSymbol() {
 
     const symbol = symbolRef.current;
 
+    let rotateTween: gsap.core.Tween | null = null;
+    let moveTween: gsap.core.Tween | null = null;
+
     const symbolInner = symbol.querySelector(
       `.${styles.symbolInner}`
     ) as HTMLDivElement;
@@ -80,7 +83,7 @@ export default function FloatingSymbol() {
     window.dispatchEvent(new Event("lenis:start"));
 
     // Rotación durante toda la página
-    gsap.to(symbolInner, {
+    rotateTween = gsap.to(symbolInner, {
         rotate: "+=1080",
         ease: "none",
         force3D: true,
@@ -94,7 +97,7 @@ export default function FloatingSymbol() {
       });
 
       // Movimiento hacia arriba al llegar a Contact
-      gsap.fromTo(
+      moveTween = gsap.fromTo(
         symbolInner,
         {
           y: 0,
@@ -117,7 +120,12 @@ export default function FloatingSymbol() {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      rotateTween?.scrollTrigger?.kill();
+      rotateTween?.kill();
+
+      moveTween?.scrollTrigger?.kill();
+      moveTween?.kill();
+
       intro.kill();
     };
 

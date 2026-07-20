@@ -191,6 +191,7 @@ const wrapperFadeDuration = 0.25;
         document.documentElement.style.overflow = "";
         document.body.style.overflow = "";
         window.dispatchEvent(new Event("lenis:start"));
+        window.dispatchEvent(new Event("home:ready"));
 
         wrapperRef.current = null;
 
