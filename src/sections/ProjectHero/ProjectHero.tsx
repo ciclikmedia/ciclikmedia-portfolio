@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 import Image from "next/image";
 
@@ -41,6 +41,19 @@ export default function ProjectHero({
         hero.style.opacity = "1";
 
     }, [transition.isTransitioning]);
+
+        useEffect(() => {
+        if (transition.isTransitioning) return;
+
+        window.dispatchEvent(
+            new CustomEvent("cursor:show", {
+            detail: {
+                x: window.innerWidth / 2,
+                y: window.innerHeight * 0.86,
+            },
+            })
+        );
+        }, [transition.isTransitioning]);
         
   return (
 

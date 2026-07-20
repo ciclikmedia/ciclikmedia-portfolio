@@ -56,6 +56,11 @@ export default function Cursor() {
 
   const cursor = cursorRef.current;
 
+  gsap.set([cursor, lens], {
+    autoAlpha: 0,
+    visibility: "hidden",
+  });
+
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
 
@@ -179,9 +184,14 @@ const showCursor = (event: Event) => {
     y: number;
   }>;
 
-  if (!e.detail) return;
+ 
 
 gsap.killTweensOf([cursor, lens]);
+
+gsap.set([cursor, lens], {
+  visibility: "visible",
+  opacity: 1,
+});
 
 gsap.fromTo(
   [cursor, lens],
@@ -197,7 +207,8 @@ gsap.fromTo(
   }
 );
 
- forcedPosition.current = {
+ if (e.detail) {
+  forcedPosition.current = {
     x: e.detail.x,
     y: e.detail.y,
   };
@@ -211,6 +222,20 @@ gsap.fromTo(
   gsap.set(lens, {
     x: currentX,
     y: currentY,
+  });
+} else {
+  forcedPosition.current = null;
+}
+
+};
+const revealCursor = () => {
+
+  
+
+  gsap.to([cursor, lens], {
+    autoAlpha: 1,
+    duration: 0.3,
+    ease: "power2.out",
   });
 
 };
@@ -229,6 +254,11 @@ const hideCursor = () => {
 window.addEventListener(
   "cursor:show",
   showCursor
+);
+
+window.addEventListener(
+  "cursor:reveal",
+  revealCursor
 );
 
 window.addEventListener(
@@ -252,14 +282,19 @@ return () => {
   );
 
   window.removeEventListener(
-    "cursor:show",
-    showCursor
-  );
+  "cursor:show",
+  showCursor
+);
 
-  window.removeEventListener(
-    "cursor:hide",
-    hideCursor
-  );
+window.removeEventListener(
+  "cursor:reveal",
+  revealCursor
+);
+
+window.removeEventListener(
+  "cursor:hide",
+  hideCursor
+);
 
   gsap.ticker.remove(
     tick
@@ -338,7 +373,8 @@ return () => {
      <div
       ref={cursorRef}
       className={`${styles.cursor} ${styles[variant]}`}
-    >
+      
+      >
       {variant ===
       'dragActive' ? (
         <div

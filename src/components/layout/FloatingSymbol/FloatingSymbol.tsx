@@ -25,9 +25,15 @@ export default function FloatingSymbol() {
 
     if (!symbolInner) return;
 
+    window.dispatchEvent(new Event("lenis:stop"));
     const intro = gsap.timeline({
-      delay: 0.2,
-    });
+  delay: 0.2,
+
+  onStart: () => {
+    window.dispatchEvent(new Event("lenis:stop"));
+    window.dispatchEvent(new Event("cursor:hide"));
+  },
+});
 
     intro
       .fromTo(
@@ -60,10 +66,21 @@ export default function FloatingSymbol() {
         0
       );
 
-    intro.eventCallback("onComplete", () => {
+   intro.eventCallback("onComplete", () => {
 
-      // Rotación durante toda la página
-      gsap.to(symbolInner, {
+    window.dispatchEvent(
+      new CustomEvent("cursor:show", {
+        detail: {
+          x: window.innerWidth / 2,
+          y: window.innerHeight * 0.86,
+        },
+      })
+    );
+
+    window.dispatchEvent(new Event("lenis:start"));
+
+    // Rotación durante toda la página
+    gsap.to(symbolInner, {
         rotate: "+=1080",
         ease: "none",
         force3D: true,

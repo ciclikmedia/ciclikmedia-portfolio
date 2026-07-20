@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 
+import ScrollManager from './ScrollManager';
 import SmoothScrolling from './SmoothScrolling';
 
 import { CursorProvider } from '@/components/ui/Cursor/CursorContext';
@@ -15,6 +16,8 @@ export default function Providers({
 }: ProvidersProps) {
   return (
     <CursorProvider>
+
+      <ScrollManager />
 
       <SmoothScrolling>
 

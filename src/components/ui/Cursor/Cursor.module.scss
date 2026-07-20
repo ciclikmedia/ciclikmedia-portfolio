@@ -2,6 +2,9 @@
 @use "@/styles/tokens/typography" as *;
 
 .cursor {
+  visibility: hidden;
+  opacity: 0;
+  
   position: fixed;
 
   top: 0;

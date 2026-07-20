@@ -20,11 +20,15 @@ export default function Header() {
   const logoWrapperRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (!headerRef.current) return;
+  if (!headerRef.current) return;
 
-    const heroNavbar = document.querySelector(
-      `.${stylesHero.navbar}`
-    );
+  const heroNavbar = document.querySelector(
+    `.${stylesHero.navbar}`
+  );
+
+  const hero = document.querySelector("#hero");
+
+  if (!hero) return;
 
     {/*const tl = gsap.timeline({
       scrollTrigger: {
@@ -59,7 +63,7 @@ export default function Header() {
       /* Sin transicion */
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: "#hero",
+          trigger: hero,
           start: "bottom top+=140",
           toggleActions: "play none reverse reverse",
         },
@@ -95,6 +99,9 @@ export default function Header() {
   if (!logoWrapperRef.current) return;
 
   const images = logoWrapperRef.current.querySelectorAll("img");
+  const hero = document.querySelector("#hero");
+
+if (!hero) return;
   const symbol = images[1];
 
   if (!symbol) return;
@@ -103,7 +110,7 @@ export default function Header() {
     rotate: 360,
     ease: "none",
     scrollTrigger: {
-      trigger: "#hero",
+      trigger: hero,
       start: "bottom top-=200",
       end: "max",
       scrub: 0.4,
