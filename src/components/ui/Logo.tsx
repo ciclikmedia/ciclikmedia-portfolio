@@ -1,13 +1,20 @@
+'use client';
+
 import Link from "next/link";
 
 import styles from "./Logo.module.scss";
 
 export default function Logo() {
+  const handleClick = () => {
+    window.dispatchEvent(new Event("cursor:hide"));
+  };
+
   return (
     <Link
       href="/"
       className={styles.logo}
       aria-label="Ciclikmedia"
+      onClick={handleClick}
     >
       <img
         className={styles.wordmark}
