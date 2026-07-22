@@ -34,8 +34,7 @@ export default function Cursor() {
   const lastLabel =
   useRef("");
 
-  const lensRef =
-    useRef<HTMLDivElement>(null);
+  
 
   const forcedPosition = useRef<{
     x: number;
@@ -47,19 +46,13 @@ export default function Cursor() {
   
   if (!cursorRef.current) return;
 
-  if (!lensRef.current) return;
-
-    const lens =
-      lensRef.current;
+ 
 
     
 
   const cursor = cursorRef.current;
 
-  gsap.set([cursor, lens], {
-    autoAlpha: 0,
-    visibility: "hidden",
-  });
+
 
   let mouseX = window.innerWidth / 2;
   let mouseY = window.innerHeight / 2;
@@ -169,10 +162,7 @@ if (pos) {
   xSet(currentX);
   ySet(currentY);
 
-  gsap.set(lens, {
-    x: currentX,
-    y: currentY,
-  });
+
 
   updateCursorVariant();
 };
@@ -186,15 +176,15 @@ const showCursor = (event: Event) => {
 
  
 
-gsap.killTweensOf([cursor, lens]);
+gsap.killTweensOf(cursor);
 
-gsap.set([cursor, lens], {
+gsap.set(cursor, {
   visibility: "visible",
   opacity: 1,
 });
 
 gsap.fromTo(
-  [cursor, lens],
+  cursor,
   {
     autoAlpha: 0,
     scale: 0.1,
@@ -219,10 +209,7 @@ gsap.fromTo(
   xSet(currentX);
   ySet(currentY);
 
-  gsap.set(lens, {
-    x: currentX,
-    y: currentY,
-  });
+ 
 } else {
   forcedPosition.current = null;
 }
@@ -232,7 +219,7 @@ const revealCursor = () => {
 
   
 
-  gsap.to([cursor, lens], {
+  gsap.to(cursor, {
     autoAlpha: 1,
     duration: 0.3,
     ease: "power2.out",
@@ -242,10 +229,6 @@ const revealCursor = () => {
 const hideCursor = () => {
 
   gsap.set(cursor, {
-    autoAlpha: 0,
-  });
-
-  gsap.set(lens, {
     autoAlpha: 0,
   });
 
@@ -304,142 +287,46 @@ window.removeEventListener(
 
 }, []);
 
-
-
   return (
-  <>
-    <div
-      ref={lensRef}
-      style={{
-          position: "fixed",
+  <div
+    ref={cursorRef}
+    className={`${styles.cursor} ${styles[variant]}`}
+  >
+    {variant === "dragActive" ? (
+      <div className={styles.dragIndicator}>
+        <span className={styles.dragArrow}>←</span>
 
-          left: 0,
-          top: 0,
+        <div className={styles.dragDot} />
 
-          width:
-            variant === "hero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? "113px"
-              : "18px",
+        <span className={styles.dragArrow}>→</span>
+      </div>
+    ) : (
+      label && (
+        <div className={styles.label}>
+          {variant === "hero" ? (
+            <>
+              <span className={styles.labelText}>
+                Scroll to
+                <br />
+                Discover
+              </span>
 
-          height:
-            variant === "hero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? "113px"
-              : "18px",
+              <span className={styles.labelArrow}>↓</span>
+            </>
+          ) : variant === "view" ? (
+            <>
+              <span className={styles.labelArrow}>↗</span>
 
-          borderRadius: "50%",
-
-          pointerEvents: "none",
-
-          zIndex: 99998,
-
-          transform:
-            "translate(-50%, -50%)",
-
-          opacity:
-            variant === "hero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? 1
-              : 0,
-
-          transition: `
-            width .35s cubic-bezier(0.22,1,0.36,1),
-            height .35s cubic-bezier(0.22,1,0.36,1),
-            opacity .25s ease
-          `,
-
-          backdropFilter:
-            "blur(4px) brightness(1.02) saturate(1.05)",
-
-          WebkitBackdropFilter:
-            "blur(4px) brightness(1.02) saturate(1.05)",
-
-          background:
-            "rgba(255,255,255,.05)",
-
-          border:
-            "1px solid rgba(255,255,255,.05)",
-
-          boxShadow: `
-            0 0 12px rgba(255,255,255,.02),
-            inset 0 0 8px rgba(255,255,255,.01)
-          `,
-        }}
-      />
-     <div
-      ref={cursorRef}
-      className={`${styles.cursor} ${styles[variant]}`}
-      
-      >
-      {variant ===
-      'dragActive' ? (
-        <div
-          className={
-            styles.dragIndicator
-          }
-        >
-          <span
-            className={
-              styles.dragArrow
-            }
-          >
-            ←
-          </span>
-
-          <div
-            className={
-              styles.dragDot
-            }
-          />
-
-          <span
-            className={
-              styles.dragArrow
-            }
-          >
-            →
-          </span>
+              <span className={styles.labelText}>
+                {label}
+              </span>
+            </>
+          ) : (
+            label
+          )}
         </div>
-      ) : (
-        label && (
-          <div
-            className={
-              styles.label
-            }
-          >
-            {variant === "hero" ? (
-              <>
-                <span className={styles.labelText}>
-                  Scroll to
-                  <br />
-                  Discover
-                </span>
-
-                <span className={styles.labelArrow}>
-                  ↓
-                </span>
-              </>
-            ) : variant === "view" ? (
-              <>
-                <span className={styles.labelArrow}>
-                  ↗
-                </span>
-
-                <span className={styles.labelText}>
-                  {label}
-                </span>
-              </>
-            ) : (
-              label
-            )}
-          </div>
-        )
-      )}
-       </div>
-  </>
-  );
+      )
+    )}
+  </div>
+);
 }
