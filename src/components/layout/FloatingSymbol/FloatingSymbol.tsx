@@ -7,6 +7,8 @@ import HeroSymbol from "@/components/ui/HeroSymbol/HeroSymbol";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+import { showDefaultCursorPosition } from "@/utils/cursor";
+
 import styles from './FloatingSymbol.module.scss';
 
 export default function FloatingSymbol() {
@@ -33,6 +35,8 @@ export default function FloatingSymbol() {
   delay: 0.2,
 
   onStart: () => {
+    document.body.style.pointerEvents = "none";
+
     window.dispatchEvent(new Event("lenis:stop"));
     window.dispatchEvent(new Event("cursor:hide"));
   },
@@ -69,18 +73,13 @@ export default function FloatingSymbol() {
         0
       );
 
-   intro.eventCallback("onComplete", () => {
+  intro.eventCallback("onComplete", () => {
 
-    window.dispatchEvent(
-      new CustomEvent("cursor:show", {
-        detail: {
-          x: window.innerWidth / 2,
-          y: window.innerHeight * 0.86,
-        },
-      })
-    );
+  document.body.style.pointerEvents = "auto";
 
-    window.dispatchEvent(new Event("lenis:start"));
+  showDefaultCursorPosition();
+
+  window.dispatchEvent(new Event("lenis:start"));
 
     // Rotación durante toda la página
     rotateTween = gsap.to(symbolInner, {

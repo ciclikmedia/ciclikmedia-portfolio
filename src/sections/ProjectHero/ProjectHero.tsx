@@ -6,6 +6,8 @@ import Image from "next/image";
 
 import styles from "./ProjectHero.module.scss";
 
+import { showDefaultCursorPosition } from "@/utils/cursor";
+
 import Container from "@/components/layout/Container/Container";
 
 import ProjectSection from "@/components/project/ProjectSection/ProjectSection";
@@ -45,14 +47,7 @@ export default function ProjectHero({
         useEffect(() => {
         if (transition.isTransitioning) return;
 
-        window.dispatchEvent(
-            new CustomEvent("cursor:show", {
-            detail: {
-                x: window.innerWidth / 2,
-                y: window.innerHeight * 0.86,
-            },
-            })
-        );
+        showDefaultCursorPosition();
         }, [transition.isTransitioning]);
         
   return (

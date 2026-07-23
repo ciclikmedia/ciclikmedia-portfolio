@@ -6,6 +6,11 @@ import gsap from 'gsap';
 
 import styles from './Cursor.module.scss';
 
+import {
+  getCursorPosition,
+  setCursorPosition,
+} from "@/utils/cursorPosition";
+
 export default function Cursor() {
   const cursorRef =
     useRef<HTMLDivElement>(null);
@@ -40,22 +45,21 @@ export default function Cursor() {
     x: number;
     y: number;
   } | null>(null);
+  const firstFollow = useRef(false);  
 
   useEffect(() => {
-
   
-  if (!cursorRef.current) return;
-
- 
-
-    
+  if (!cursorRef.current) return;   
 
   const cursor = cursorRef.current;
 
+const last = getCursorPosition();
 
+let mouseX =
+  last.x || window.innerWidth / 2;
 
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
+let mouseY =
+  last.y || window.innerHeight / 2;
 
   let currentX = mouseX;
   let currentY = mouseY;  
@@ -133,6 +137,11 @@ export default function Cursor() {
   mouseX = e.clientX;
   mouseY = e.clientY;
 
+  setCursorPosition(
+    mouseX,
+    mouseY
+  );
+
 };
   const tick = () => {
   if (forcedPosition.current) {
@@ -151,16 +160,28 @@ if (pos) {
 
 } else {
 
+  const ease = firstFollow.current
+    ? 0.08
+    : 0.14;
+
   currentX +=
-    (mouseX - currentX) * 0.14;
+    (mouseX - currentX) * ease;
 
   currentY +=
-    (mouseY - currentY) * 0.14;
+    (mouseY - currentY) * ease;
+
+  if (firstFollow.current) {
+    firstFollow.current = false;
+  }
 
 }
 
   xSet(currentX);
   ySet(currentY);
+
+  cursor.getBoundingClientRect();
+
+  document.body.offsetHeight;
 
 
 
@@ -168,6 +189,8 @@ if (pos) {
 };
 
 const showCursor = (event: Event) => {
+
+  firstFollow.current = true;
 
   const e = event as CustomEvent<{
     x: number;
@@ -205,9 +228,14 @@ gsap.fromTo(
 
   currentX = e.detail.x;
   currentY = e.detail.y;
+  
 
   xSet(currentX);
   ySet(currentY);
+
+  cursor.getBoundingClientRect();
+
+  document.body.offsetHeight;
 
  
 } else {

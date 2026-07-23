@@ -5,20 +5,26 @@ import { useEffect } from "react";
 import Container from "@/components/layout/Container/Container";
 import PageHero from "@/components/layout/PageHero/PageHero";
 
+import { getCursorPosition } from "@/utils/cursorPosition";
+
 import styles from "./WorkHero.module.scss";
 
 export default function WorkHero() {
 
-  useEffect(() => {
-    window.dispatchEvent(
-      new CustomEvent("cursor:show", {
-        detail: {
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2,
-        },
-      })
-    );
-  }, []);
+  
+
+useEffect(() => {
+  const { x, y } = getCursorPosition();
+
+  window.dispatchEvent(
+    new CustomEvent("cursor:show", {
+      detail: {
+        x: x || window.innerWidth / 2,
+        y: y || window.innerHeight / 2,
+      },
+    })
+  );
+}, []);
 
   return (
     <PageHero>
