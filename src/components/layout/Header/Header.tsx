@@ -116,6 +116,38 @@ if (!hero) return;
   };
 }, [pathname]);
 
+useLayoutEffect(() => {
+  if (!headerRef.current) return;
+
+  const hide = () => {
+    gsap.to(headerRef.current, {
+      opacity: 0,
+      y: -20,
+      pointerEvents: "none",
+      duration: 0.25,
+      ease: "power2.out",
+    });
+  };
+
+  const show = () => {
+    gsap.to(headerRef.current, {
+      opacity: 1,
+      y: 0,
+      pointerEvents: "auto",
+      duration: 0.25,
+      ease: "power2.out",
+    });
+  };
+
+  window.addEventListener("header:hide", hide);
+  window.addEventListener("header:show", show);
+
+  return () => {
+    window.removeEventListener("header:hide", hide);
+    window.removeEventListener("header:show", show);
+  };
+}, []);
+
   return (
     <header
       ref={headerRef}

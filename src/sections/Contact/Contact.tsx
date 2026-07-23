@@ -15,24 +15,28 @@ export default function Contact() {
   if (!sectionRef.current) return;
 
   const st = ScrollTrigger.create({
-    trigger: sectionRef.current,
+  trigger: sectionRef.current,
 
-    start: "top 60%",
+  start: "top 10%",
 
-    end: "bottom bottom",
+  end: "bottom bottom",
 
-    onEnter: () => {
-      document.body.classList.add(
-        "contact-theme"
-      );
-    },
+  onEnter: () => {
+    document.body.classList.add("contact-theme");
 
-    onLeaveBack: () => {
-      document.body.classList.remove(
-        "contact-theme"
-      );
-    },
-  });
+    window.dispatchEvent(
+      new CustomEvent("header:hide")
+    );
+  },
+
+  onLeaveBack: () => {
+    document.body.classList.remove("contact-theme");
+
+    window.dispatchEvent(
+      new CustomEvent("header:show")
+    );
+  },
+});
 
   return () => st.kill();
 }, []);
