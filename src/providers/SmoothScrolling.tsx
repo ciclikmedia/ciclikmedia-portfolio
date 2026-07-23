@@ -61,6 +61,8 @@ window.addEventListener(
     startLenis
   );
 
+  lenis.off("scroll", ScrollTrigger.update);
+
   lenis.destroy();
 
 };

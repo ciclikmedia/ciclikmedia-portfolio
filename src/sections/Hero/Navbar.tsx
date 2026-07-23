@@ -1,7 +1,7 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
+import gsap from "@/lib/gsap";
 
 import Link from 'next/link';
 import Logo from '@/components/ui/Logo';
@@ -15,11 +15,17 @@ export default function Navbar() {
   useLayoutEffect(() => {
     if (!navbarRef.current) return;
 
-    const logo = navbarRef.current.querySelector(
+    const ctx = gsap.context(() => {
+
+      const navbar = navbarRef.current;
+
+    if (!navbar) return;
+
+    const logo = navbar.querySelector(
       `.${styles.logo}`
     );
 
-    const items = navbarRef.current.querySelectorAll(
+    const items = navbar.querySelectorAll(
       `.${styles.nav} li`
     );
 
@@ -55,8 +61,13 @@ export default function Navbar() {
         ease: 'power3.out',
       },
       '-=0.4'
-    );
-  }, []);
+      );
+
+    }, navbarRef);
+
+    return () => ctx.revert();
+
+    }, []);
 
   return (
     <header className={styles.navbar}>

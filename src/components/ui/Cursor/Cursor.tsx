@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import gsap from 'gsap';
+import gsap from "@/lib/gsap";
 
 import styles from './Cursor.module.scss';
 

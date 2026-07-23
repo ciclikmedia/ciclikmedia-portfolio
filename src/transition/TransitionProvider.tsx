@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useRef, useState, } from "react";
-import gsap from "gsap";
+import gsap from "@/lib/gsap";
 
 import { TransitionContext } from "./TransitionContext";
 import TransitionOverlay from "./TransitionOverlay";

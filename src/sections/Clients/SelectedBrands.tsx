@@ -3,8 +3,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import Image from "next/image";
 
-import gsap from 'gsap';
-
+import gsap from '@/lib/gsap';
 
 import styles from './SelectedBrands.module.scss';
 
@@ -365,11 +364,11 @@ export default function SelectedBrandsLerp() {
           </span>
 
           <h2>
-            Brands {"I've"} worked with.
+            Brands I&apos;ve worked with.
           </h2>
 
           <p>
-            I've contributed to digital products, campaigns, and experiences for leading brands through agencies, consultancies, collaborations, and direct client engagements.
+             I&apos;ve contributed to digital products, campaigns, and experiences for leading brands through agencies, consultancies, collaborations, and direct client engagements.
           </p>
         </div>
 

@@ -1,8 +1,7 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from './Hero.module.scss';
 
@@ -11,45 +10,49 @@ export default function HeroTitle() {
   const titleRef = useRef<HTMLHeadingElement>(null);
 
   useLayoutEffect(() => {
-    if (!titleRef.current || !wrapperRef.current) return;
+  if (!titleRef.current || !wrapperRef.current) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+ const ctx = gsap.context(() => {
 
-    // Intro
-    gsap.fromTo(
-      titleRef.current,
-      {
-        y: 180,
-        opacity: 0,
-        scale: 0.98,
-        filter: 'blur(12px)',
-      },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        filter: 'blur(0px)',
-        duration: 1.6,
-        ease: 'power3.out',
-      }
-    );
+  gsap.fromTo(
+    titleRef.current,
+    {
+      y: 180,
+      opacity: 0,
+      scale: 0.98,
+      filter: 'blur(12px)',
+    },
+    {
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      filter: 'blur(0px)',
+      duration: 1.6,
+      ease: 'power3.out',
+    }
+  );
 
     // Parallax
-    gsap.to(wrapperRef.current, {
-      y: -300,
+ gsap.to(wrapperRef.current, {
+  y: -300,
 
-      ease: 'none',
+  ease: 'none',
 
-      scrollTrigger: {
-        trigger: document.body,
+  scrollTrigger: {
+    trigger: document.documentElement,
+    start: 'top top',
+    end: '+=600',
+    scrub: true,
+  },
+});
 
-        start: 'top top',
-        end: '+=600',
+ScrollTrigger.refresh();
 
-        scrub: true,
-      },
-    });
-  }, []);
+}, wrapperRef);
+
+return () => ctx.revert();
+
+}, []);
 
   return (
     <div ref={wrapperRef}>

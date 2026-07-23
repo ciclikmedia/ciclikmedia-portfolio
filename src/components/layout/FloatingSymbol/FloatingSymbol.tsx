@@ -4,8 +4,7 @@ import { useLayoutEffect, useRef } from 'react';
 
 import HeroSymbol from "@/components/ui/HeroSymbol/HeroSymbol";
 
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import { showDefaultCursorPosition } from "@/utils/cursor";
 
@@ -16,8 +15,6 @@ export default function FloatingSymbol() {
 
   useLayoutEffect(() => {
     if (!symbolRef.current) return;
-
-    gsap.registerPlugin(ScrollTrigger);
 
     const symbol = symbolRef.current;
 
@@ -30,7 +27,6 @@ export default function FloatingSymbol() {
 
     if (!symbolInner) return;
 
-    window.dispatchEvent(new Event("lenis:stop"));
     const intro = gsap.timeline({
   delay: 0.2,
 
@@ -73,16 +69,15 @@ export default function FloatingSymbol() {
         0
       );
 
-  intro.eventCallback("onComplete", () => {
+      intro.eventCallback("onComplete", () => {
+      document.body.style.pointerEvents = "auto";
 
-  document.body.style.pointerEvents = "auto";
+      showDefaultCursorPosition();
 
-  showDefaultCursorPosition();
+      window.dispatchEvent(new Event("lenis:start"));
 
-  window.dispatchEvent(new Event("lenis:start"));
-
-    // Rotación durante toda la página
-    rotateTween = gsap.to(symbolInner, {
+      // Rotación durante toda la página
+      rotateTween = gsap.to(symbolInner, {
         rotate: "+=1080",
         ease: "none",
         force3D: true,
@@ -105,7 +100,7 @@ export default function FloatingSymbol() {
           y: -550,
           ease: "none",
           force3D: true,
-          scale: 0.85, // <-- ajusta este valor
+          scale: 0.85,
 
           scrollTrigger: {
             trigger: "#contact-section",
@@ -116,13 +111,13 @@ export default function FloatingSymbol() {
           },
         }
       );
+
+      // 👇 Añádelo aquí
+      ScrollTrigger.refresh();
     });
 
     return () => {
-      rotateTween?.scrollTrigger?.kill();
       rotateTween?.kill();
-
-      moveTween?.scrollTrigger?.kill();
       moveTween?.kill();
 
       intro.kill();

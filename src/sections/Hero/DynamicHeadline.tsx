@@ -1,8 +1,7 @@
 'use client';
 
 import { useLayoutEffect, useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from './Hero.module.scss';
 
@@ -55,6 +54,7 @@ export default function DynamicHeadline() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+
       gsap.to(headlineRef.current, {
         y: -20,
         opacity: 0,
@@ -83,37 +83,44 @@ export default function DynamicHeadline() {
   useLayoutEffect(() => {
     if (!headlineRef.current || !wrapperRef.current) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
 
-    gsap.fromTo(
-      headlineRef.current,
-      {
-        y: 90,
-        opacity: 0,
-        filter: 'blur(10px)',
-      },
-      {
-        y: 0,
-        opacity: 1,
-        filter: 'blur(0px)',
-        duration: 1,
-        delay: 0.4,
-        ease: 'power3.out',
-      }
-    );
+      gsap.fromTo(
+        headlineRef.current,
+        {
+          y: 90,
+          opacity: 0,
+          filter: 'blur(10px)',
+        },
+        {
+          y: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 1,
+          delay: 0.4,
+          ease: 'power3.out',
+        }
+      );
 
-    gsap.to(wrapperRef.current, {
-      y: -180,
+      gsap.to(wrapperRef.current, {
+        y: -180,
 
-      ease: 'none',
+        ease: 'none',
 
-      scrollTrigger: {
-        trigger: document.body,
-        start: 'top top',
-        end: '+=600',
-        scrub: true,
-      },
-    });
+        scrollTrigger: {
+          trigger: document.documentElement,
+          start: 'top top',
+          end: '+=600',
+          scrub: true,
+        },
+      });
+      
+      ScrollTrigger.refresh();
+
+    }, wrapperRef);
+
+    return () => ctx.revert();
+
   }, []);
 
   return (

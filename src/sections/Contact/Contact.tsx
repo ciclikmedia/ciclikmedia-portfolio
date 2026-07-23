@@ -2,7 +2,7 @@
 
 import { useLayoutEffect, useRef } from "react";
 
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from "./Contact.module.scss";
 
@@ -11,35 +11,40 @@ export default function Contact() {
   const sectionRef =
     useRef<HTMLElement>(null);
 
-    useLayoutEffect(() => {
-  if (!sectionRef.current) return;
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const section = sectionRef.current;
 
-  const st = ScrollTrigger.create({
-  trigger: sectionRef.current,
+      if (!section) return;
 
-  start: "top 10%",
+      ScrollTrigger.create({
+        trigger: section,
 
-  end: "bottom bottom",
+        start: "top 10%",
 
-  onEnter: () => {
-    document.body.classList.add("contact-theme");
+        end: "bottom bottom",
 
-    window.dispatchEvent(
-      new CustomEvent("header:hide")
-    );
-  },
+        onEnter: () => {
+          document.body.classList.add("contact-theme");
 
-  onLeaveBack: () => {
-    document.body.classList.remove("contact-theme");
+          window.dispatchEvent(
+            new CustomEvent("header:hide")
+          );
+        },
 
-    window.dispatchEvent(
-      new CustomEvent("header:show")
-    );
-  },
-});
+        onLeaveBack: () => {
+          document.body.classList.remove("contact-theme");
 
-  return () => st.kill();
-}, []);
+          window.dispatchEvent(
+            new CustomEvent("header:show")
+          );
+        },
+      });
+
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section 

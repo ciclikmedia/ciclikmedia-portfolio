@@ -1,13 +1,9 @@
 'use client';
 
 import { useRef, useLayoutEffect } from "react";
-
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from "./About.module.scss";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
  
@@ -26,162 +22,156 @@ export default function About() {
     useRef<HTMLVideoElement>(null);
 
       useLayoutEffect(() => {
-      if (
-        !videoRef.current ||
-        !sectionRef.current
-      ) {
-        return;
-      }
-
-      const video = videoRef.current;
-
-      const pinContainer = pinContainerRef.current;
-      const reel = reelRef.current;
-
-      if (!pinContainer || !reel) return;
-
-      // Estado inicial
-      gsap.set(video, {
-        opacity: 0,
-        scale: 1.03,
-      });
-
-      video.pause();
-      video.currentTime = 0;
-
-      const trigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-
-        start: "top 65%",
-
-        end: "bottom 35%",
-
-        onEnter: () => {
-          video.pause();
-          video.currentTime = 0;
-
-          gsap.killTweensOf(video);
-
-          gsap.fromTo(
-            video,
-            {
-              opacity: 0,
-              scale: 1.03,
-            },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.9,
-              ease: "power3.out",
-            }
-          );
-
-          video.play();
-        },
-
-        onEnterBack: () => {
-          video.pause();
-          video.currentTime = 0;
-
-          gsap.killTweensOf(video);
-
-          gsap.fromTo(
-            video,
-            {
-              opacity: 0,
-              scale: 1.03,
-            },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.9,
-              ease: "power3.out",
-            }
-          );
-
-          video.play();
-        },
-
-        onLeave: () => {
-          gsap.to(video, {
-            opacity: 0.45,
-            duration: 0.35,
-            ease: "power2.out",
-          });
-
-          video.pause();
-        },
-
-        onLeaveBack: () => {
-          gsap.to(video, {
-            opacity: 0,
-            duration: 0.35,
-            ease: "power2.out",
-          });
-
-          video.pause();
-        },
-      });
-
-      const content = contentRef.current!;
-
-      const getTravel = () =>
-        Math.max(
-          0,
-          video.offsetHeight - content.offsetHeight
-        );
-
-      const getExit = () =>
-        content.offsetHeight;
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pinContainer,
-
-            start: "top-=80 top",
-
-            end: () => `+=${getTravel() + getExit()}`,
-
-            pin: true,
-
-            scrub: true,
-            pinSpacing: false,
-
-            anticipatePin: -1,
-
-            invalidateOnRefresh: true,
-          },
-        });
-        
-
-
-        const onResize = () => {
-          ScrollTrigger.refresh();
-        };
-
-
-        tl
-
-        .to(reel, {
-          y: () => -getTravel(),
-          ease: "none",
-        })
-
-        .to(
-          [content, reel],
-          {
-            y: () => `-=${getExit()}`,
-            ease: "none",
+         const ctx = gsap.context(() => {
+          if (
+            !videoRef.current ||
+            !sectionRef.current
+          ) {
+            return;
           }
-        );
-        ScrollTrigger.refresh();
-      return () => {
-        window.removeEventListener("resize", onResize);
-        trigger.kill();
 
-        tl.kill();
-      };
-    }, []);
+          const video = videoRef.current;
+
+          const pinContainer = pinContainerRef.current;
+          const reel = reelRef.current;
+
+          if (!pinContainer || !reel) return;
+
+          // Estado inicial
+          gsap.set(video, {
+            opacity: 0,
+            scale: 1.03,
+          });
+
+          video.pause();
+          video.currentTime = 0;
+
+          const trigger = ScrollTrigger.create({
+            trigger: sectionRef.current,
+
+            start: "top 65%",
+
+            end: "bottom 35%",
+
+            onEnter: () => {
+              video.pause();
+              video.currentTime = 0;
+
+              gsap.killTweensOf(video);
+
+              gsap.fromTo(
+                video,
+                {
+                  opacity: 0,
+                  scale: 1.03,
+                },
+                {
+                  opacity: 1,
+                  scale: 1,
+                  duration: 0.9,
+                  ease: "power3.out",
+                }
+              );
+
+              video.play();
+            },
+
+            onEnterBack: () => {
+              video.pause();
+              video.currentTime = 0;
+
+              gsap.killTweensOf(video);
+
+              gsap.fromTo(
+                video,
+                {
+                  opacity: 0,
+                  scale: 1.03,
+                },
+                {
+                  opacity: 1,
+                  scale: 1,
+                  duration: 0.9,
+                  ease: "power3.out",
+                }
+              );
+
+              video.play();
+            },
+
+            onLeave: () => {
+              gsap.to(video, {
+                opacity: 0.45,
+                duration: 0.35,
+                ease: "power2.out",
+              });
+
+              video.pause();
+            },
+
+            onLeaveBack: () => {
+              gsap.to(video, {
+                opacity: 0,
+                duration: 0.35,
+                ease: "power2.out",
+              });
+
+              video.pause();
+            },
+          });
+
+          const content = contentRef.current!;
+
+          const getTravel = () =>
+            Math.max(
+              0,
+              video.offsetHeight - content.offsetHeight
+            );
+
+          const getExit = () =>
+            content.offsetHeight;
+
+            const tl = gsap.timeline({
+              scrollTrigger: {
+                trigger: pinContainer,
+
+                start: "top-=80 top",
+
+                end: () => `+=${getTravel() + getExit()}`,
+
+                pin: true,
+
+                scrub: true,
+                pinSpacing: false,
+
+                anticipatePin: -1,
+
+                invalidateOnRefresh: true,
+              },
+            });
+
+            tl
+
+            .to(reel, {
+              y: () => -getTravel(),
+              ease: "none",
+            })
+
+            .to(
+              [content, reel],
+              {
+                y: () => `-=${getExit()}`,
+                ease: "none",
+              }
+            );
+
+           ScrollTrigger.refresh();
+
+            });
+
+            return () => ctx.revert();
+
+          }, []);
     
     
 

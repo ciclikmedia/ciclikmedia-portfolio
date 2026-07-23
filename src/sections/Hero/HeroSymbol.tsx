@@ -2,8 +2,7 @@
 
 import { useLayoutEffect, useRef } from 'react';
 import Image from 'next/image';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from './Hero.module.scss';
 
@@ -13,7 +12,7 @@ export default function HeroSymbol() {
   useLayoutEffect(() => {
   if (!symbolRef.current) return;
 
-  gsap.registerPlugin(ScrollTrigger);
+  const ctx = gsap.context(() => {
 
   gsap.fromTo(
     symbolRef.current,
@@ -28,7 +27,7 @@ export default function HeroSymbol() {
       rotate: 0,
       duration: 1.8,
       delay: 0.3,
-      ease: 'power3.out',
+      ease: "power3.out",
     }
   );
 
@@ -38,7 +37,7 @@ export default function HeroSymbol() {
   ease: 'none',
 
   scrollTrigger: {
-    trigger: document.body,
+    trigger: document.documentElement,
     start: 'top top',
     end: 'max',
     scrub: true,
@@ -57,6 +56,11 @@ gsap.to(symbolRef.current, {
     scrub: true,
   },
 });
+ScrollTrigger.refresh();
+
+}, symbolRef);
+
+return () => ctx.revert();
 }, []);
 
   

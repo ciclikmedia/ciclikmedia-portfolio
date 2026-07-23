@@ -6,15 +6,12 @@ import { usePathname } from "next/navigation";
 
 import Link from "next/link";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import stylesHero from "@/sections/Hero/Hero.module.scss";
 import styles from "./Header.module.scss";
 
 import Logo from "@/components/ui/Logo";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
@@ -49,7 +46,7 @@ export default function Header() {
 
   const hero = document.querySelector("#hero");
 
-  if (!hero) return;
+  if (!hero || !heroNavbar) return;
 
      /* Sin transicion */
       const tl = gsap.timeline({
@@ -80,7 +77,6 @@ export default function Header() {
         );
 
     return () => {
-      tl.scrollTrigger?.kill();
       tl.kill();
     };
  }, [pathname]);
@@ -111,7 +107,6 @@ if (!hero) return;
   });
 
   return () => {
-    tween.scrollTrigger?.kill();
     tween.kill();
   };
 }, [pathname]);

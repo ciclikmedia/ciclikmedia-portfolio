@@ -4,16 +4,13 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import Link from "next/link";
 
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import styles from './SelectedWork.module.scss';
 
 import { projects } from './constants/projects';
 
 import ProjectCard from './ProjectCard/ProjectCard';
-
-gsap.registerPlugin(ScrollTrigger);
 
 ScrollTrigger.config({
   limitCallbacks: true,
@@ -175,8 +172,7 @@ export default function SelectedWork() {
 });
 
 ScrollTrigger.refresh();
-
-      ScrollTrigger.refresh();
+      
     }, sectionRef);
 
     window.addEventListener(

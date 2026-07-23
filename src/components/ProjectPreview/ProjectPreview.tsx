@@ -10,7 +10,7 @@ import {
 
 import Image from "next/image";
 
-import gsap from "gsap";
+import gsap from "@/lib/gsap";
 
 
 import {
