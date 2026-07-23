@@ -1,56 +1,79 @@
 'use client';
 
 import { useLayoutEffect, useRef } from 'react';
+import Image from "next/image";
 
 import gsap from 'gsap';
+
 
 import styles from './SelectedBrands.module.scss';
 
 const brands = [
   {
-    logo: 'MALASPINA',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "BMW",
+    logo: "/images/brands/BMW.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 30,
   },
   {
-    logo: 'PEUGEOT MOTOCYCLES',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "Santander",
+    logo: "/images/brands/Banco_Santander.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 38,
   },
   {
-    logo: 'PINGÜINO TORREBLANCA',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "Telefónica",
+    logo: "/images/brands/telefonica.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 46,
   },
   {
-    logo: 'REPSOL',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "Amadeus",
+    logo: "/images/brands/amadeus.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 24,
   },
   {
-    logo: 'MAHOU',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "BIPI",
+    logo: "/images/brands/bipi.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 48,
   },
   {
-    logo: 'MOVISTAR',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "CHICCO",
+    logo: "/images/brands/chicco.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 54,
   },
   {
-    logo: 'SANTANDER',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "GSK",
+    logo: "/images/brands/gsk.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 48,
   },
   {
-    logo: 'SEAT',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "Peugeot",
+    logo: "/images/brands/peugeot.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 38,
   },
   {
-    logo: 'IBERIA',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis, dolor id posuere auctor.',
+    name: "Mapfre",
+    logo: "/images/brands/mapfre.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 26,
+  },
+  {
+    name: "Lilly",
+    logo: "/images/brands/lilly.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 56,
+  },
+  {
+    name: "Chivas",
+    logo: "/images/brands/chivas.svg",
+    description: "Design and development of digital experiences for the motorcycle division.",
+    logoHeight: 38,
   },
 ];
 
@@ -346,15 +369,7 @@ export default function SelectedBrandsLerp() {
           </h2>
 
           <p>
-            Through agencies,
-            collaborations and
-            direct engagements,
-            {"I've"} contributed to
-            digital products,
-            campaigns and
-            experiences for global
-            brands and
-            organizations.
+            I've contributed to digital products, campaigns, and experiences for leading brands through agencies, consultancies, collaborations, and direct client engagements.
           </p>
         </div>
 
@@ -381,14 +396,19 @@ export default function SelectedBrandsLerp() {
                     styles.card
                   }
                 >
-                  <div
-                    className={
-                      styles.logo
-                    }
-                  >
-                    {
-                      brand.logo
-                    }
+                  <div className={styles.logo}>
+                   <Image
+                      className={styles.logoImage}
+                      src={brand.logo}
+                      alt={brand.name}
+                      width={180}
+                      height={brand.logoHeight}
+                      draggable={false}
+                      style={{
+                        height: brand.logoHeight,
+                        width: "auto",
+                      }}
+                    />
                   </div>
 
                   <div

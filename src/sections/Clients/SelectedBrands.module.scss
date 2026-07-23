@@ -94,16 +94,18 @@
 
 .logo {
   height: 80px;
-
   display: flex;
   align-items: center;
+}
 
-  margin-bottom: 40px;
+.logo img {
+  max-height: 100%;
+  width: auto;
+}
 
-  font-size: 2rem; // 32px
-  font-weight: 500;
-
-  color: $color-text;
+.logoImage {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /* ==========================================================
@@ -112,9 +114,9 @@
 
 .divider {
   width: 24px;
-  height: 1px;
+  height: 2px;
 
-  margin-bottom: 40px;
+  margin: 16px 0 60px 0;
   
   background: $color-text;
 }
@@ -164,3 +166,5 @@
   position: relative;
   cursor: none!important;
 }
+
+
