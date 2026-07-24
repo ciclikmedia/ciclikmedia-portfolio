@@ -20,7 +20,9 @@ export default function Cursor() {
   | "hero"
   | "footer"
   | "drag"
+  | "workHero"
   | "dragActive";
+  
 
   const [variant, setVariant] =
   useState<CursorVariant>("default");
@@ -321,6 +323,8 @@ window.removeEventListener(
             variant === "view" ||
             variant === "drag"
               ? "113px"
+              : variant === "workHero"
+              ? "18px"
               : "18px",
 
           height:
@@ -328,6 +332,8 @@ window.removeEventListener(
             variant === "view" ||
             variant === "drag"
               ? "113px"
+              : variant === "workHero"
+              ? "18px"
               : "18px",
 
           borderRadius: "50%",
@@ -341,6 +347,7 @@ window.removeEventListener(
 
           opacity:
             variant === "hero" ||
+            variant === "workHero" ||
             variant === "view" ||
             variant === "drag"
               ? 1

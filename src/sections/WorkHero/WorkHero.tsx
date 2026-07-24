@@ -26,10 +26,13 @@ useEffect(() => {
   );
 }, []);
 
-  return (
-    <PageHero>
-      <section className={styles.hero}>
-        <Container>
+ return (
+  <PageHero>
+    <section
+      className={styles.hero}
+      data-cursor="workHero"
+    >
+      <Container>
 
           <div className={styles.content}>
             <span className={styles.eyebrow}>

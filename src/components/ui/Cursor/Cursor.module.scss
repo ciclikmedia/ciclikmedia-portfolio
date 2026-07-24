@@ -333,3 +333,8 @@
 
   backdrop-filter: blur(16px);
 }
+
+
+.workHero {
+  @extend .default;
+}
