@@ -48,10 +48,13 @@
 }
 
 .link {
-  width: 42px;
-  height: 42px;
-  border: 1.9px solid $color-accent;
+ width: 30px;
+  height: 30px;
+
+  border: 2px solid $color-accent;
+
   border-color: $color-accent;
+
   mix-blend-mode: normal;
 }
 

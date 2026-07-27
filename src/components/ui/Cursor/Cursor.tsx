@@ -306,7 +306,16 @@ window.removeEventListener(
 
 }, []);
 
+const isLargeLens =
+  variant === "hero" ||
+  variant === "view" ||
+  variant === "drag";
 
+const showLens =
+  variant === "hero" ||
+  variant === "workHero" ||
+  variant === "view" ||
+  variant === "drag";
 
   return (
   <>
@@ -318,23 +327,9 @@ window.removeEventListener(
           left: 0,
           top: 0,
 
-          width:
-            variant === "hero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? "113px"
-              : variant === "workHero"
-              ? "18px"
-              : "18px",
+          width: isLargeLens ? "113px" : "18px",
 
-          height:
-            variant === "hero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? "113px"
-              : variant === "workHero"
-              ? "18px"
-              : "18px",
+          height: isLargeLens ? "113px" : "18px",
 
           borderRadius: "50%",
 
@@ -345,13 +340,7 @@ window.removeEventListener(
           transform:
             "translate(-50%, -50%)",
 
-          opacity:
-            variant === "hero" ||
-            variant === "workHero" ||
-            variant === "view" ||
-            variant === "drag"
-              ? 1
-              : 0,
+          opacity: showLens ? 1 : 0,
 
           transition: `
             width .35s cubic-bezier(0.22,1,0.36,1),
@@ -359,17 +348,21 @@ window.removeEventListener(
             opacity .25s ease
           `,
 
-          backdropFilter:
-            "blur(4px) brightness(1.02) saturate(1.05)",
+         backdropFilter: isLargeLens
+          ? "blur(4px) brightness(1.02) saturate(1.05)"
+          : "none",
 
-          WebkitBackdropFilter:
-            "blur(4px) brightness(1.02) saturate(1.05)",
+          WebkitBackdropFilter: isLargeLens
+            ? "blur(4px) brightness(1.02) saturate(1.05)"
+            : "none",
 
-          background:
-            "rgba(255,255,255,.05)",
+          background: isLargeLens
+          ? "rgba(255,255,255,.05)"
+          : "transparent",
 
-          border:
-            "1px solid rgba(255,255,255,.05)",
+          border: isLargeLens
+          ? "1px solid rgba(255,255,255,.05)"
+          : "1px solid transparent",
 
           boxShadow: `
             0 0 12px rgba(255,255,255,.02),
