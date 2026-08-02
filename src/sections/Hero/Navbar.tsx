@@ -80,7 +80,7 @@ export default function Navbar() {
             className={styles.logo}
             /*data-cursor="header"*/
           >
-            <Logo />
+            <Logo clickable={false} />
           </div>
 
           <nav

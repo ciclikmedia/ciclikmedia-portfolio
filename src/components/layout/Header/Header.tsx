@@ -20,6 +20,8 @@ export default function Header() {
 
   const pathname = usePathname();
 
+  const isHome = pathname === "/";
+
   useLayoutEffect(() => {
 
   if (!headerRef.current) return;
@@ -155,9 +157,9 @@ useLayoutEffect(() => {
           <div
             className={styles.logo}
             ref={logoWrapperRef}
-            data-cursor="header"
+            data-cursor={isHome ? undefined : "header"}
           >
-            <Logo />
+            <Logo clickable={!isHome} />
           </div>
 
           <nav

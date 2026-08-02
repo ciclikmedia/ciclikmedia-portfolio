@@ -4,18 +4,19 @@ import Link from "next/link";
 
 import styles from "./Logo.module.scss";
 
-export default function Logo() {
+interface LogoProps {
+  clickable?: boolean;
+}
+
+export default function Logo({
+  clickable = true,
+}: LogoProps) {
   const handleClick = () => {
     window.dispatchEvent(new Event("cursor:hide"));
   };
 
-  return (
-    <Link
-      href="/"
-      className={styles.logo}
-      aria-label="Ciclikmedia"
-      onClick={handleClick}
-    >
+  const content = (
+    <>
       <img
         className={styles.wordmark}
         src="/logos/ciclikmedia-wordmark.svg"
@@ -32,6 +33,28 @@ export default function Logo() {
         height={33}
         aria-hidden="true"
       />
+    </>
+  );
+
+  if (!clickable) {
+    return (
+      <div
+        className={styles.logo}
+        aria-label="Ciclikmedia"
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href="/"
+      className={styles.logo}
+      aria-label="Ciclikmedia"
+      onClick={handleClick}
+    >
+      {content}
     </Link>
   );
 }
