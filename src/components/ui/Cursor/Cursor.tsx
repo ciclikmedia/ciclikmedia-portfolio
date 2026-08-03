@@ -51,12 +51,9 @@ export default function Cursor() {
 
   if (!lensRef.current) return;
 
-    const lens =
-      lensRef.current;
+    const lens = lensRef.current;    
 
-    
-
-  const cursor = cursorRef.current;
+    const cursor = cursorRef.current;
 
   gsap.set([cursor, lens], {
     autoAlpha: 0,
@@ -367,7 +364,9 @@ const showLens =
           transform:
             "translate(-50%, -50%)",
 
-          opacity: showLens ? 1 : 0,
+            //opacity: showLens ? 1 : 0,
+
+          opacity: 1,
 
           transition: `
             width .35s cubic-bezier(0.22,1,0.36,1),
