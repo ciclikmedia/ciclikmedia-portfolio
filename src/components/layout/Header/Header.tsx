@@ -31,16 +31,26 @@ export default function Header() {
     clearProps: "all",
   });
 
-  // Si no estamos en Home, el header siempre debe ser visible
-  if (pathname !== "/") {
-    gsap.set(headerRef.current, {
-      opacity: 1,
-      y: 0,
-      pointerEvents: "auto",
-    });
+// Si no estamos en Home, animamos el Header al cargar
+if (pathname !== "/") {
 
-    return;
-  }
+  gsap.set(headerRef.current, {
+  opacity: 0,
+  y: -20,
+  pointerEvents: "none",
+});
+
+  gsap.to(headerRef.current, {
+    opacity: 1,
+    y: 0,
+    pointerEvents: "auto",
+    duration: 0.2,
+    ease: "power2.out",
+    delay: 0.5,
+  });
+
+  return;
+}
 
   const heroNavbar = document.querySelector(
     `.${stylesHero.navbar}`
@@ -87,12 +97,8 @@ export default function Header() {
   useLayoutEffect(() => {
   if (!logoWrapperRef.current) return;
 
-  if (pathname !== "/") return;
-
   const images = logoWrapperRef.current.querySelectorAll("img");
-  const hero = document.querySelector("#hero");
-
-if (!hero) return;
+ 
   const symbol = images[1];
 
   if (!symbol) return;
@@ -101,8 +107,8 @@ if (!hero) return;
     rotate: 360,
     ease: "none",
     scrollTrigger: {
-      trigger: hero,
-      start: "bottom top-=200",
+      trigger: document.documentElement,
+      start: "top top",
       end: "max",
       scrub: 0.4,
     },

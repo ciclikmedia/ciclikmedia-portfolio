@@ -52,4 +52,13 @@
   );
 
   height: auto;
+  
+}
+
+.logo img {
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+
+  pointer-events: none;
 }

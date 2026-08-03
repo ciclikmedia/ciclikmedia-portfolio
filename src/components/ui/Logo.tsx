@@ -6,14 +6,20 @@ import styles from "./Logo.module.scss";
 
 interface LogoProps {
   clickable?: boolean;
+
+  size?: "hero" | "header";
 }
 
 export default function Logo({
   clickable = true,
+  size = "hero",
 }: LogoProps) {
   const handleClick = () => {
     window.dispatchEvent(new Event("cursor:hide"));
   };
+
+  const className =
+  `${styles.logo} ${styles[size]}`;
 
   const content = (
     <>
@@ -23,6 +29,7 @@ export default function Logo({
         alt="Ciclikmedia"
         width={273}
         height={44}
+        draggable={false}
       />
 
       <img
@@ -32,6 +39,7 @@ export default function Logo({
         width={31}
         height={33}
         aria-hidden="true"
+        draggable={false}
       />
     </>
   );
@@ -39,7 +47,7 @@ export default function Logo({
   if (!clickable) {
     return (
       <div
-        className={styles.logo}
+        className={className}
         aria-label="Ciclikmedia"
       >
         {content}
@@ -50,7 +58,7 @@ export default function Logo({
   return (
     <Link
       href="/"
-      className={styles.logo}
+       className={className}
       aria-label="Ciclikmedia"
       onClick={handleClick}
     >
