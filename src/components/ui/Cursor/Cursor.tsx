@@ -179,6 +179,31 @@ if (pos) {
   updateCursorVariant();
 };
 
+/**
+ * Safari/WebKit sometimes keeps the cursor layer in a stale
+ * compositing state after SPA navigation.
+ * Forcing a reflow recreates the layer and restores
+ * the correct rendering.
+ */
+const forceSafariRepaint = (
+  element: HTMLElement
+) => {
+
+  const isSafari =
+    /^((?!chrome|android).)*safari/i.test(
+      navigator.userAgent
+    );
+
+  if (!isSafari) return;
+
+  element.style.display = "none";
+
+  void element.offsetHeight;
+
+  element.style.display = "";
+
+};
+
 const showCursor = (event: Event) => {
 
   const e = event as CustomEvent<{
@@ -194,6 +219,8 @@ gsap.set([cursor, lens], {
   visibility: "visible",
   opacity: 1,
 });
+
+forceSafariRepaint(cursor);
 
 gsap.fromTo(
   [cursor, lens],
