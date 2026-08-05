@@ -247,7 +247,7 @@ export default function SelectedBrandsLerp() {
         "drag";
 
       dragArea.dataset.cursorLabel =
-        "DRAG";
+        "Drag";
     } else {
       delete dragArea.dataset.cursor;
 
@@ -376,7 +376,7 @@ export default function SelectedBrandsLerp() {
           ref={dragAreaRef}
           className={styles.dragArea}
           data-cursor="drag"
-          data-cursor-label="DRAG"
+          data-cursor-label="Drag"
         >
           <div
             ref={gridRef}

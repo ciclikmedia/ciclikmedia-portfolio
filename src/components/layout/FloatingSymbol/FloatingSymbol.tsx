@@ -73,6 +73,7 @@ export default function FloatingSymbol() {
       document.body.style.pointerEvents = "auto";
 
       showDefaultCursorPosition();
+      window.dispatchEvent(new Event("cursor:repaint"));
 
       window.dispatchEvent(new Event("lenis:start"));
 

@@ -277,6 +277,16 @@ const hideCursor = () => {
 
 };
 
+const repaintCursor = () => {
+  if (!lensRef.current) return;
+
+  const lens = lensRef.current;
+
+  lens.style.display = "none";
+  void lens.offsetHeight;
+  lens.style.display = "";
+};
+
 window.addEventListener(
   "cursor:show",
   showCursor
@@ -290,6 +300,11 @@ window.addEventListener(
 window.addEventListener(
   "cursor:hide",
   hideCursor
+);
+
+window.addEventListener(
+  "cursor:repaint",
+  repaintCursor
 );
 
 
@@ -320,6 +335,11 @@ window.removeEventListener(
 window.removeEventListener(
   "cursor:hide",
   hideCursor
+);
+
+window.removeEventListener(
+  "cursor:repaint",
+  repaintCursor
 );
 
   gsap.ticker.remove(
@@ -383,7 +403,7 @@ const showLens =
             : "none",
 
           background: isLargeLens
-          ? "rgba(255,255,255,.05)"
+          ? "rgba(255,255,255,.01)"
           : "transparent",
 
           border: isLargeLens
@@ -451,7 +471,7 @@ const showLens =
               </>
             ) : variant === "view" ? (
               <>
-                <span className={styles.labelArrow}>
+                <span className={styles.viewArrow}>
                   ↗
                 </span>
 
