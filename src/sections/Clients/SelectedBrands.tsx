@@ -115,8 +115,12 @@ export default function SelectedBrandsLerp() {
       const visibleWidth =
         dragArea.clientWidth;
 
+      const lastCard =
+        grid.lastElementChild as HTMLElement;
+
       const contentWidth =
-        grid.scrollWidth;
+        lastCard.offsetLeft +
+        lastCard.offsetWidth;
 
       minX =
         visibleWidth -
@@ -127,12 +131,11 @@ export default function SelectedBrandsLerp() {
         minX
       );
 
-      targetX =
-        gsap.utils.clamp(
-          minX,
-          0,
-          targetX
-        );
+      targetX = gsap.utils.clamp(
+        minX,
+        0,
+        targetX
+      );
     };
 
     calculateBounds();
