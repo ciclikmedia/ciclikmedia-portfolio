@@ -44,7 +44,9 @@
   width: 18px;
   height: 18px;
 
-  border-color: $color-white;
+  border-color: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: difference;
+  background-color: white;
 }
 
 .link {

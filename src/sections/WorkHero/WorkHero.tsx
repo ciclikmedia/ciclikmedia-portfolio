@@ -30,7 +30,8 @@ useEffect(() => {
   <PageHero>
     <section
       className={styles.hero}
-      data-cursor="workHero"
+      data-cursor="default"
+      //data-cursor="workHero"
     >
       <Container>
 

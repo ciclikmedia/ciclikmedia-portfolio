@@ -350,7 +350,8 @@ window.removeEventListener(
 
 }, []);
 
-const isLargeLens =
+const hasLens =
+  variant === "default" ||
   variant === "hero" ||
   variant === "view" ||
   variant === "drag";
@@ -371,9 +372,19 @@ const showLens =
           left: 0,
           top: 0,
 
-          width: isLargeLens ? "113px" : "18px",
+          width:
+            variant === "default"
+              ? "18px"
+              : hasLens
+              ? "113px"
+              : "18px",
 
-          height: isLargeLens ? "113px" : "18px",
+          height:
+            variant === "default"
+              ? "18px"
+              : hasLens
+              ? "113px"
+              : "18px",
 
           borderRadius: "50%",
 
@@ -394,26 +405,44 @@ const showLens =
             opacity .25s ease
           `,
 
-         backdropFilter: isLargeLens
-          ? "blur(4px) brightness(1.02) saturate(1.05)"
-          : "none",
-
-          WebkitBackdropFilter: isLargeLens
+         backdropFilter:
+          variant === "default"
+            ? "blur(2px)"
+            : hasLens
             ? "blur(4px) brightness(1.02) saturate(1.05)"
             : "none",
 
-          background: isLargeLens
-          ? "rgba(255,255,255,.01)"
-          : "transparent",
+          WebkitBackdropFilter: 
+            variant === "default"
+              ? "blur(2px)"
+              : hasLens
+              ? "blur(4px) brightness(1.02) saturate(1.05)"
+              : "none",
 
-          border: isLargeLens
-          ? "1px solid rgba(255,255,255,.05)"
-          : "1px solid transparent",
+          background:
+            variant === "default"
+              ? "rgba(255,255,255,.03)"
+              : hasLens
+              ? "rgba(255,255,255,.01)"
+              : "transparent",
 
-          boxShadow: `
-            0 0 12px rgba(255,255,255,.02),
-            inset 0 0 8px rgba(255,255,255,.01)
-          `,
+          border:
+            variant === "default"
+              ? "1px solid rgba(255,255,255,.08)"
+              : hasLens
+              ? "1px solid rgba(255,255,255,.05)"
+              : "1px solid transparent",
+
+          boxShadow:
+            variant === "default"
+              ? `
+                0 0 6px rgba(255,255,255,.03),
+                inset 0 0 3px rgba(255,255,255,.02)
+              `
+              : `
+                0 0 12px rgba(255,255,255,.02),
+                inset 0 0 8px rgba(255,255,255,.01)
+              `,
         }}
       />
      <div

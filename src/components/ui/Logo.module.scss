@@ -3,7 +3,13 @@
 
   display: inline-flex;
 
-  text-decoration: none;
+  padding-right: calc(
+    clamp(
+      218.47px,
+      11vw,
+      340px
+    ) * 0.18
+  );
 }
 
 .wordmark {
