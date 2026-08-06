@@ -46,7 +46,17 @@
 
   border-color: rgba(255, 255, 255, 0.8);
   mix-blend-mode: difference;
-  background-color: white;
+  background-color: #fff;
+}
+
+.video {
+  @extend .default;
+
+  mix-blend-mode: normal;
+
+  background: #fff;
+
+  border-color: rgba(255, 255, 255, 0.8);
 }
 
 .link {

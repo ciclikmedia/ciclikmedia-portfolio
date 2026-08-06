@@ -12,6 +12,7 @@ export default function Cursor() {
 
   type CursorVariant =
   | "default"
+  | "video"
   | "link"
   | "nav"
   | "header"

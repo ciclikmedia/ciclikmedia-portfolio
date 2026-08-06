@@ -236,6 +236,7 @@ export default function About() {
                   >
 
                     <video
+                      data-cursor="video"
                       ref={videoRef}
                       className={styles.video}
                       muted
