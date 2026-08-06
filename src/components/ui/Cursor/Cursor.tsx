@@ -20,6 +20,7 @@ export default function Cursor() {
   | "view"
   | "hero"
   | "footer"
+  | "footerCredit"
   | "drag"
   | "workHero"
   | "dragActive";
@@ -353,6 +354,7 @@ window.removeEventListener(
 
 const hasLens =
   variant === "default" ||
+  variant === "footerCredit" ||
   variant === "hero" ||
   variant === "view" ||
   variant === "drag";
@@ -374,14 +376,16 @@ const showLens =
           top: 0,
 
           width:
-            variant === "default"
+            variant === "default" ||
+            variant === "footerCredit"
               ? "18px"
               : hasLens
               ? "113px"
               : "18px",
 
           height:
-            variant === "default"
+            variant === "default" ||
+            variant === "footerCredit"
               ? "18px"
               : hasLens
               ? "113px"
@@ -407,14 +411,16 @@ const showLens =
           `,
 
          backdropFilter:
-          variant === "default"
+           variant === "default" ||
+           variant === "footerCredit"
             ? "blur(2px)"
             : hasLens
             ? "blur(4px) brightness(1.02) saturate(1.05)"
             : "none",
 
           WebkitBackdropFilter: 
-            variant === "default"
+             variant === "default" ||
+             variant === "footerCredit"
               ? "blur(2px)"
               : hasLens
               ? "blur(4px) brightness(1.02) saturate(1.05)"

@@ -47,7 +47,10 @@ export default function Footer() {
           </div>
 
         <div className={styles.bottom}>
-          <span className={styles.credit}>
+          <span 
+            className={styles.credit}
+            data-cursor="footerCredit"
+            >
             Designed and Built by David Murillo.
           </span>
 
