@@ -1,12 +1,7 @@
-import Container from "@/components/layout/Container/Container";
-import PageHero from "@/components/layout/PageHero/PageHero";
+import AboutIntro from "@/sections/AboutIntro/AboutIntro";
 
 export default function AboutPage() {
   return (
-    <PageHero>
-      <Container>
-        <h1>About</h1>
-      </Container>
-    </PageHero>
+    <AboutIntro />
   );
 }

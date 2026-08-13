@@ -44,9 +44,15 @@ if (pathname !== "/") {
     opacity: 1,
     y: 0,
     pointerEvents: "auto",
-    duration: 0.2,
-    ease: "power2.out",
+    duration: 0.35,
+    ease: "power3.out",
     delay: 0.5,
+
+    onComplete: () => {
+      window.dispatchEvent(
+        new Event("header:intro-ready")
+      );
+    },
   });
 
   return;
