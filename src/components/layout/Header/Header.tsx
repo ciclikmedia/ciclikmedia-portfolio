@@ -184,20 +184,7 @@ useLayoutEffect(() => {
               <span className={styles.navAccent}>
                 Work
               </span>
-            </Link>
-
-            <Link
-              href="/expertise"
-              className={styles.navLink}
-            >
-              <span className={styles.navBase}>
-                Expertise
-              </span>
-
-              <span className={styles.navAccent}>
-                Expertise
-              </span>
-            </Link>
+            </Link>            
 
             <Link
               href="/about"

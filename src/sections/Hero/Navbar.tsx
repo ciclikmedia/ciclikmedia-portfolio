@@ -102,22 +102,7 @@ export default function Navbar() {
                   </span>
                 </Link>
               </li>
-
-              <li>
-                <Link
-                  href="/expertise"
-                  className={styles.navLink}
-                >
-                  <span className={styles.navBase}>
-                    Expertise
-                  </span>
-
-                  <span className={styles.navAccent}>
-                    Expertise
-                  </span>
-                </Link>
-              </li>
-
+             
               <li>
                 <Link
                   href="/about"
