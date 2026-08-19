@@ -1,0 +1,117 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+
+/* ==========================================================
+   SECTION
+   ========================================================== */
+
+.section {
+  padding: 0 0 240px;
+}
+
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 32px;
+
+  border-bottom: 1px solid
+    rgba($color-white, 0.08);
+}
+
+
+.eyebrow {
+  font-size: $text-small;
+
+  font-weight: 500;
+
+  line-height: 100%;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+}
+
+
+
+
+/* ==========================================================
+   CONTENT
+   ========================================================== */
+
+.content {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.5fr)
+    minmax(280px, 0.5fr);
+
+  gap: 100px;
+
+  padding-top: 90px;
+}
+
+
+/* ==========================================================
+   TITLE
+   ========================================================== */
+
+.content h2 {
+  margin: 0;
+
+  max-width: 1100px;
+
+  font-size: clamp(
+    64px,
+    8.5vw,
+    150px
+  );
+
+  font-weight: 700;
+
+  line-height: 0.88;
+
+  letter-spacing: -.02em;
+
+  color: $color-text;
+}
+
+
+/* ==========================================================
+   DESCRIPTION
+   ========================================================== */
+
+.description {
+  align-self: end;
+
+  max-width: 390px;
+}
+
+
+.description p {
+  margin: 0 0 28px;
+
+  font-size: 1.25rem;
+
+  font-weight: 400;
+
+  line-height: 150%;
+
+  color: $color-text-secondary;
+}
+
+
+.description p:last-child {
+  margin-bottom: 0;
+}
+
+

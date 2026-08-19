@@ -6,7 +6,7 @@ import {
   useRef,
 } from "react";
 
-import gsap from "@/lib/gsap";
+import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import Container from "@/components/layout/Container/Container";
 
@@ -249,6 +249,27 @@ profileIntro.to(
   },
   "-=0.45"
 );
+
+const photoExit = gsap.to(photo, {
+  yPercent: -20,
+  ease: "none",
+  paused: true,
+});
+
+
+ScrollTrigger.create({
+  trigger: sectionRef.current,
+
+  start: "top top",
+
+  end: "bottom top",
+
+  scrub: true,
+
+  animation: photoExit,
+
+  invalidateOnRefresh: true,
+});
 
 
 /*
@@ -767,100 +788,106 @@ return () => {
 
   return (
     <section
-      ref={sectionRef}
-      className={styles.intro}
-    >
-      <Container>
+  ref={sectionRef}
+  className={styles.intro}
+>
+  <Container>
 
-        <div className={styles.stage}>
+    <div className={styles.stage}>
 
-          {/* ==================================================
-              DISCIPLINES
-              ================================================== */}
+      {/* ==================================================
+          PHOTO — BACKGROUND
+          ================================================== */}
 
-          <div
-            className={
-              styles.disciplines
-            }
-          >
-            {disciplines.map(
-              (
-                discipline,
-                index
-              ) => (
-                <div
-                  key={discipline}
-                  ref={(element) => {
-                    disciplineRefs.current[
-                      index
-                    ] = element;
-                  }}
-                  className={
-                    styles.discipline
-                  }
-                >
-                  {discipline}
-                </div>
-              )
-            )}
-          </div>
+      <div
+        ref={photoRef}
+        className={styles.photo}
+      >
+        <img
+          src="/images/about/IMG_6535_Original.PNG"
+          alt="David Murillo"
+          draggable={false}
+        />
+      </div>
 
-          {/* ==================================================
-              PROFILE
-              ================================================== */}
 
-          <div
-            className={styles.profile}
-          >
+      {/* ==================================================
+          DISCIPLINES
+          ================================================== */}
 
+      <div
+        className={
+          styles.disciplines
+        }
+      >
+        {disciplines.map(
+          (
+            discipline,
+            index
+          ) => (
             <div
-            ref={profileTextRef}
-            className={
-                styles.profileText
-            }
-            >
-
-              <div
-                ref={profileRef}
-                className={
-                  styles.name
-                }
-              >
-                I'M <br></br>DAVID MURILLO.
-              </div>
-
-              <div
-                ref={bioRef}
-                className={
-                  styles.bio
-                }
-              >
-                Frontend developer and
-                creative developer focused
-                on interaction, motion and
-                digital experiences.
-              </div>
-
-            </div>
-
-            <div
-              ref={photoRef}
+              key={discipline}
+              ref={(element) => {
+                disciplineRefs.current[
+                  index
+                ] = element;
+              }}
               className={
-                styles.photo
+                styles.discipline
               }
             >
-              <img
-                src="/images/about/IMG_6535_Original.PNG"
-                alt="David Murillo"
-                draggable={false}
-              />
+              {discipline}
             </div>
+          )
+        )}
+      </div>
 
+
+      {/* ==================================================
+          PROFILE
+          ================================================== */}
+
+      <div
+        className={styles.profile}
+      >
+
+        <div
+          ref={profileTextRef}
+          className={
+            styles.profileText
+          }
+        >
+
+          <div
+            ref={profileRef}
+            className={
+              styles.name
+            }
+          >
+            HI, I'M
+            <br />
+            DAVID MURILLO.
+          </div>
+
+          <div
+            ref={bioRef}
+            className={
+              styles.bio
+            }
+          >
+            I BUILD
+DIGITAL
+EXPERIENCES
+THAT MOVE.
           </div>
 
         </div>
 
-      </Container>
-    </section>
+      </div>
+
+    </div>
+
+  </Container>
+</section>
   );
 }
