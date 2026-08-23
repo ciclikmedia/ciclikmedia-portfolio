@@ -1,6 +1,12 @@
 "use client";
 
-import { ReactNode, useRef, useState, } from "react";
+import {
+  ReactNode,
+  useRef,
+  useState,
+} from "react";
+
+import { usePathname } from "next/navigation";
 import gsap from "@/lib/gsap";
 
 import { TransitionContext } from "./TransitionContext";
@@ -24,6 +30,8 @@ type TransitionState =
 export function TransitionProvider({
   children,
 }: Props) {
+
+  const pathname = usePathname();
 
   const overlayRef =
     useRef<HTMLDivElement>(null);
@@ -179,14 +187,16 @@ const wrapperFadeDuration = 0.25;
 
         wrapper.remove();
 
-        window.dispatchEvent(
-          new CustomEvent("cursor:show", {
-            detail: {
-              x: window.innerWidth / 2,
-              y: window.innerHeight * 0.86,
-            },
-          })
-        );
+        if (pathname !== "/about") {
+  window.dispatchEvent(
+    new CustomEvent("cursor:show", {
+      detail: {
+        x: window.innerWidth / 2,
+        y: window.innerHeight * 0.86,
+      },
+    })
+  );
+}
 
         document.documentElement.style.overflow = "";
         document.body.style.overflow = "";

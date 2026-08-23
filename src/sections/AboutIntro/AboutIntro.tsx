@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  useEffect,
   useLayoutEffect,
   useRef,
 } from "react";
@@ -10,9 +9,9 @@ import gsap, { ScrollTrigger } from "@/lib/gsap";
 
 import Container from "@/components/layout/Container/Container";
 
-import styles from "./AboutIntro.module.scss";
-
 import { getCursorPosition } from "@/utils/cursorPosition";
+
+import styles from "./AboutIntro.module.scss";
 
 const disciplines = [
   "Creative Development",
@@ -41,34 +40,19 @@ export default function AboutIntro() {
     const photoRef =
     useRef<HTMLDivElement>(null);
 
-  /*
-   * CURSOR
-   */
-
-  useEffect(() => {
-    const { x, y } = getCursorPosition();
-
-    window.dispatchEvent(
-      new CustomEvent("cursor:show", {
-        detail: {
-          x:
-            x ||
-            window.innerWidth / 2,
-
-          y:
-            y ||
-            window.innerHeight / 2,
-        },
-      })
-    );
-  }, []);
+ 
 
   /*
    * INTRO
    */
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
+
+  window.dispatchEvent(
+    new Event("cursor:hide")
+  );
+
+  const ctx = gsap.context(() => {
       const disciplinesElements =
         disciplineRefs.current.filter(
           Boolean
@@ -246,6 +230,24 @@ profileIntro.to(
     scale: 1,
     duration: 0.7,
     ease: "power3.out",
+
+    onComplete: () => {
+      const { x, y } = getCursorPosition();
+
+      window.dispatchEvent(
+        new CustomEvent("cursor:show", {
+          detail: {
+            x:
+              x ||
+              window.innerWidth / 2,
+
+            y:
+              y ||
+              window.innerHeight / 2,
+          },
+        })
+      );
+    },
   },
   "-=0.45"
 );
@@ -787,10 +789,12 @@ return () => {
   }, []);
 
   return (
-    <section
-  ref={sectionRef}
-  className={styles.intro}
->
+   <section
+      ref={sectionRef}
+      className={styles.intro}
+      data-cursor="hero"
+      data-cursor-label="Scroll"
+    >
   <Container>
 
     <div className={styles.stage}>
