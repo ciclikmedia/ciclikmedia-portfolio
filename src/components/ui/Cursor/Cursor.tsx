@@ -6,6 +6,12 @@ import gsap from 'gsap';
 
 import styles from './Cursor.module.scss';
 
+import ThinkIcon from './icons/ThinkIcon';
+import ExploreIcon from './icons/ExploreIcon';
+import MakeIcon from './icons/MakeIcon';
+import RefineIcon from './icons/RefineIcon';
+
+
 export default function Cursor() {
   const cursorRef =
     useRef<HTMLDivElement>(null);
@@ -23,7 +29,11 @@ export default function Cursor() {
   | "footerCredit"
   | "drag"
   | "workHero"
-  | "dragActive";
+  | "dragActive"
+  | "processThink"
+  | "processExplore"
+  | "processMake"
+  | "processRefine";
   
 
   const [variant, setVariant] =
@@ -457,8 +467,15 @@ const showLens =
       className={`${styles.cursor} ${styles[variant]}`}
       
       >
-      {variant ===
-      'dragActive' ? (
+      {variant === "processThink" ? (
+          <ThinkIcon />
+        ) : variant === "processExplore" ? (
+          <ExploreIcon />
+        ) : variant === "processMake" ? (
+          <MakeIcon />
+        ) : variant === "processRefine" ? (
+          <RefineIcon />
+        ) : variant === "dragActive" ? (
         <div
           className={
             styles.dragIndicator

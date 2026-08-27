@@ -49,7 +49,27 @@
   background-color: #fff;
 }
 
+
+.processStep {
+  width: 18px;
+  height: 18px;
+
+  border-color: rgba(255, 255, 255, 0.8);
+  mix-blend-mode: normal;
+  background-color: #fff;
+}
+
 .video {
+  @extend .default;
+
+  mix-blend-mode: normal;
+
+  background: #fff;
+
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.solid {
   @extend .default;
 
   mix-blend-mode: normal;
@@ -413,4 +433,92 @@
 
 .workHero {
   @extend .default;
+}
+
+
+
+/* ==========================================================
+   PROCESS CURSORS
+========================================================== */
+
+.processThink,
+.processExplore,
+.processMake,
+.processRefine {
+  width: 134px;
+  height: 134px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none !important;
+
+  background: transparent !important;
+
+  color: #fff !important;
+
+  mix-blend-mode: normal !important;
+}
+
+.processMake {
+  width: 160px;
+  height: 160px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none !important;
+
+  background: transparent !important;
+
+  color: #fff !important;
+
+  mix-blend-mode: normal !important;
+}
+
+.processRefine {
+  width: 195px;
+  height: 195px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none !important;
+
+  background: transparent !important;
+
+  color: #fff !important;
+
+  mix-blend-mode: normal !important;
+}
+
+
+/* ICON */
+
+.processThink svg,
+.processExplore svg,
+.processMake svg,
+.processRefine svg {
+  width: 128px !important;
+  height: 128px !important;
+
+  color: #fff !important;
+
+  fill: #fff !important;
+  stroke: #fff !important;
+
+  filter: none;
+  opacity: .7;
+}
+.processMake svg {
+  width: 255px !important;
+  height: 255px !important;
+}
+
+.processRefine svg {
+  width: 255px !important;
+  height: 255px !important;
 }

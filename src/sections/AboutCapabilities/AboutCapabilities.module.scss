@@ -1,0 +1,245 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+
+/* ==========================================================
+   SECTION
+========================================================== */
+
+.section {
+  position: relative;
+
+  padding: 140px 0 180px;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header {
+  padding-bottom: 28px;
+
+  border-bottom: 1px solid
+    rgba($color-white, 0.1);
+}
+
+
+.eyebrow {
+  font-size: $text-small;
+
+  font-weight: 500;
+
+  line-height: 100%;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+}
+
+
+/* ==========================================================
+   GRID
+========================================================== */
+
+.capabilities {
+  display: grid;
+
+  grid-template-columns:
+    30%
+    35%
+    35%;
+
+  column-gap: 0;
+
+  padding-top: 85px;
+}
+
+
+/* ==========================================================
+   TITLE
+========================================================== */
+
+.title {
+  grid-column: 1;
+
+  padding-right: 60px;
+}
+
+
+.title h2 {
+  font-size: clamp(
+    48px,
+    4.5vw,
+    78px
+  );
+
+
+  font-weight: 600;
+
+  line-height: 0.88;
+
+  letter-spacing: -0.055em;
+
+  color: $color-text;
+}
+
+
+/* ==========================================================
+   GROUPS
+========================================================== */
+
+.group {
+  max-width: 440px;
+}
+
+
+.group:nth-child(2) {
+  grid-column: 2;
+}
+
+
+.group:nth-child(3) {
+  grid-column: 3;
+}
+
+
+/* ==========================================================
+   GROUP TITLE
+========================================================== */
+
+.group h3 {
+  margin: 0 0 10px;
+
+  font-size: clamp(
+    24px,
+    2vw,
+    32px
+  );
+
+  font-weight: 600;
+
+  line-height: 2;
+
+  letter-spacing: -0.04em;
+
+  color: $color-accent;
+}
+
+
+/* ==========================================================
+   LIST
+========================================================== */
+
+.group ul {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  margin: 0;
+
+  padding: 0;
+
+  list-style: none;
+}
+
+
+/* ==========================================================
+   LIST ITEM
+========================================================== */
+
+.group li {
+  max-width: 420px;
+
+  font-size: 17px;
+
+  font-weight: 400;
+
+  line-height: 1.3;
+
+  color: rgba(
+    $color-white,
+    0.58
+  );
+ 
+}
+
+
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 900px) {
+
+  .capabilities {
+    grid-template-columns:
+      30%
+      35%
+      35%;
+  }
+
+  .group h3 {
+    font-size: 26px;
+  }
+
+  .group li {
+    font-size: 16px;
+  }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+  .section {
+    padding: 100px 0 140px;
+  }
+
+  .capabilities {
+    grid-template-columns: 1fr;
+
+    row-gap: 70px;
+
+    padding-top: 60px;
+  }
+
+  .title {
+    grid-column: 1;
+
+    padding-right: 0;
+  }
+
+  .group:nth-child(2),
+  .group:nth-child(3) {
+    grid-column: 1;
+  }
+
+  .title h2 {
+    font-size: 42px;
+  }
+
+  .group h3 {
+    margin-bottom: 22px;
+
+    font-size: 28px;
+  }
+
+  .group ul {
+    gap: 12px;
+  }
+
+  .group li {
+    font-size: 16px;
+  }
+
+}

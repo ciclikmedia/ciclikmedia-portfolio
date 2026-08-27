@@ -1,0 +1,488 @@
+@use "@/styles/tokens/colors" as *;
+@use "@/styles/tokens/typography" as *;
+
+
+/* ==========================================================
+   SECTION
+========================================================== */
+
+.section {
+  position: relative;
+
+  padding: 140px 0 180px;
+}
+
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header {
+  padding-bottom: 28px;
+
+  border-bottom: 1px solid
+    rgba($color-white, 0.1);
+}
+
+
+.eyebrow {
+  font-size: $text-small;
+
+  font-weight: 500;
+
+  line-height: 100%;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  color: $color-text-muted;
+}
+
+
+/* ==========================================================
+   PROCESS
+========================================================== */
+
+.process {
+  display: grid;
+
+  grid-template-columns:
+    30%
+    70%;
+
+  padding-top: 85px;
+}
+
+
+/* ==========================================================
+   INTRO
+========================================================== */
+
+.intro {
+  padding-right: 60px;
+}
+
+
+.intro h2 {
+  margin: 0;
+
+  font-size: clamp(
+    42px,
+    4vw,
+    72px
+  );
+
+  font-weight: 600;
+
+  line-height: 0.88;
+
+  letter-spacing: -0.055em;
+
+  color: $color-text;
+}
+
+
+/* ==========================================================
+   INTERACTIVE
+========================================================== */
+
+.interactive {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(260px, 0.75fr);
+
+  gap: 70px;
+
+  align-items: start;
+}
+
+
+/* ==========================================================
+   STEPS
+========================================================== */
+
+.steps {
+  border-top: 1px solid
+    rgba($color-white, 0.1);
+}
+
+
+/* ==========================================================
+   STEP
+========================================================== */
+
+.step {
+  display: grid;
+
+  grid-template-columns: 45px 1fr;
+
+  width: 100%;
+
+  padding: 34px 0 38px;
+
+  border: 0;
+
+  border-bottom: 1px solid
+    rgba($color-white, 0.1);
+
+  background: transparent;
+
+  color: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  font: inherit;
+
+  appearance: none;
+
+  transition:
+    opacity 0.3s ease;
+}
+
+
+.step:not(.active) {
+  opacity: 0.62;
+}
+
+
+.step.active {
+  opacity: 1;
+}
+
+
+/* ==========================================================
+   NUMBER
+========================================================== */
+
+.number {
+  display: block;
+
+  padding-top: 7px;
+
+  font-size: $text-small;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.08em;
+
+  color: $color-text-muted;
+
+  transition:
+    color 0.3s ease;
+}
+
+
+.step.active .number {
+  color: $color-accent;
+}
+
+
+/* ==========================================================
+   STEP CONTENT
+========================================================== */
+
+.stepContent {
+  min-width: 0;
+}
+
+
+.step h3 {
+  margin: 0;
+
+  font-size: clamp(
+    42px,
+    4.5vw,
+    68px
+  );
+
+  font-weight: 600;
+
+  line-height: 0.9;
+
+  letter-spacing: -0.055em;
+
+  color: $color-text;
+
+  transition:
+    color 0.3s ease;
+}
+
+
+.step.active h3 {
+  color: $color-accent;
+}
+
+
+.step p {
+  max-width: 360px;
+
+  margin: 20px 0 0;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.45;
+
+  color: rgba(
+    $color-white,
+    0.52
+  );
+}
+
+
+/* ==========================================================
+   ACTIVE DISPLAY
+========================================================== */
+
+.display {
+  position: sticky;
+
+  top: 120px;
+
+  min-height: 360px;
+
+  padding-top: 10px;
+}
+
+
+.displayNumber {
+  display: block;
+
+  margin-bottom: 35px;
+
+  font-size: $text-small;
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: 0.12em;
+
+  color: $color-accent;
+}
+
+
+.display h3 {
+  margin: 0;
+
+  font-size: clamp(
+    70px,
+    7vw,
+    130px
+  );
+
+  font-weight: 600;
+
+  line-height: 0.82;
+
+  letter-spacing: -0.07em;
+
+  color: $color-text;
+
+  animation:
+    displayIn 0.35s ease both;
+}
+
+
+.display p {
+  max-width: 300px;
+
+  margin: 30px 0 0;
+
+  font-size: 16px;
+
+  font-weight: 400;
+
+  line-height: 1.45;
+
+  color: rgba(
+    $color-white,
+    0.58
+  );
+   
+
+  animation:
+    displayTextIn 0.35s ease both;
+}
+
+
+/* ==========================================================
+   DISPLAY ANIMATION
+========================================================== */
+
+@keyframes displayIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+@keyframes displayTextIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+/* ==========================================================
+   CLOSING
+========================================================== */
+
+.closing {
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding-top: 100px;
+}
+
+
+.closing p {
+  max-width: 500px;
+
+  margin: 0;
+
+  font-size: clamp(
+    28px,
+    3vw,
+    46px
+  );
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: -0.045em;
+
+  text-align: right;
+
+  color: $color-text;
+}
+
+
+/* ==========================================================
+   FOCUS
+========================================================== */
+
+.step:focus-visible {
+  outline: 1px solid
+    rgba($color-accent, 0.8);
+
+  outline-offset: 6px;
+}
+
+
+/* ==========================================================
+   TABLET
+========================================================== */
+
+@media (max-width: 900px) {
+
+  .process {
+    grid-template-columns:
+      30%
+      70%;
+  }
+
+  .interactive {
+    grid-template-columns: 1fr;
+
+    gap: 60px;
+  }
+
+  .display {
+    display: none;
+  }
+
+  .step h3 {
+    font-size: 48px;
+  }
+
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+  .section {
+    padding: 100px 0 140px;
+  }
+
+  .process {
+    grid-template-columns: 1fr;
+
+    padding-top: 60px;
+  }
+
+  .intro {
+    padding-right: 0;
+
+    padding-bottom: 60px;
+  }
+
+  .intro h2 {
+    font-size: 42px;
+  }
+
+  .step {
+    grid-template-columns: 40px 1fr;
+
+    padding: 28px 0 32px;
+  }
+
+  .step h3 {
+    font-size: 42px;
+  }
+
+  .step p {
+    font-size: 14px;
+  }
+
+  .closing {
+    justify-content: flex-start;
+
+    padding-top: 70px;
+  }
+
+  .closing p {
+    text-align: left;
+
+    font-size: 32px;
+  }
+
+}
