@@ -1,0 +1,16 @@
+.redesignGrid {
+  display: flex;
+  flex-direction: row-reverse;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 6rem;
+  align-items: start;
+}
+
+.redesignContent {
+  min-width: 0;
+}
+
+.redesignVideo {
+  min-width: 0;
+  width: 100%;
+}

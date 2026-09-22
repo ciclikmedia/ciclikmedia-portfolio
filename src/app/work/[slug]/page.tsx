@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 
 import { projects } from "@/data/projects";
 
-import ProjectHero from "@/sections/ProjectHero/ProjectHero";
+import ProjectPage from "@/sections/ProjectPage/ProjectPage";
 
 interface Props {
   params: Promise<{
@@ -10,7 +10,7 @@ interface Props {
   }>;
 }
 
-export default async function ProjectPage({
+export default async function ProjectRoute({
   params,
 }: Props) {
 
@@ -25,7 +25,7 @@ export default async function ProjectPage({
   }
 
   return (
-    <ProjectHero
+    <ProjectPage
       project={project}
     />
   );

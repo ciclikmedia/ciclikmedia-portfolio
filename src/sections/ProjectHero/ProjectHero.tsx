@@ -10,12 +10,6 @@ import { showDefaultCursorPosition } from "@/utils/cursor";
 
 import Container from "@/components/layout/Container/Container";
 
-import ProjectSection from "@/components/project/ProjectSection/ProjectSection";
-import ProjectOverview from "@/components/project/ProjectOverview/ProjectOverview";
-import ProjectChapter from "@/components/project/ProjectChapter/ProjectChapter";
-import ProjectFullscreenImage from "@/components/project/ProjectFullscreenImage/ProjectFullscreenImage";
-import ProjectText from "@/components/project/ProjectText/ProjectText";
-
 import { useTransition } from "@/transition";
 
 import { Project } from "@/types/project";
@@ -26,145 +20,109 @@ interface Props {
 
 export default function ProjectHero({
   project,
-}: Props) {  
+}: Props) {
 
-    const transition = useTransition();
+  const transition = useTransition();
 
-    useLayoutEffect(() => {
+  useLayoutEffect(() => {
 
-        if (transition.isTransitioning) return;
+    if (transition.isTransitioning) return;
 
-        const hero = document.querySelector(
-            "[data-transition-target]"
-        ) as HTMLElement | null;
+    const hero = document.querySelector(
+      "[data-transition-target]"
+    ) as HTMLElement | null;
 
-        if (!hero) return;
+    if (!hero) return;
 
-        hero.style.opacity = "1";
+    hero.style.opacity = "1";
 
-    }, [transition.isTransitioning]);
+  }, [transition.isTransitioning]);
 
-        useEffect(() => {
-        if (transition.isTransitioning) return;
 
-        showDefaultCursorPosition();
-        }, [transition.isTransitioning]);
-        
+  useEffect(() => {
+
+    if (transition.isTransitioning) return;
+
+    showDefaultCursorPosition();
+
+  }, [transition.isTransitioning]);
+
+
   return (
 
-    <main className={styles.page}>
+    <section
+      className={styles.hero}
+      data-cursor="hero"
+      data-cursor-label="Scroll"
+    >
 
-        <section
-            className={styles.hero}
-            data-cursor="hero"
-            data-cursor-label="Scroll"
-        >
+      <div
+        className={styles.heroImage}
+        data-transition-target
+      >
 
-        <div
-            className={styles.heroImage}
-            data-transition-target
-        >
-            <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                priority
-                sizes="100vw"
-                className={styles.image}
-                onLoad={() => {
-                    transition.finish();
-                    
-                }}
-            />
-        </div>
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          priority
+          sizes="100vw"
+          className={styles.image}
+          onLoad={() => {
+            transition.finish();
+          }}
+        />
 
-        <Container>
+      </div>
 
-            <div className={styles.contentWrapper}>
 
-                <div className={styles.contentMask}>
+      <Container>
 
-                    <div
-                        className={styles.content}
-                        data-hero-content
-                    >
+        <div className={styles.contentWrapper}>
 
-                    <h1 className={styles.title}>
-                        {project.title}
-                    </h1>
+          <div className={styles.contentMask}>
 
-                    <p className={styles.subtitle}>
-                        {project.subtitle}
-                    </p>
+            <div
+              className={styles.content}
+              data-hero-content
+            >
 
-                    <div className={styles.meta}>
+              <h1 className={styles.title}>
+                {project.title}
+              </h1>
 
-                        <div>
-                            <span>Client</span>
-                            <p>{project.client}</p>
-                        </div>
+              <p className={styles.subtitle}>
+                {project.subtitle}
+              </p>
 
-                        <div>
-                            <span>Year</span>
-                            <p>{project.year}</p>
-                        </div>
+              <div className={styles.meta}>
 
-                        <div>
-                            <span>Role</span>
-                            <p>{project.role}</p>
-                        </div>
-
-                    </div>
-
-                    </div>
-
+                <div>
+                  <span>Client</span>
+                  <p>{project.client}</p>
                 </div>
+
+                <div>
+                  <span>Year</span>
+                  <p>{project.year}</p>
+                </div>
+
+                <div>
+                  <span>Role</span>
+                  <p>{project.role}</p>
+                </div>
+
+              </div>
 
             </div>
 
-        </Container>
+          </div>
+
+        </div>
+
+      </Container>
 
     </section>
 
-      <ProjectSection>
-
-          <ProjectChapter
-              number="01"
-              title="Overview"
-          />
-
-          <ProjectOverview
-              overview={project.overview}
-              client={project.client}
-              year={project.year}
-              role={project.role}
-              services={project.services}
-          />
-
-      </ProjectSection>
-
-      <ProjectFullscreenImage
-          src={project.heroImage}
-          alt={project.title}
-      />
-
-      <ProjectSection>
-
-      <ProjectChapter
-          number="02"
-          title="Challenge"
-      />
-
-      <ProjectText>
-
-          <p>{project.challenge}</p>
-
-      </ProjectText>
-
-  </ProjectSection>
-
-    </main>
-
   );
-
 }
