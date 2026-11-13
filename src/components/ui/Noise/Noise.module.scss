@@ -26,13 +26,15 @@
   }
 }
 
+
+
 // Ajuste de ruido para pantallas Retina
 @media
   (-webkit-min-device-pixel-ratio: 2),
   (min-resolution: 2dppx) {
 
   .noise::after {
-    opacity: 0.19;
+    opacity: .2;
   }
 }
 
