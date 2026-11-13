@@ -18,7 +18,7 @@
 
   backdrop-filter: blur(14px);
 
-  background: rgba(0,0,0,.28);
+  background: transparent;
 
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
@@ -104,4 +104,21 @@
 
 .navLink:hover .navAccent {
   clip-path: inset(0 0 0 0);
+}
+
+
+.header {
+  &.dark {
+    .navBase {
+      color: #050505;
+    }
+  }
+}
+.header[data-theme="light"] {
+  .navBase {
+    color: #050505;
+  }
+   .logo img {
+    filter: brightness(0);
+  }
 }

@@ -157,6 +157,52 @@ useLayoutEffect(() => {
   };
 }, []);
 
+useLayoutEffect(() => {
+  const header = headerRef.current;
+
+  if (!header) return;
+
+  const sections = gsap.utils.toArray<HTMLElement>(
+    '[data-header-theme="light"]'
+  );
+
+  if (!sections.length) return;
+
+  const updateTheme = () => {
+    const headerPosition = 36;
+
+    const isLight = sections.some((section) => {
+      const rect = section.getBoundingClientRect();
+
+      return rect.top <= headerPosition &&
+             rect.bottom > headerPosition;
+    });
+
+    if (isLight) {
+  header.dataset.theme = "light";
+} else {
+  delete header.dataset.theme;
+}
+  };
+
+  const triggers = sections.map((section) =>
+    ScrollTrigger.create({
+      trigger: section,
+      start: "top 36px",
+      end: "bottom 36px",
+      onToggle: updateTheme,
+      onRefresh: updateTheme,
+    })
+  );
+
+  updateTheme();
+
+  return () => {
+    triggers.forEach((trigger) => trigger.kill());
+    delete header.dataset.theme;
+  };
+}, [pathname]);
+
   return (
     <header
       ref={headerRef}

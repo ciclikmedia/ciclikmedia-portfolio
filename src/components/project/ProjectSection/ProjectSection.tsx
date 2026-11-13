@@ -18,6 +18,7 @@ export default function ProjectSection({
       className={`${styles.section} ${styles[variant]} ${
         firstPadding ? styles.firstPadding : ""
       }`}
+      data-header-theme={variant === "light" ? "light" : undefined}
     >
       <div className="site-container">
         {children}
