@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from "@/components/layout/Header";
 
+import Noise from "@/components/ui/Noise/Noise";
+
 import { TransitionProvider } from "@/transition/TransitionProvider";
 
 import Cursor from '@/components/ui/Cursor/Cursor';
@@ -44,6 +46,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <Providers>
 
+          <Noise />
+          
           <Cursor />      
 
            <Header />    
