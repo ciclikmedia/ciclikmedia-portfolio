@@ -1105,24 +1105,7 @@ export default function CliniemProject({ project }: Props) {
 
     </div>
 
-    {/* TECHNOLOGIES */}
-
-    <div className={caseStudyStyles.resultsTechnologies}>
-
-      <span>TECHNOLOGIES & PLATFORMS</span>
-
-      <div>
-        <span>WordPress</span>
-        <span>PHP</span>
-        <span>JavaScript</span>
-        <span>SCSS</span>
-        <span>Electron</span>
-        <span>Respond.io</span>
-        <span>OpenAI</span>
-        <span>WhatsApp Business</span>
-      </div>
-
-    </div>
+    
 
   </section>
 
