@@ -13,7 +13,7 @@ export const cliniem: Project = {
 
   year: "2026",
 
-  role: "Frontend Developer",
+  role: "Digital Experience Designer, Developer & Digital Consultant",
 
   website: "https://cliniem.com",
 
@@ -31,7 +31,7 @@ export const cliniem: Project = {
   heroImage: "/images/work/cliniem-cover.webp",
 
   overview:
-    "I redesigned and developed Cliniem's digital experience, combining UX/UI design, frontend development, motion and digital strategy to create a clearer, more engaging experience for patients and the clinic.",
+    "A complete digital transformation combining UX/UI design, custom web development, interactive experiences and AI-powered automation to improve Cliniem's digital presence and patient communication.",
 
   technologies: [
     "Next.js",
@@ -56,7 +56,7 @@ export const cliniem: Project = {
       type: "text",
       number: "02",
       title: "Redesign",
-      text: "Cliniem's digital experience was redesigned from the ground up to create a clearer, more premium and more intuitive experience for both patients and the clinic.",
+      text: "A complete redesign focused on improving the user experience, restructuring digital content and creating a more refined visual language. The new experience brings clarity, consistency and a stronger digital identity to Cliniem.",
     },
 
     {

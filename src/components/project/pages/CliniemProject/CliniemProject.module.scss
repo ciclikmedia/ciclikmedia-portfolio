@@ -17,3 +17,617 @@
   min-width: 0;
   width: 100%;
 }
+
+
+
+// ========================================
+// CLINIEM — BUTTONS & INTERACTIONS
+// ========================================
+
+.buttonsShowcase {
+  width: 100%;
+  padding: 0 0;
+  font-family: "Inter", sans-serif;
+
+  --cln-gold: #c6a76e;
+  --cln-gold-dark: #a88c5d;
+  --cln-dark: #2f2f2f;
+  --cln-text: #424242;
+  --cln-white: #fff;
+}
+
+.buttonsHeader {
+  max-width: 650px;
+  margin-bottom: 65px;
+
+  h3 {
+    color: var(--cln-dark);
+    font-size: clamp(28px, 3vw, 40px);
+    font-weight: 400;
+    margin: 12px 0 18px;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    color: var(--cln-text);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 520px;
+  }
+}
+
+.eyebrow {
+  color: var(--cln-gold);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.buttonsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(47, 47, 47, 0.12);
+  border: 1px solid rgba(47, 47, 47, 0.12);
+}
+
+.buttonItem {
+  min-height: 190px;
+  padding: 30px;
+  background: #f7f7f7;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.buttonLabel {
+  color: #999;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.arrow {
+  display: inline-flex;
+  transition: transform 0.3s ease;
+}
+
+// ========================================
+// 01 — PRIMARY / HERO
+// ========================================
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 32px;
+  border-radius: 45px;
+  background: var(--cln-gold);
+  color: var(--cln-white);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition:
+    padding 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
+
+  .arrow {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+  }
+
+  &:hover {
+    padding-right: 25px;
+    color: var(--cln-white);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+
+    .arrow {
+      opacity: 1;
+      width: auto;
+      animation: arrowFloat 1.2s ease-in-out infinite;
+    }
+  }
+}
+
+// ========================================
+// 02 — OUTLINE
+// ========================================
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--cln-gold);
+  background: transparent;
+  color: var(--cln-dark);
+  font-size: 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--cln-gold);
+    transition: width 0.4s ease;
+  }
+
+  &:hover {
+    color: var(--cln-dark);
+
+    &::after {
+      width: 100%;
+    }
+
+    .arrow {
+      animation: arrowFloat 1.2s ease-in-out infinite;
+    }
+  }
+}
+
+// ========================================
+// 03 — SUBMIT
+// ========================================
+
+.btnSubmit {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--cln-gold);
+  background: var(--cln-gold);
+  color: var(--cln-white);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background: var(--cln-white);
+    transition: width 0.4s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+
+  &:hover .arrow {
+    animation: arrowFloat 1.2s ease-in-out infinite;
+  }
+}
+
+// ========================================
+// 04 — CTA
+// ========================================
+
+.btnCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 36px;
+  border-radius: 40px;
+  background: #c5a46d;
+  color: var(--cln-white);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--cln-gold-dark);
+    color: var(--cln-white);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ========================================
+// 05 — STICKY CTA
+// ========================================
+
+.darkSample {
+  background: linear-gradient(
+    180deg,
+    #2e2e2e 0%,
+    #262626 45%,
+    #1f1f1f 100%
+  );
+
+  .buttonLabel {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.btnScroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  max-width: 260px;
+  border-radius: 999px;
+  background: var(--cln-gold);
+  color: var(--cln-white);
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--cln-white);
+    color: #5a5a5a;
+  }
+}
+
+// ========================================
+// 06 — TEXT LINK
+// ========================================
+
+.btnText {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cln-gold);
+  font-size: 14px;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    color: var(--cln-gold);
+    opacity: 0.7;
+
+    .arrow {
+      transform: translate(3px, -3px);
+    }
+  }
+}
+
+// ========================================
+// 07 — TAG / CHIP
+// ========================================
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  border: 1px solid #ddd;
+  border-radius: 40px;
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+  }
+}
+
+// ========================================
+// ANIMATIONS
+// ========================================
+
+@keyframes arrowFloat {
+  0% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+// ========================================
+// RESPONSIVE
+// ========================================
+
+@media (max-width: 767px) {
+  .buttonsShowcase {
+    padding: 55px 0;
+  }
+
+  .buttonsHeader {
+    margin-bottom: 40px;
+  }
+
+  .buttonsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonItem {
+    min-height: 160px;
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .buttonsShowcase {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.buttonsShowcase {
+  --cln-gold: #c6a76e;
+  --cln-gold-dark: #a88c5d;
+
+  width: 100%;
+  margin-top: 48px;
+}
+
+.buttonsHeader {
+  margin-bottom: 24px;
+
+  h4 {
+    font-size: clamp(20px, 2vw, 26px);
+    margin: 8px 0;
+  }
+
+  p {
+    max-width: 520px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+.buttonsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(47, 47, 47, 0.15);
+  border-left: 1px solid rgba(47, 47, 47, 0.15);
+}
+
+.buttonItem {
+  min-height: 135px;
+  padding: 22px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+
+  border-right: 1px solid rgba(47, 47, 47, 0.15);
+  border-bottom: 1px solid rgba(47, 47, 47, 0.15);
+}
+
+.buttonLabel {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #999;
+  font-weight: 500;
+}
+
+.btnPrimary,
+.btnCta,
+.btnScroll {
+  font-size: 13px;
+  padding: 10px 22px;
+  min-height: 40px;
+  white-space: nowrap;
+}
+
+.btnPrimary {
+  gap: 12px;
+}
+
+.btnOutline {
+  font-size: 13px;
+  padding: 10px 20px;
+  min-height: 40px;
+}
+
+.btnSubmit {
+  font-size: 13px;
+  padding: 10px 22px;
+  min-height: 40px;
+}
+
+.btnText {
+  font-size: 13px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  font-size: 12px;
+  padding: 8px 15px;
+  white-space: nowrap;
+}
+
+.darkSample {
+  background: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #424242 45%,
+    #3c3c3c 100%
+  );
+
+  .buttonLabel {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@media (max-width: 767px) {
+  .buttonsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonItem {
+    min-height: 120px;
+    padding: 20px;
+  }
+}
+
+// ========================================
+// BUTTONS GRID — RESPONSIVE
+// ========================================
+
+// DESKTOP — 3 columns
+.buttonsShowcase .buttonsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+// TABLET — 2 columns
+@media (max-width: 960px) {
+  .buttonsShowcase .buttonsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// MOBILE — 1 column
+@media (max-width: 600px) {
+  .buttonsShowcase .buttonsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.interfacePrinciples {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 18px;
+
+  span {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: #6d6a64;
+  }
+}
+
+.interactionSample {
+  background: #eeece7;
+}
+
+.interactionContent {
+  width: 100%;
+}
+
+.interactionAccent {
+  display: block;
+  margin-bottom: 18px;
+  color: #a88c5d;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+
+.interactionExamples {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.interactionLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #c6a76e;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.interactionArrow {
+  transition: transform 0.3s ease;
+}
+
+.interactionLink:hover .interactionArrow {
+  transform: translate(3px, -3px);
+}
+
+.interactionUnderline {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+  color: #2f2f2f;
+  font-size: 13px;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #c6a76e;
+    transition: width 0.4s ease;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+.interactionContent p {
+  max-width: 340px;
+  margin: 0;
+  color: #62605b;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interactionArrow,
+  .interactionUnderline::after {
+    transition: none;
+  }
+}
+
+
+/* Cliniem UI components typography */
+.buttonsShowcase {
+  .buttonItem {
+    font-family: var(--font-cliniem-inter), sans-serif;
+  }
+
+  button,
+  a,
+  .interactionLink,
+  .interactionUnderline,
+  .interfacePrinciples,
+  .interfaceNoteAccent {
+    font-family: var(--font-cliniem-inter), sans-serif;
+  }
+}

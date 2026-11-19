@@ -1,75 +1,46 @@
 .overview {
-
   display: grid;
 
   grid-template-columns:
-    minmax(0, 2fr)
-    minmax(220px, 1fr);
+    minmax(0, 1.7fr)
+    minmax(280px, 1fr);
 
-  gap: 8rem;
+  gap: clamp(3rem, 8vw, 8rem);
 
   align-items: start;
-
 }
-
 
 .text {
-
   max-width: 760px;
-
 }
 
-
 .text p {
-
   margin: 0;
-
   max-width: 720px;
 
-  font-size: clamp(
-    1.6rem,
-    2.4vw,
-    2.8rem
-  );
+  font-size: clamp(1.6rem, 2.4vw, 2.8rem);
 
   font-weight: 400;
-
   line-height: 1.15;
-
   letter-spacing: -0.035em;
 
   color: #fff;
-
 }
-
 
 @media (max-width: 960px) {
-
   .overview {
-
     grid-template-columns: 1fr;
-
     gap: 4rem;
-
   }
-
 }
 
-
 @media (max-width: 600px) {
-
   .overview {
-
     gap: 3rem;
-
   }
 
   .text p {
-
     font-size: 1.5rem;
-
     line-height: 1.2;
-
   }
-
 }

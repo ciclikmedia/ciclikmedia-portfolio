@@ -1,0 +1,1282 @@
+
+@use "@/styles/tokens/colors" as *;
+
+// ========================================
+// SHARED — CASE STUDY SECTIONS
+// ========================================
+
+.visualDirection,
+.experience,
+.responsive {
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  margin-top: clamp(8rem, 14vw, 14rem);
+}
+
+.sectionIntro,
+.experienceHeader,
+.responsiveHeader {
+  max-width: 850px;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 2rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.sectionIntro h2,
+.experienceHeader h2,
+.responsiveHeader h2 {
+  margin: 0 0 2rem;
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+  font-weight: 400;
+}
+
+.sectionIntro p,
+.experienceHeader p,
+.responsiveHeader p {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  line-height: 1.5;
+}
+
+// ========================================
+// VISUAL DIRECTION — PRINCIPLES
+// ========================================
+
+.visualPrinciples {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 5rem 4rem;
+  width: 100%;
+}
+
+.visualPrinciple {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-top: 1.5rem;
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.3rem, 1.8vw, 1.7rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+  }
+
+  > p {
+    max-width: 380px;
+    margin: 0 0 2rem;
+    font-size: 1.2rem;
+    line-height: 1.55;
+    opacity: 0.65;
+  }
+
+  &:last-child {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+  }
+
+  &:first-child {
+    .typographySample,
+    .typographyScale {
+      flex: 1;
+    }
+
+    .typographyScale {
+      margin-top: 1rem;
+    }
+  }
+
+  &:nth-child(2) {
+    .imageryGallery {
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+.visualNumber {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+}
+
+// ========================================
+// TYPOGRAPHY SAMPLE
+// ========================================
+
+.typographySample {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 32px 24px;
+  background: rgba(0, 0, 0, 0.035);
+
+  > span {
+    display: block;
+    margin-bottom: 14px;
+    font-size: 12px;
+    line-height: 1.4;
+    letter-spacing: 1.3px;
+    color: #999;
+  }
+
+  h4 {
+    margin: 0 0 20px;
+    font-size: 38px;
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -1.4px;
+  }
+
+  p {
+    margin: 0 0 18px;
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  strong {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+}
+
+// ========================================
+// TYPOGRAPHY SCALE
+// ========================================
+
+.typographyScale {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.035);
+  font-family: var(--font-cliniem-inter), sans-serif;
+}
+
+.scaleHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  span {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+    color: #999;
+  }
+}
+
+.scaleRow {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  h5,
+  h6,
+  p,
+  small {
+    margin: 0;
+  }
+
+  h5 {
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
+
+  h6 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+  }
+
+  p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  small {
+    font-size: 10px;
+    letter-spacing: 0.6px;
+  }
+}
+
+.scaleLabel,
+.scaleSize {
+  font-size: 9px;
+  color: #999;
+  letter-spacing: 0.5px;
+}
+
+.scaleSize {
+  white-space: nowrap;
+}
+
+// ========================================
+// COLOUR PALETTE
+// ========================================
+
+.colourPalette {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.colourItem {
+  min-width: 0;
+
+  > div {
+    width: 80%;
+    aspect-ratio: 1;
+    margin-bottom: 1rem;
+  }
+
+  span,
+  small {
+    display: block;
+    font-size: 0.65rem;
+    line-height: 1.5;
+  }
+
+  span {
+    margin-bottom: 0.25rem;
+    letter-spacing: 0.06em;
+  }
+
+  small {
+    opacity: 0.55;
+  }
+}
+
+// Estos colores representan la identidad de Cliniem.
+
+.swatchGold {
+  background: #c6a76e;
+}
+
+.swatchWhite {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.swatchGradient {
+  background: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #424242 45%,
+    #3c3c3c 100%
+  );
+}
+
+.swatchGrey {
+  background: #424242;
+}
+
+.swatchCharcoal {
+  background: #2b2b2b;
+}
+
+// ========================================
+// ORIGINAL IMAGE GRID
+// ========================================
+
+.visualGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 1.5rem;
+}
+
+.visualImageLarge {
+  aspect-ratio: 1.35 / 1;
+  overflow: hidden;
+}
+
+.visualImageSmall {
+  aspect-ratio: 0.85 / 1;
+  overflow: hidden;
+}
+
+.visualGrid img,
+.experienceImage img,
+.responsiveImage img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.principleImage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// ========================================
+// COLOUR & IMAGERY — PHOTOGRAPHY GALLERY
+// ========================================
+
+.imageryGallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "main main"
+    "secondary1 secondary2";
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.imageryMain {
+  grid-area: main;
+}
+
+.imagerySecondary {
+  display: contents;
+}
+
+.imageryItem:nth-child(1) {
+  grid-area: secondary1;
+}
+
+.imageryItem:nth-child(2) {
+  grid-area: secondary2;
+}
+
+.imageryMain,
+.imageryItem {
+  min-width: 0;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  span {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.65rem;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    opacity: 0.65;
+  }
+
+  &:hover img {
+    transform: scale(1.035);
+  }
+}
+
+.imageryMain img {
+  aspect-ratio: 16 / 9;
+}
+
+.imageryItem img {
+  aspect-ratio: 4 / 3;
+}
+
+// ========================================
+// USER EXPERIENCE
+// ========================================
+
+.experienceImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.experienceDetails {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+
+  > div {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    padding-top: 1.5rem;
+  }
+
+  span {
+    display: block;
+    margin-bottom: 2rem;
+    opacity: 0.5;
+    font-size: 0.8rem;
+  }
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  p {
+    max-width: 320px;
+    margin: 0;
+    line-height: 1.5;
+    opacity: 0.65;
+  }
+}
+
+// ========================================
+// USER EXPERIENCE — FEATURES
+// ========================================
+
+.interfaceFormFeature,
+.experienceFeature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+}
+
+.interfaceFormFeature {
+  gap: clamp(2rem, 4vw, 5rem);
+  margin-top: 4rem;
+  padding-top: 3rem;
+}
+
+.experienceFeature {
+  gap: clamp(2rem, 5vw, 5rem);
+}
+
+.interfaceFormImage,
+.reviewsImage {
+  width: 100%;
+  overflow: hidden;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+}
+
+.interfaceFormText {
+  h4 {
+    max-width: 420px;
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.055em;
+  }
+
+  > p {
+    max-width: 420px;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    opacity: 0.65;
+  }
+}
+
+.interfaceFormDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+
+  span {
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+  }
+}
+
+// ========================================
+// USER EXPERIENCE — PATIENT REVIEWS
+// ========================================
+
+.reviewsText {
+  h3 {
+    max-width: 420px;
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.055em;
+  }
+
+  > p {
+    max-width: 420px;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    opacity: 0.65;
+  }
+}
+
+.reviewsPrinciples {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+
+  span {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+}
+
+.reviewsReverse {
+  direction: rtl;
+
+  > * {
+    direction: ltr;
+  }
+}
+
+// ========================================
+// USER EXPERIENCE — SHOWCASE
+// ========================================
+
+.experienceShowcase {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 8vw, 8rem);
+  width: 100%;
+}
+
+.experienceStep {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 6rem);
+  width: 100%;
+}
+
+.experienceStepReverse {
+  grid-template-columns: minmax(280px, 0.65fr) minmax(0, 1.35fr);
+
+  .experienceStepImage {
+    order: 2;
+  }
+
+  .experienceStepText {
+    order: 1;
+  }
+}
+
+.experienceStepImage {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.experienceStepText {
+  min-width: 0;
+
+  h3 {
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+  }
+
+  p {
+    max-width: 480px;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    opacity: 0.65;
+  }
+}
+
+.experienceStepDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+
+  span {
+    font-size: 0.75rem;
+    opacity: 0.6;
+  }
+}
+
+// ========================================
+// RESPONSIVE EXPERIENCE
+// ========================================
+
+.responsiveImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.deviceLabels {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+// ========================================
+// 03 — DEVELOPMENT
+// ========================================
+
+.development {
+  padding: clamp(80px, 12vw, 180px) 0;
+  color: $color-text;
+}
+
+.developmentHeader {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 10%;
+  margin-bottom: 110px;
+}
+
+.developmentIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+.developmentEyebrow {
+  color: $color-accent;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+}
+
+.developmentHeading {
+  max-width: 700px;
+
+  h2 {
+    margin: 0 0 30px;
+    font-size: clamp(42px, 5.5vw, 82px);
+    line-height: 0.98;
+    font-weight: 500;
+    letter-spacing: -0.055em;
+  }
+
+  p {
+    max-width: 540px;
+    margin: 0;
+    color: rgba(242, 242, 242, 0.62);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+}
+
+.developmentGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(242, 242, 242, 0.2);
+  border-left: 1px solid rgba(242, 242, 242, 0.2);
+}
+
+.developmentCard {
+  min-width: 0;
+  min-height: 330px;
+  padding: clamp(28px, 4vw, 55px);
+  border-right: 1px solid rgba(242, 242, 242, 0.2);
+  border-bottom: 1px solid rgba(242, 242, 242, 0.2);
+
+  h3 {
+    margin: 55px 0 20px;
+    font-size: clamp(23px, 2.2vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+  }
+
+  p {
+    max-width: 470px;
+    margin: 0;
+    color: rgba(242, 242, 242, 0.62);
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+}
+
+.developmentNumber {
+  color: $color-accent;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.developmentTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 35px;
+
+  span {
+    padding: 9px 13px;
+    border: 1px solid rgba(242, 242, 242, 0.2);
+    border-radius: 30px;
+    color: rgba(242, 242, 242, 0.75);
+    font-size: 11px;
+  }
+}
+
+// ========================================
+// 04 — AUTOMATION & INTEGRATIONS
+// ========================================
+
+.automationIntegrations {
+  padding: clamp(80px, 12vw, 160px) 0;
+  color: $color-text;
+}
+
+.automationHeader {
+  display: grid;
+  grid-template-columns: 0.65fr 1.35fr;
+  gap: clamp(3rem, 8vw, 10rem);
+  align-items: start;
+  margin-bottom: clamp(5rem, 9vw, 9rem);
+}
+
+.automationIntro {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.automationDescription {
+  max-width: 750px;
+
+  p {
+    max-width: 750px;
+    margin: 0 0 2rem;
+    font-size: clamp(2rem, 4vw, 4.5rem);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.055em;
+  }
+
+  > span {
+    display: block;
+    color: $color-accent;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    line-height: 1.6;
+  }
+}
+
+.automationGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(242, 242, 242, 0.2);
+  border-left: 1px solid rgba(242, 242, 242, 0.2);
+}
+
+.automationCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  min-height: 420px;
+  padding: clamp(28px, 4vw, 55px);
+  border-right: 1px solid rgba(242, 242, 242, 0.2);
+  border-bottom: 1px solid rgba(242, 242, 242, 0.2);
+}
+
+.automationCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  span {
+    color: rgba(242, 242, 242, 0.55);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+  }
+
+  span:first-child {
+    color: $color-accent;
+  }
+}
+
+.automationCardContent {
+  max-width: 500px;
+  margin: 5rem 0;
+
+  h3 {
+    max-width: 450px;
+    margin: 0;
+    font-size: clamp(2rem, 3.2vw, 3.5rem);
+    line-height: 1.05;
+    font-weight: 400;
+    letter-spacing: -0.055em;
+  }
+
+  p {
+    max-width: 440px;
+    margin: 2rem 0 0;
+    color: rgba(242, 242, 242, 0.62);
+    font-size: 1.2rem;
+    line-height: 1.75;
+  }
+}
+
+.automationTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  span {
+    padding: 0.65rem 1.2rem;
+    border: 1px solid rgba(242, 242, 242, 0.2);
+    border-radius: 30px;
+    color: rgba(242, 242, 242, 0.75);
+    font-size: 0.7rem;
+  }
+}
+
+// ========================================
+// 05 — RESULTS & IMPACT
+// ========================================
+
+.resultsImpact {
+  padding: clamp(80px, 12vw, 160px) 0;
+  color: $color-black;
+}
+
+.resultsHeader {
+  display: grid;
+  grid-template-columns: 0.65fr 1.35fr;
+  gap: clamp(3rem, 8vw, 10rem);
+  align-items: start;
+  margin-bottom: clamp(4rem, 8vw, 8rem);
+}
+
+.resultsIntro {
+  padding-top: 0.5rem;
+}
+
+.resultsDescription {
+  max-width: 850px;
+
+  h2 {
+    margin: 0 0 2.5rem;
+    font-size: clamp(3rem, 6vw, 6.5rem);
+    line-height: 0.98;
+    font-weight: 400;
+    letter-spacing: -0.065em;
+  }
+
+  p {
+    max-width: 570px;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.65;
+  }
+}
+
+.resultsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.resultsItem {
+  min-width: 0;
+  padding: 2rem clamp(1.25rem, 3vw, 3rem) 3rem 0;
+
+  & + & {
+    padding-left: clamp(1.25rem, 3vw, 3rem);
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  > span {
+    display: block;
+    margin-bottom: 3rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+
+  h3 {
+    max-width: 350px;
+    margin: 0 0 1.5rem;
+    font-size: clamp(1.5rem, 2.3vw, 2.4rem);
+    line-height: 1.1;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+  }
+
+  p {
+    max-width: 350px;
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    opacity: 0.65;
+  }
+}
+
+.resultsTechnologies {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-top: clamp(4rem, 7vw, 7rem);
+  padding-top: 1.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+
+  > span {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    opacity: 0.5;
+  }
+
+  > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+
+    span {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  }
+}
+
+// ========================================
+// LARGE DESKTOP
+// ========================================
+
+@media (min-width: 1440px) {
+  .visualPrinciples {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    column-gap: clamp(3rem, 5vw, 6rem);
+  }
+
+  .typographySample {
+    min-height: 360px;
+    padding: 3rem;
+    justify-content: center;
+
+    h4 {
+      font-size: clamp(2.5rem, 3vw, 3.5rem);
+    }
+
+    p {
+      font-size: 1.1rem;
+    }
+  }
+
+  .typographyScale {
+    padding: 2rem 2.5rem;
+  }
+
+  .scaleRow {
+    padding: 1.4rem 0;
+
+    h5 {
+      font-size: 30px;
+    }
+
+    h6 {
+      font-size: 23px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .colourItem > div {
+    width: 70%;
+  }
+
+  .imageryMain img {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+// ========================================
+// TABLET — MAX 960px
+// ========================================
+
+@media (max-width: 960px) {
+  .visualPrinciples {
+    gap: 3rem 2rem;
+  }
+
+  .experienceDetails {
+    gap: 2rem;
+  }
+
+  .experienceStep,
+  .experienceStepReverse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    .experienceStepImage,
+    .experienceStepText {
+      order: initial;
+    }
+  }
+
+  .automationCard {
+    min-height: 420px;
+  }
+
+  .automationCardTop {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resultsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .resultsItem {
+    padding: 2rem 0;
+
+    & + & {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    > span {
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+// ========================================
+// MOBILE — MAX 768px
+// ========================================
+
+@media (max-width: 768px) {
+  .visualDirection,
+  .experience,
+  .responsive {
+    gap: 3rem;
+  }
+
+  .sectionIntro h2,
+  .experienceHeader h2,
+  .responsiveHeader h2 {
+    font-size: clamp(3rem, 12vw, 4.5rem);
+  }
+
+  .visualGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .visualImageLarge,
+  .visualImageSmall {
+    aspect-ratio: 4 / 3;
+  }
+
+  .visualPrinciples {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .experienceDetails {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .experienceDetails span {
+    margin-bottom: 1rem;
+  }
+
+  .deviceLabels {
+    font-size: 0.75rem;
+  }
+
+  .imageryGallery {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .imageryMain img,
+  .imageryItem img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .scaleRow {
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+
+    .scaleLabel {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .scaleHeader span:last-child {
+    text-align: right;
+  }
+
+  .colourPalette {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .interfaceFormFeature,
+  .experienceFeature {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .interfaceFormFeature {
+    margin-top: 3rem;
+  }
+
+  .interfaceFormText h4 {
+    max-width: 100%;
+  }
+
+  .reviewsReverse {
+    direction: ltr;
+  }
+
+  .experienceShowcase {
+    gap: 4rem;
+  }
+
+  .development {
+    padding: 80px 0;
+  }
+
+  .developmentHeader {
+    grid-template-columns: 1fr;
+    gap: 55px;
+    margin-bottom: 65px;
+  }
+
+  .developmentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .developmentCard {
+    min-height: auto;
+    padding: 30px 24px;
+
+    h3 {
+      margin-top: 38px;
+    }
+  }
+
+  .automationIntegrations {
+    padding: 80px 0;
+  }
+
+  .automationHeader {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .automationGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .automationCard {
+    min-height: 400px;
+    padding: 30px 24px;
+  }
+
+  .automationCardContent {
+    margin: 4rem 0;
+
+    h3 {
+      font-size: clamp(2.3rem, 9vw, 3.5rem);
+    }
+  }
+
+  .automationCardTop {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resultsImpact {
+    padding: 80px 0;
+  }
+
+  .resultsHeader {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .resultsDescription h2 {
+    font-size: clamp(3rem, 11vw, 5rem);
+  }
+
+  .resultsTechnologies > div {
+    gap: 1rem 1.5rem;
+  }
+}
+
+// ========================================
+// SMALL MOBILE — MAX 600px
+// ========================================
+
+@media (max-width: 600px) {
+  .visualGrid {
+    gap: 1rem;
+  }
+
+  .imageryGallery {
+    gap: 1.5rem;
+  }
+
+  .experienceShowcase {
+    gap: 4rem;
+  }
+}
