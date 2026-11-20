@@ -2,20 +2,16 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from "@/components/layout/Header";
-
 import Noise from "@/components/ui/Noise/Noise";
+import Cursor from "@/components/ui/Cursor/Cursor";
 
 import { TransitionProvider } from "@/transition/TransitionProvider";
-
-import Cursor from '@/components/ui/Cursor/Cursor';
-
-import "@/styles/globals.scss";
+import ProjectTransitionProvider from "@/project-transition/ProjectTransitionProvider";
 
 import Providers from "@/providers/Providers";
-
 import Footer from "@/components/layout/Footer/Footer";
 
-
+import "@/styles/globals.scss";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,20 +41,19 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Providers>
+          <ProjectTransitionProvider>
+            <Noise />
 
-          <Noise />
-          
-          <Cursor />      
+            <Cursor />
 
-           <Header />    
+            <Header />
 
-           <TransitionProvider>
+            <TransitionProvider>
+              {children}
+            </TransitionProvider>
 
-          {children}
-
-          </TransitionProvider>
-
-          <Footer />
+            <Footer />
+          </ProjectTransitionProvider>
         </Providers>
       </body>
     </html>

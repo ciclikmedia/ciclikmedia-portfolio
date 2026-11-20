@@ -19,53 +19,44 @@ export default function SmoothScrolling({
       smoothWheel: true,
     });
 
-    lenis.on('scroll', ScrollTrigger.update);
+    const resetScroll = () => {
+      lenis.scrollTo(0, {
+        immediate: true,
+      });
+    };
 
     const update = (time: number) => {
-  lenis.raf(time * 1000);
-};
+      lenis.raf(time * 1000);
+    };
 
-gsap.ticker.add(update);
+    const stopLenis = () => {
+      lenis.stop();
+    };
 
-const stopLenis = () => {
-  lenis.stop();
-};
+    const startLenis = () => {
+      lenis.start();
+    };
 
-const startLenis = () => {
-  lenis.start();
-};
+    lenis.on('scroll', ScrollTrigger.update);
 
-window.addEventListener(
-  "lenis:stop",
-  stopLenis
-);
+    window.addEventListener('lenis:scrollToTop', resetScroll);
+    window.addEventListener('lenis:stop', stopLenis);
+    window.addEventListener('lenis:start', startLenis);
 
-window.addEventListener(
-  "lenis:start",
-  startLenis
-);
-
+    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(update);
 
-  gsap.ticker.remove(update);
+      window.removeEventListener('lenis:scrollToTop', resetScroll);
+      window.removeEventListener('lenis:stop', stopLenis);
+      window.removeEventListener('lenis:start', startLenis);
 
-  window.removeEventListener(
-    "lenis:stop",
-    stopLenis
-  );
+      lenis.off('scroll', ScrollTrigger.update);
 
-  window.removeEventListener(
-    "lenis:start",
-    startLenis
-  );
-
-  lenis.off("scroll", ScrollTrigger.update);
-
-  lenis.destroy();
-
-};
+      lenis.destroy();
+    };
   }, []);
 
   return <>{children}</>;

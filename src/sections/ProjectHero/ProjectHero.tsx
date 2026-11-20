@@ -1,7 +1,6 @@
-
 'use client';
 
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Image from "next/image";
 
 import styles from "./ProjectHero.module.scss";
@@ -17,17 +16,18 @@ interface Props {
 
 export default function ProjectHero({ project }: Props) {
   const transition = useTransition();
+  const heroRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     if (transition.isTransitioning) return;
 
-    const hero = document.querySelector(
+    const heroImage = heroRef.current?.querySelector(
       "[data-transition-target]"
     ) as HTMLElement | null;
 
-    if (!hero) return;
+    if (!heroImage) return;
 
-    hero.style.opacity = "1";
+    heroImage.style.opacity = "1";
   }, [transition.isTransitioning]);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ export default function ProjectHero({ project }: Props) {
 
   return (
     <section
+      ref={heroRef}
       className={styles.hero}
       data-cursor="hero"
       data-cursor-label="Scroll"
