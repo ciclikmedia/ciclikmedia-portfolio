@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode } from "react";
 
 import styles from "./ProjectSection.module.scss";
 
@@ -19,39 +19,13 @@ export default function ProjectSection({
   paddingBottomNone = false,
   bodyTheme,
 }: Props) {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-
-    if (!section || !bodyTheme) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        document.body.classList.remove("bg-red", "bg-beige", "bg-dark");
-        document.body.classList.add(`bg-${bodyTheme}`);
-      },
-      {
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: 0,
-      }
-    );
-
-    observer.observe(section);
-
-    return () => observer.disconnect();
-  }, [bodyTheme]);
-
   return (
     <section
-      ref={sectionRef}
       className={`${styles.section} ${styles[variant]} ${
-  paddingTopNone ? styles.paddingTopNone : ""
-} ${
-  paddingBottomNone ? styles.paddingBottomNone : ""
-}`}
+        paddingTopNone ? styles.paddingTopNone : ""
+      } ${
+        paddingBottomNone ? styles.paddingBottomNone : ""
+      }`}
       data-header-theme={variant === "light" ? "light" : undefined}
       data-body-theme={bodyTheme}
     >

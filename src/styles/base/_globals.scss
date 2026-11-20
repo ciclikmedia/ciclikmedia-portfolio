@@ -21,6 +21,11 @@ html {
   );
 }
 
+:root {
+  --bd-time-transition-650: 0.65s;
+  --ease-in-out-soft: cubic-bezier(0.72, 0, 0.28, 1);
+}
+
 
 body {
   background-color: $color-background;
@@ -32,7 +37,9 @@ body {
 
   overflow-x: hidden;
 
-  transition: background-color 1.8s cubic-bezier(.22,1,.36,1);
+  transition:
+    color var(--bd-time-transition-650) var(--ease-in-out-soft),
+    background-color var(--bd-time-transition-650) var(--ease-in-out-soft);
 
   &.bg-dark {
     background-color: $color-background;
@@ -42,8 +49,10 @@ body {
     background-color: $color-background-beige;
     color: $color-background;
   }
-  &.bg-red {
-    background-color: red;
+
+  &.bg-hero-cliniem {
+    background-color: #9B6B58;
+    color: $color-text;
   }
 }
 

@@ -131,7 +131,7 @@ export default function ProjectPage({ project }: Props) {
           if (el) projectsRef.current[0] = el;
         }}
       >
-        <ProjectHero project={project} bodyColor="red" />
+        <ProjectHero project={project} bodyColor="hero-cliniem" />
         <CliniemProject project={project} />
       </div>
 

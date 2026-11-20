@@ -1,14 +1,13 @@
 .hero {
   position: relative;
   width: 100%;
-  min-height: 100svh;
-  padding: clamp(7rem, 13vw, 13rem) 0 clamp(2.5rem, 5vw, 5rem);
+  padding: clamp(8rem, 12vw, 12rem) 0 clamp(2rem, 4vw, 4rem);
   overflow: hidden;
 }
 
 .contentWrapper {
   width: 100%;
-  margin-bottom: clamp(2.5rem, 4vw, 4rem);
+  margin-bottom: clamp(1.5rem, 2vw, 2rem);
 }
 
 .contentMask {
@@ -19,24 +18,48 @@
 .content {
   position: relative;
   z-index: 2;
+  text-align: center;
 }
 
 .title {
   max-width: 100%;
-  font-size: clamp(4.5rem, 9vw, 10rem);
-  line-height: 0.95;
-  letter-spacing: -0.065em;
-  font-weight: 300;
+  font-size: 12vw;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  font-weight: 600;
+  text-transform: uppercase;
   margin: 0;
 }
 
 .subtitle {
-  margin-top: clamp(1rem, 1.5vw, 1.5rem);
-  font-size: clamp(1.2rem, 1.7vw, 2rem);
+  margin-top: clamp(1rem, 2vw, 2rem);
+  font-size: clamp(1rem, 1.5vw, 1.5rem);
   line-height: 1.35;
   letter-spacing: -0.02em;
   opacity: 0.7;
   font-weight: 300;
+}
+
+.projectFocus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: clamp(2rem, 3vw, 3rem) 0 clamp(1.5rem, 2vw, 2rem);
+}
+
+.projectFocus span {
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.projectFocus p {
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  line-height: 1.4;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .heroImage {
@@ -44,7 +67,7 @@
   width: 100%;
   aspect-ratio: 16 / 8;
   overflow: hidden;
-  opacity: 0;
+  opacity: 1;
   will-change: transform, width, height;
 }
 
@@ -55,66 +78,39 @@
   will-change: transform;
 }
 
-.projectFocus {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-top: clamp(2.5rem, 3.5vw, 3.5rem);
-}
-
-.projectFocus span {
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
-  line-height: 1.4;
-  letter-spacing: clamp(0.12em, 0.18vw, 0.2em);
-  opacity: 0.45;
-  margin-bottom: clamp(0.75rem, 1vw, 1rem);
-}
-
-.projectFocus p {
-  margin: clamp(0.2rem, 0.25vw, 0.25rem) 0;
-  font-size: clamp(0.85rem, 1.1vw, 1rem);
-  line-height: 1.4;
-  letter-spacing: clamp(0.05em, 0.08vw, 0.08em);
-  font-weight: 500;
-}
-
 @media (max-width: 768px) {
   .hero {
-    padding: clamp(6rem, 18vw, 9rem) 0 clamp(2rem, 6vw, 3rem);
+    padding: clamp(7rem, 18vw, 9rem) 0 2rem;
   }
 
   .contentWrapper {
-    margin-bottom: clamp(2rem, 5vw, 2.5rem);
+    margin-bottom: 1.5rem;
   }
 
   .title {
-    font-size: clamp(3.5rem, 12vw, 6rem);
-    line-height: 0.95;
+    font-size: clamp(3.5rem, 15vw, 7rem);
+    line-height: 0.9;
     letter-spacing: -0.06em;
   }
 
   .subtitle {
-    margin-top: clamp(0.75rem, 3vw, 1.5rem);
-    font-size: clamp(1rem, 4vw, 1.4rem);
-    line-height: 1.35;
+    margin-top: 1rem;
+    font-size: clamp(1rem, 4vw, 1.3rem);
+  }
+
+  .projectFocus {
+    margin: 2rem 0 1.5rem;
+  }
+
+  .projectFocus span {
+    font-size: 0.7rem;
+  }
+
+  .projectFocus p {
+    font-size: 0.75rem;
   }
 
   .heroImage {
     aspect-ratio: 4 / 5;
-  }
-
-  .projectFocus {
-    margin-top: clamp(2rem, 6vw, 2.5rem);
-  }
-
-  .projectFocus span {
-    font-size: clamp(0.75rem, 3vw, 0.85rem);
-    letter-spacing: clamp(0.1em, 0.4vw, 0.12em);
-  }
-
-  .projectFocus p {
-    font-size: clamp(0.75rem, 3vw, 0.85rem);
-    letter-spacing: clamp(0.05em, 0.3vw, 0.08em);
   }
 }

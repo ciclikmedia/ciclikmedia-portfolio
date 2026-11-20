@@ -12,7 +12,7 @@ import { Project } from "@/types/project";
 
 interface Props {
   project: Project;
-  bodyColor?: "red" | "beige" | "dark";
+  bodyColor?: string;
 }
 
 export default function ProjectHero({ project, bodyColor }: Props) {
@@ -37,28 +37,7 @@ export default function ProjectHero({ project, bodyColor }: Props) {
     showDefaultCursorPosition();
   }, [transition.isTransitioning]);
 
-  useEffect(() => {
-    const hero = heroRef.current;
-
-    if (!hero || !bodyColor) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-
-        document.body.classList.remove("bg-red", "bg-beige", "bg-dark");
-        document.body.classList.add(`bg-${bodyColor}`);
-      },
-      {
-        rootMargin: "-45% 0px -45% 0px",
-        threshold: 0,
-      }
-    );
-
-    observer.observe(hero);
-
-    return () => observer.disconnect();
-  }, [bodyColor]);
+  
 
   return (
     <section
@@ -66,6 +45,7 @@ export default function ProjectHero({ project, bodyColor }: Props) {
       className={styles.hero}
       data-cursor="hero"
       data-cursor-label="Scroll"
+      data-body-theme={bodyColor}
     >
       <Container>
         <div className={styles.contentWrapper}>
@@ -75,11 +55,16 @@ export default function ProjectHero({ project, bodyColor }: Props) {
                 {project.title}
               </h1>
 
-              <p className={styles.subtitle}>
+              {/*<p className={styles.subtitle}>
                 {project.subtitle}
-              </p>
+              </p>*/}
             </div>
           </div>
+        </div>
+
+        <div className={styles.projectFocus}>
+          <span>PROJECT FOCUS</span>
+          <p>Aesthetic clinic</p>
         </div>
 
         <div
@@ -91,18 +76,12 @@ export default function ProjectHero({ project, bodyColor }: Props) {
             alt={project.title}
             fill
             priority
-            sizes="90vw"
+            sizes="100vw"
             className={styles.image}
             onLoad={() => {
               transition.finish();
             }}
           />
-        </div>
-
-        <div className={styles.projectFocus}>
-          <span>PROJECT FOCUS</span>
-          <p>HEALTHCARE + WELLNESS</p>
-          <p>MEDICAL AESTHETICS + DIGITAL</p>
         </div>
       </Container>
     </section>

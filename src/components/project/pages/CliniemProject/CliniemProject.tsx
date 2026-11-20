@@ -46,7 +46,7 @@ export default function CliniemProject({ project }: Props) {
       ================================= */}
 
       {project.modules.some((module) => module.type === "overview") && (
-        <ProjectSection bodyTheme="dark">
+        <ProjectSection bodyTheme="beige">
 
           <ProjectChapter
             number="01"

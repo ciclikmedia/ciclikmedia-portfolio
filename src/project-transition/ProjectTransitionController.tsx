@@ -109,7 +109,7 @@ const ProjectTransitionController = forwardRef<
     demoTransition,
   }));
 
-  
+  return null;
 });
 
 export default ProjectTransitionController;

@@ -4,28 +4,42 @@ import { useEffect } from "react";
 
 export default function BodyThemeObserver() {
   useEffect(() => {
-    const sections = document.querySelectorAll("[data-body-theme]");
+    const updateBodyTheme = () => {
+      const center = window.innerHeight / 2;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-body-theme]")
+      );
 
-          const theme = entry.target.getAttribute("data-body-theme");
+      const activeSection = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
 
-          document.body.classList.toggle("bg-beige", theme === "beige");
-        });
-      },
-      {
-        threshold: 0.1,
-      }
-    );
+        return rect.top <= center && rect.bottom > center;
+      });
 
-    sections.forEach((section) => observer.observe(section));
+      if (!activeSection) return;
+
+      const theme = activeSection.getAttribute("data-body-theme");
+
+      if (!theme) return;
+
+      Array.from(document.body.classList).forEach((className) => {
+        if (className.startsWith("bg-")) {
+          document.body.classList.remove(className);
+        }
+      });
+
+      document.body.classList.add(`bg-${theme}`);
+    };
+
+    updateBodyTheme();
+
+    window.addEventListener("scroll", updateBodyTheme, { passive: true });
+    window.addEventListener("resize", updateBodyTheme);
 
     return () => {
-      observer.disconnect();
-      document.body.classList.remove("bg-beige");
+      window.removeEventListener("scroll", updateBodyTheme);
+      window.removeEventListener("resize", updateBodyTheme);
     };
   }, []);
 
