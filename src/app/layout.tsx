@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 
 import Header from "@/components/layout/Header";
 import Noise from "@/components/ui/Noise/Noise";
@@ -12,16 +11,6 @@ import Providers from "@/providers/Providers";
 import Footer from "@/components/layout/Footer/Footer";
 
 import "@/styles/globals.scss";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Ciclikmedia Portfolio 2026",
@@ -37,7 +26,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <body className="min-h-full flex flex-col">
         <Providers>
