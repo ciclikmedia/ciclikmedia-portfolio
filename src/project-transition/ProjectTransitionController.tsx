@@ -109,7 +109,7 @@ const ProjectTransitionController = forwardRef<
     demoTransition,
   }));
 
-  
+  return <ProjectTransitionLayer layerRef={layerRef} />;
 });
 
 export default ProjectTransitionController;
