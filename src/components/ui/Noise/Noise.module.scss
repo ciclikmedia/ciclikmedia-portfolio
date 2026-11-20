@@ -85,3 +85,6 @@
   }
 }
 
+:global(body.bg-beige) .noise::after {
+  background-image: url("/images/noise-light.png");
+}

@@ -66,6 +66,10 @@
 
   color: $color-text-muted;
 }
+/* Beige body */
+:global(body.bg-beige) .bottom {
+  border-top-color: rgba($color-background, 0.12);
+}
 
 /* ==========================================================
    SYMBOL

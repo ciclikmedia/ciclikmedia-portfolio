@@ -429,3 +429,32 @@
   }
 
 }
+
+
+/* =========================
+   BODY THEME
+========================= */
+
+/* Beige background */
+:global(body.bg-beige) .header {
+  .navBase,
+  .menuToggle {
+    color: $color-background;
+  }
+
+  .logo img {
+    filter: brightness(0);
+  }
+}
+
+/* Dark background */
+:global(body.bg-dark) .header {
+  .navBase,
+  .menuToggle {
+    color: $color-white;
+  }
+
+  .logo img {
+    filter: brightness(0) invert(1);
+  }
+}

@@ -1,4 +1,5 @@
 
+import { useEffect } from "react";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -14,6 +15,7 @@ import ProjectChapter from "@/components/project/ProjectChapter/ProjectChapter";
 import ProjectText from "@/components/project/ProjectText/ProjectText";
 import ProjectVideo from "@/components/project/ProjectVideo/ProjectVideo";
 
+import BodyThemeObserver from "@/components/project/BodyThemeObserver/BodyThemeObserver";
 import styles from "./CliniemProject.module.scss";
 import caseStudyStyles from "@/components/project/ProjectCaseStudy/ProjectCaseStudy.module.scss";
 
@@ -24,6 +26,8 @@ interface Props {
 }
 
 export default function CliniemProject({ project }: Props) {
+
+  
 
   // Extract project modules
   const textModule = project.modules.find(
@@ -36,12 +40,13 @@ export default function CliniemProject({ project }: Props) {
 
   return (
     <>
+    <BodyThemeObserver />
       {/* =================================
           01 — OVERVIEW
       ================================= */}
 
       {project.modules.some((module) => module.type === "overview") && (
-        <ProjectSection firstPadding>
+        <ProjectSection bodyTheme="dark">
 
           <ProjectChapter
             number="01"
@@ -65,7 +70,7 @@ export default function CliniemProject({ project }: Props) {
           All sections share light background
       ================================= */}
 
-      <ProjectSection variant="light">
+      <ProjectSection bodyTheme="beige">
 
         <div className={styles.redesign}>
 
@@ -756,8 +761,8 @@ export default function CliniemProject({ project }: Props) {
         </div>
 
       </ProjectSection>
-      <ProjectSection variant="dark">
-  <section className={caseStudyStyles.development}>
+      <ProjectSection bodyTheme="dark" paddingTopNone>
+  <section className={caseStudyStyles.development}> 
 
     <div className={caseStudyStyles.developmentHeader}>
 
@@ -859,7 +864,7 @@ export default function CliniemProject({ project }: Props) {
     04 — AUTOMATION & INTEGRATIONS
 ================================= */}
 
-<ProjectSection variant="dark">
+<ProjectSection bodyTheme="dark" paddingTopNone paddingBottomNone>
 
   <section className={caseStudyStyles.automationIntegrations}>
 
@@ -1026,7 +1031,7 @@ export default function CliniemProject({ project }: Props) {
     05 — RESULTS & IMPACT
 ================================= */}
 
-<ProjectSection variant="light">
+<ProjectSection bodyTheme="beige" paddingTopNone>
 
   <section className={caseStudyStyles.resultsImpact}>
 

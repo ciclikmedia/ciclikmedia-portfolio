@@ -109,29 +109,7 @@ const ProjectTransitionController = forwardRef<
     demoTransition,
   }));
 
-  return (
-    <>
-      <ProjectTransitionLayer layerRef={layerRef} />
-
-      <button
-        type="button"
-        onClick={animateIn}
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "20px",
-          zIndex: 10000,
-          padding: "12px 20px",
-          background: "#fff",
-          color: "#000",
-          border: "none",
-          cursor: "pointer",
-        }}
-      >
-        Test transition
-      </button>
-    </>
-  );
+  
 });
 
 export default ProjectTransitionController;

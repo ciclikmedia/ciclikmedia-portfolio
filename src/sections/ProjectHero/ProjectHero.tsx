@@ -12,9 +12,10 @@ import { Project } from "@/types/project";
 
 interface Props {
   project: Project;
+  bodyColor?: "red" | "beige" | "dark";
 }
 
-export default function ProjectHero({ project }: Props) {
+export default function ProjectHero({ project, bodyColor }: Props) {
   const transition = useTransition();
   const heroRef = useRef<HTMLElement>(null);
 
@@ -35,6 +36,29 @@ export default function ProjectHero({ project }: Props) {
 
     showDefaultCursorPosition();
   }, [transition.isTransitioning]);
+
+  useEffect(() => {
+    const hero = heroRef.current;
+
+    if (!hero || !bodyColor) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+
+        document.body.classList.remove("bg-red", "bg-beige", "bg-dark");
+        document.body.classList.add(`bg-${bodyColor}`);
+      },
+      {
+        rootMargin: "-45% 0px -45% 0px",
+        threshold: 0,
+      }
+    );
+
+    observer.observe(hero);
+
+    return () => observer.disconnect();
+  }, [bodyColor]);
 
   return (
     <section

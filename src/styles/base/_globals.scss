@@ -33,6 +33,18 @@ body {
   overflow-x: hidden;
 
   transition: background-color 1.8s cubic-bezier(.22,1,.36,1);
+
+  &.bg-dark {
+    background-color: $color-background;
+  }
+
+  &.bg-beige {
+    background-color: $color-background-beige;
+    color: $color-background;
+  }
+  &.bg-red {
+    background-color: red;
+  }
 }
 
 /*----------------------------------*/
