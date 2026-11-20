@@ -37,79 +37,121 @@ export default function Header() {
   }, [pathname]);
 
   // Header animation
-  useLayoutEffect(() => {
-    if (!headerRef.current) return;
+useLayoutEffect(() => {
+  if (!headerRef.current) return;
 
-    // Reinicia cualquier estado anterior del header
-    gsap.set(headerRef.current, {
-      clearProps: "all",
+  const header = headerRef.current;
+
+  gsap.set(header, {
+    clearProps: "all",
+  });
+
+  // Páginas interiores
+  if (pathname !== "/") {
+    gsap.set(header, {
+      opacity: 0,
+      y: -20,
+      pointerEvents: "none",
     });
 
-    // Si no estamos en Home, animamos el Header al cargar
-    if (pathname !== "/") {
-      gsap.set(headerRef.current, {
-        opacity: 0,
-        y: -20,
-        pointerEvents: "none",
-      });
-
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        pointerEvents: "auto",
-        duration: 0.35,
-        ease: "power3.out",
-        delay: 0.5,
-
-        onComplete: () => {
-          window.dispatchEvent(
-            new Event("header:intro-ready")
-          );
-        },
-      });
-
-      return;
-    }
-
-    const heroNavbar = document.querySelector(
-      `.${stylesHero.navbar}`
-    );
-
-    const hero = document.querySelector("#hero");
-
-    if (!hero || !heroNavbar) return;
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: hero,
-        start: "bottom top+=140",
-        toggleActions: "play none reverse reverse",
+    const entrance = gsap.to(header, {
+      opacity: 1,
+      y: 0,
+      pointerEvents: "auto",
+      duration: 0.35,
+      ease: "power3.out",
+      delay: 0.5,
+      onComplete: () => {
+        window.dispatchEvent(
+          new Event("header:intro-ready")
+        );
       },
     });
 
-    tl
-      .to(heroNavbar, {
-        opacity: 0,
-        y: -20,
-        duration: 0.2,
-        ease: "power2.out",
-      })
-      .to(
-        headerRef.current,
-        {
+    return () => entrance.kill();
+  }
+
+  const hero = document.querySelector("#hero");
+  const heroNavbar = document.querySelector(
+    `.${stylesHero.navbar}`
+  );
+
+  if (!hero || !heroNavbar) return;
+
+  let headerVisible = false;
+
+  const setHeader = (visible: boolean) => {
+    if (headerVisible === visible) return;
+
+    headerVisible = visible;
+
+    gsap.to(header, {
+      opacity: visible ? 1 : 0,
+      y: visible ? 0 : -20,
+      pointerEvents: visible ? "auto" : "none",
+      duration: 0.25,
+      ease: "power2.out",
+      overwrite: true,
+    });
+  };
+
+  gsap.set(header, {
+    opacity: 0,
+    y: -20,
+    pointerEvents: "none",
+  });
+
+  const trigger = ScrollTrigger.create({
+    trigger: hero,
+    start: "bottom top+=50",
+    end: "max",
+
+    onUpdate: (self) => {
+      const hideThreshold = self.start + 450;
+
+      // Dentro del Hero: header oculto
+      if (self.scroll() <= self.start) {
+        setHeader(false);
+
+        gsap.to(heroNavbar, {
           opacity: 1,
           y: 0,
-          pointerEvents: "auto",
-          duration: 0.2,
+          duration: 0.25,
           ease: "power2.out",
-        },
-        0
-      );
+          overwrite: true,
+        });
 
-    return () => {
-      tl.kill();
-    };
-  }, [pathname]);
+        return;
+      }
+
+      // Al salir del Hero, desaparece la navbar del Hero
+      gsap.to(heroNavbar, {
+        opacity: 0,
+        y: -20,
+        duration: 0.25,
+        ease: "power2.out",
+        overwrite: true,
+      });
+
+      // Mantener el header visible durante el primer tramo
+      if (self.scroll() <= hideThreshold) {
+        setHeader(true);
+        return;
+      }
+
+      // Más abajo: ocultar al bajar, mostrar al subir
+      if (self.direction === 1) {
+        setHeader(false);
+      } else {
+        setHeader(true);
+      }
+    },
+  });
+
+  return () => {
+    trigger.kill();
+  };
+}, [pathname]);
 
   // Logo rotation on scroll
   useLayoutEffect(() => {
