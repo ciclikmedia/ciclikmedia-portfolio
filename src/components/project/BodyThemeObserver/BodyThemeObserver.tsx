@@ -1,9 +1,20 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function BodyThemeObserver() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    const clearBodyTheme = () => {
+      document.body.classList.forEach((className) => {
+        if (className.startsWith("bg-")) {
+          document.body.classList.remove(className);
+        }
+      });
+    };
+
     const updateBodyTheme = () => {
       const center = window.innerHeight / 2;
 
@@ -13,35 +24,41 @@ export default function BodyThemeObserver() {
 
       const activeSection = sections.find((section) => {
         const rect = section.getBoundingClientRect();
-
         return rect.top <= center && rect.bottom > center;
       });
 
+      clearBodyTheme();
+
       if (!activeSection) return;
 
-      const theme = activeSection.getAttribute("data-body-theme");
+      const theme = activeSection.dataset.bodyTheme;
 
-      if (!theme) return;
-
-      Array.from(document.body.classList).forEach((className) => {
-        if (className.startsWith("bg-")) {
-          document.body.classList.remove(className);
-        }
-      });
-
-      document.body.classList.add(`bg-${theme}`);
+      if (theme) {
+        document.body.classList.add(`bg-${theme}`);
+      }
     };
 
-    updateBodyTheme();
+    // Limpiar inmediatamente al cambiar de URL
+    clearBodyTheme();
 
-    window.addEventListener("scroll", updateBodyTheme, { passive: true });
+    // Esperar al renderizado de la nueva ruta
+    const frame = requestAnimationFrame(updateBodyTheme);
+
+    window.addEventListener("scroll", updateBodyTheme, {
+      passive: true,
+    });
+
     window.addEventListener("resize", updateBodyTheme);
 
     return () => {
+      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", updateBodyTheme);
       window.removeEventListener("resize", updateBodyTheme);
+
+      // Limpiar también al abandonar la ruta
+      clearBodyTheme();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

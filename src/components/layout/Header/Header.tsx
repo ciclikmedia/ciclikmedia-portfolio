@@ -44,24 +44,26 @@ export default function Header() {
     gsap.set(header, {
       clearProps: "all",
     });
+    header.dataset.blur = window.scrollY > 100 ? "true" : "false";
 
     let previousScroll = window.scrollY;
     let entrance: gsap.core.Tween | null = null;
 
     const setHeader = (visible: boolean) => {
-      gsap.to(header, {
-        opacity: visible ? 1 : 0,
-        y: visible ? 0 : -20,
-        pointerEvents: visible ? "auto" : "none",
-        duration: 0.25,
-        ease: "power2.out",
-        overwrite: true,
-      });
-    };
+  gsap.to(header, {
+    y: visible ? 0 : -100,
+    pointerEvents: visible ? "auto" : "none",
+    duration: 0.95,
+    ease: "power3.out",
+    overwrite: true,
+  });
+};
 
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       const difference = currentScroll - previousScroll;
+
+        header.dataset.blur = currentScroll > 400 ? "true" : "false";
 
       // Ignorar pequeños movimientos
       if (Math.abs(difference) < 2) return;
