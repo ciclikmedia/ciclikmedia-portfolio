@@ -13,7 +13,7 @@
     ),
     #020409;
 
-  color: #fff;
+ 
 }
 
 
@@ -52,12 +52,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
 
-  color: rgba(
-    255,
-    255,
-    255,
-    0.45
-  );
+ 
 }
 
 
@@ -85,8 +80,6 @@
   line-height: 0.88;
 
   letter-spacing: -0.065em;
-
-  color: #fff;
 }
 
 
@@ -98,13 +91,6 @@
   font-size: 19px;
 
   line-height: 1.55;
-
-  color: rgba(
-    255,
-    255,
-    255,
-    0.48
-  );
 }
 
 
@@ -164,13 +150,9 @@
   letter-spacing: -0.045em;
 
   text-decoration: none;
-
-  color: $color-text;
 }
 
-.emailBase {
-  color: $color-text;
-}
+
 
 .emailAccent {
   position: absolute;
@@ -218,12 +200,7 @@
 
   line-height: 1.45;
 
-  color: rgba(
-    255,
-    255,
-    255,
-    0.48
-  );
+ 
 }
 
 

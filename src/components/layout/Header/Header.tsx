@@ -51,7 +51,7 @@ export default function Header() {
 
     const setHeader = (visible: boolean) => {
   gsap.to(header, {
-    y: visible ? 0 : -100,
+    y: visible ? 0 : -120,
     pointerEvents: visible ? "auto" : "none",
     duration: 0.95,
     ease: "power3.out",
@@ -74,9 +74,9 @@ export default function Header() {
       }
 
       // Scroll hacia abajo: ocultar después de 100px
-      if (difference > 0 && currentScroll > 100) {
-        setHeader(false);
-      }
+      if (difference > 0 && currentScroll > (isHome ? 5 : 100)) {
+  setHeader(false);
+}
 
       previousScroll = currentScroll;
     };

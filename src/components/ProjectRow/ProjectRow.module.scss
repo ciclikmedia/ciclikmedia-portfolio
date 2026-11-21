@@ -20,8 +20,6 @@
 
 .number {
   font-size: .9rem;
-
-  color: $color-text-muted;
 }
 
 .content {
@@ -38,8 +36,6 @@
   line-height: .95;
 
   letter-spacing: -.03em;
-
-  color: $color-text;
 }
 
 .services {
@@ -53,8 +49,6 @@
   padding: 0;
 
   list-style: none;
-
-  color: $color-text-secondary;
 
   li::after {
     content: "•";
