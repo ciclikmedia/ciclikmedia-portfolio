@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLayoutEffect, useRef, useState, useEffect } from "react";
@@ -6,11 +7,9 @@ import Link from "next/link";
 
 import gsap, { ScrollTrigger } from "@/lib/gsap";
 
-import stylesHero from "@/sections/Hero/Hero.module.scss";
 import styles from "./Header.module.scss";
 
 import Logo from "@/components/ui/Logo";
-
 import Noise from "@/components/ui/Noise/Noise";
 
 export default function Header() {
@@ -36,122 +35,99 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
-  // Header animation
-useLayoutEffect(() => {
-  if (!headerRef.current) return;
+    // Header animation
+  useLayoutEffect(() => {
+    if (!headerRef.current) return;
 
-  const header = headerRef.current;
+    const header = headerRef.current;
 
-  gsap.set(header, {
-    clearProps: "all",
-  });
-
-  // Páginas interiores
-  if (pathname !== "/") {
     gsap.set(header, {
-      opacity: 0,
-      y: -20,
-      pointerEvents: "none",
+      clearProps: "all",
     });
 
-    const entrance = gsap.to(header, {
-      opacity: 1,
-      y: 0,
-      pointerEvents: "auto",
-      duration: 0.35,
-      ease: "power3.out",
-      delay: 0.5,
-      onComplete: () => {
-        window.dispatchEvent(
-          new Event("header:intro-ready")
-        );
-      },
-    });
+    let previousScroll = window.scrollY;
+    let entrance: gsap.core.Tween | null = null;
 
-    return () => entrance.kill();
-  }
-
-  const hero = document.querySelector("#hero");
-  const heroNavbar = document.querySelector(
-    `.${stylesHero.navbar}`
-  );
-
-  if (!hero || !heroNavbar) return;
-
-  let headerVisible = false;
-
-  const setHeader = (visible: boolean) => {
-    if (headerVisible === visible) return;
-
-    headerVisible = visible;
-
-    gsap.to(header, {
-      opacity: visible ? 1 : 0,
-      y: visible ? 0 : -20,
-      pointerEvents: visible ? "auto" : "none",
-      duration: 0.25,
-      ease: "power2.out",
-      overwrite: true,
-    });
-  };
-
-  gsap.set(header, {
-    opacity: 0,
-    y: -20,
-    pointerEvents: "none",
-  });
-
-  const trigger = ScrollTrigger.create({
-    trigger: hero,
-    start: "bottom top+=50",
-    end: "max",
-
-    onUpdate: (self) => {
-      const hideThreshold = self.start + 450;
-
-      // Dentro del Hero: header oculto
-      if (self.scroll() <= self.start) {
-        setHeader(false);
-
-        gsap.to(heroNavbar, {
-          opacity: 1,
-          y: 0,
-          duration: 0.25,
-          ease: "power2.out",
-          overwrite: true,
-        });
-
-        return;
-      }
-
-      // Al salir del Hero, desaparece la navbar del Hero
-      gsap.to(heroNavbar, {
-        opacity: 0,
-        y: -20,
+    const setHeader = (visible: boolean) => {
+      gsap.to(header, {
+        opacity: visible ? 1 : 0,
+        y: visible ? 0 : -20,
+        pointerEvents: visible ? "auto" : "none",
         duration: 0.25,
         ease: "power2.out",
         overwrite: true,
       });
+    };
 
-      // Mantener el header visible durante el primer tramo
-      if (self.scroll() <= hideThreshold) {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      const difference = currentScroll - previousScroll;
+
+      // Ignorar pequeños movimientos
+      if (Math.abs(difference) < 2) return;
+
+      // Scroll hacia arriba: mostrar
+      if (difference < 0) {
         setHeader(true);
-        return;
       }
 
-      // Más abajo: ocultar al bajar, mostrar al subir
-      if (self.direction === 1) {
+      // Scroll hacia abajo: ocultar después de 100px
+      if (difference > 0 && currentScroll > 100) {
         setHeader(false);
-      } else {
-        setHeader(true);
       }
-    },
-  });
 
-  return () => {
-    trigger.kill();
-  };
-}, [pathname]);
+      previousScroll = currentScroll;
+    };
+
+    const enableScrollBehavior = () => {
+      previousScroll = window.scrollY;
+
+      window.addEventListener("scroll", handleScroll, {
+        passive: true,
+      });
+    };
+
+    // Páginas interiores: conservar entrada original
+    if (pathname !== "/") {
+      gsap.set(header, {
+        opacity: 0,
+        y: -20,
+        pointerEvents: "none",
+      });
+
+      entrance = gsap.to(header, {
+        opacity: 1,
+        y: 0,
+        pointerEvents: "auto",
+        duration: 0.35,
+        ease: "power3.out",
+        delay: 0.5,
+
+        onComplete: () => {
+          window.dispatchEvent(
+            new Event("header:intro-ready")
+          );
+
+          enableScrollBehavior();
+        },
+      });
+    } else {
+      // Home
+      gsap.set(header, {
+        opacity: 1,
+        y: 0,
+        pointerEvents: "auto",
+      });
+
+      enableScrollBehavior();
+    }
+
+    return () => {
+      entrance?.kill();
+
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname]);
 
   // Logo rotation on scroll
   useLayoutEffect(() => {
@@ -323,31 +299,32 @@ useLayoutEffect(() => {
             </Link>
           </nav>
 
-         {/* Mobile menu toggle */}
-            <button
-              type="button"
-              className={`${styles.menuToggle} ${
-                menuOpen ? styles.menuToggleOpen : ""
-              }`}
-              onClick={() => setMenuOpen((prev) => !prev)}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-navigation"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-            >
-              <span className={styles.menuToggleText}>
-                MENU
-              </span>
-            </button>
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            className={`${styles.menuToggle} ${
+              menuOpen ? styles.menuToggleOpen : ""
+            }`}
+            onClick={() => setMenuOpen((prev) => !prev)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+          >
+            <span className={styles.menuToggleText}>
+              MENU
+            </span>
+          </button>
 
           {/* Mobile navigation */}
           <div
-              id="mobile-navigation"
-              className={`${styles.mobileMenu} ${
-                menuOpen ? styles.mobileMenuOpen : ""
-              }`}
-              aria-hidden={!menuOpen}
-            >
-              <Noise />
+            id="mobile-navigation"
+            className={`${styles.mobileMenu} ${
+              menuOpen ? styles.mobileMenuOpen : ""
+            }`}
+            aria-hidden={!menuOpen}
+          >
+            <Noise />
+
             <nav className={styles.mobileNav}>
               <Link
                 href="/work"
@@ -376,31 +353,32 @@ useLayoutEffect(() => {
                 Contact
               </Link>
             </nav>
+
             <div className={styles.mobileMenuFooter}>
-  <div className={styles.mobileSocials}>
-    <a
-      href="https://www.instagram.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.mobileSocialLink}
-    >
-      Instagram
-    </a>
+              <div className={styles.mobileSocials}>
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mobileSocialLink}
+                >
+                  Instagram
+                </a>
 
-    <a
-      href="https://www.linkedin.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className={styles.mobileSocialLink}
-    >
-      LinkedIn
-    </a>
-  </div>
+                <a
+                  href="https://www.linkedin.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.mobileSocialLink}
+                >
+                  LinkedIn
+                </a>
+              </div>
 
-  <div className={styles.mobileCopyright}>
-    © {new Date().getFullYear()} CICLIKMEDIA
-  </div>
-</div>
+              <div className={styles.mobileCopyright}>
+                © {new Date().getFullYear()} CICLIKMEDIA
+              </div>
+            </div>
           </div>
 
         </div>

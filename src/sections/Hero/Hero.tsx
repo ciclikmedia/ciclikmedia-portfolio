@@ -3,8 +3,6 @@
 import { useRef } from 'react';
 
 import styles from "./Hero.module.scss";
-
-import Navbar from "./Navbar";
 import HeroTitle from "./HeroTitle";
 import DynamicHeadline from "./DynamicHeadline";
 import HeroDescription from "./HeroDescription";
@@ -21,7 +19,7 @@ export default function Hero() {
       data-cursor="hero"
       data-cursor-label="Discover"
     >
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="site-container">
         <div className={styles.content}>
