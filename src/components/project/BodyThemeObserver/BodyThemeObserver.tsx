@@ -27,15 +27,15 @@ export default function BodyThemeObserver() {
         return rect.top <= center && rect.bottom > center;
       });
 
-      clearBodyTheme();
+     if (!activeSection) return;
 
-      if (!activeSection) return;
+clearBodyTheme();
 
-      const theme = activeSection.dataset.bodyTheme;
+const theme = activeSection.dataset.bodyTheme;
 
-      if (theme) {
-        document.body.classList.add(`bg-${theme}`);
-      }
+if (theme) {
+  document.body.classList.add(`bg-${theme}`);
+}
     };
 
     // Limpiar inmediatamente al cambiar de URL

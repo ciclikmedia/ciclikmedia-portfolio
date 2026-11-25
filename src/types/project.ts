@@ -36,6 +36,8 @@ export interface Project {
 
   subtitle: string;
 
+  projectFocus: string;
+
   client: string;
 
   year: string;

@@ -62,10 +62,10 @@ export default function ProjectHero({ project, bodyColor }: Props) {
           </div>
         </div>
 
-        <div className={styles.projectFocus}>
-          <span>PROJECT FOCUS</span>
-          <p>Aesthetic clinic</p>
-        </div>
+       <div className={styles.projectFocus}>
+        <span>PROJECT FOCUS</span>
+        <p>{project.projectFocus}</p>
+      </div>
 
         <div
           className={styles.heroImage}

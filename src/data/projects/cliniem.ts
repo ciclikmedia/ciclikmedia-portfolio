@@ -9,6 +9,8 @@ export const cliniem: Project = {
 
   subtitle: "Healthcare Digital Experience",
 
+  projectFocus: "Aesthetic clinic",
+
   client: "Cliniem",
 
   year: "2026",

@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ProjectHero from "@/sections/ProjectHero/ProjectHero";
 import CliniemProject from "@/components/project/pages/CliniemProject/CliniemProject";
+import TejidosRocaProject from "@/components/project/pages/TejidosRocaProject/TejidosRocaProject";
 import ProjectNextSection from "@/components/project/ProjectNextSection/ProjectNextSection";
 
 import cliniemStyles from "@/components/project/pages/CliniemProject/CliniemProject.module.scss";
@@ -19,11 +20,23 @@ interface Props {
 }
 
 export default function ProjectPage({ project }: Props) {
+  const [activeProject, setActiveProject] = useState(project);
+
   const currentIndex = projects.findIndex(
-    (item) => item.slug === project.slug
+    (item) => item.slug === activeProject.slug
   );
 
   const nextProject = projects[currentIndex + 1];
+
+  const CurrentProjectComponent =
+    activeProject.slug === "tejidosroca"
+      ? TejidosRocaProject
+      : CliniemProject;
+
+  const NextProjectComponent =
+    nextProject?.slug === "tejidosroca"
+      ? TejidosRocaProject
+      : CliniemProject;
 
   const backgroundTransitionRef = useRef<HTMLDivElement>(null);
 
@@ -75,40 +88,35 @@ export default function ProjectPage({ project }: Props) {
     const separator = nextSeparatorRef.current;
     const next = nextProjectRef.current;
 
-    if (!wrapper || !separator || !next) return;
+    if (!wrapper || !separator || !next || !nextProject) return;
 
     const timeline = gsap.timeline({
       scrollTrigger: {
         trigger: wrapper,
-        start: "top 85%",
+        start: "top 75%",
         end: "+=900",
         scrub: 1,
       },
     });
 
-    // Phase 1: separator moves out
     timeline.to(
       separator,
       {
         y: -220,
-        duration: 0.75,
+        duration: 0.35,
         ease: "none",
       },
       0
     );
 
-    // Phase 2: next project enters near the end
-    timeline.fromTo(
+    timeline.to(
       next,
       {
-        y: 180,
-      },
-      {
-        y: 0,
-        duration: 0.25,
+        y: -180,
+        duration: 0.65,
         ease: "none",
       },
-      0.375
+      0.35
     );
 
     return () => {
@@ -118,27 +126,37 @@ export default function ProjectPage({ project }: Props) {
   }, [nextProject]);
 
   return (
-  <main>
-    <div
-      ref={backgroundTransitionRef}
-      className={styles.transitionBackground}
-    />
+    <main>
+      <div
+        ref={backgroundTransitionRef}
+        className={styles.transitionBackground}
+      />
+
       {/* CURRENT PROJECT */}
       <div
         className={cliniemStyles.project}
-        data-project-slug={project.slug}
+        data-project-slug={activeProject.slug}
         ref={(el) => {
           if (el) projectsRef.current[0] = el;
         }}
       >
-        <ProjectHero project={project} bodyColor="hero-cliniem" />
-        <CliniemProject project={project} />
+        <ProjectHero
+          project={activeProject}
+          bodyColor={
+            activeProject.slug === "tejidosroca"
+              ? "hero-tejidosroca"
+              : "hero-cliniem"
+          }
+        />
+
+        <CurrentProjectComponent project={activeProject} />
       </div>
 
       {/* NEXT PROJECT */}
       {nextProject && (
-        <div ref={nextTransitionRef}
-        style={{ backgroundColor: "#F2F0EA" }}
+        <div
+          ref={nextTransitionRef}
+          data-project-transition
         >
           <div ref={nextSeparatorRef}>
             <ProjectNextSection
@@ -155,8 +173,16 @@ export default function ProjectPage({ project }: Props) {
               if (el) projectsRef.current[1] = el;
             }}
           >
-            <ProjectHero project={nextProject} />
-            <CliniemProject project={nextProject} />
+            <ProjectHero
+              project={nextProject}
+              bodyColor={
+                nextProject.slug === "tejidosroca"
+                  ? "hero-tejidosroca"
+                  : "hero-cliniem"
+              }
+            />
+
+            <NextProjectComponent project={nextProject} />
           </div>
         </div>
       )}
