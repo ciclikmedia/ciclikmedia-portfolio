@@ -1,28 +1,23 @@
 @use "@/styles/tokens/colors" as *;
 @use "@/styles/tokens/typography" as *;
 
-.header{
+.header {
   position: fixed;
-
   inset: 0 0 auto 0;
-
   height: 110px;
-
   z-index: 500;
 
-  opacity: 0;
+  opacity: 1;
+  pointer-events: auto;
 
-  pointer-events: none;
-
-  transform: translateY(-20px);
+  transform: translateY(-120px);
 
   backdrop-filter: none;
-transition: backdrop-filter 0.3s ease;
+  transition: backdrop-filter 0.3s ease;
 
   background: transparent;
-
-  /*border-bottom: 1px solid rgba(255,255,255,.06);*/
 }
+
 .header[data-blur="true"] {
   backdrop-filter: blur(14px);
 }

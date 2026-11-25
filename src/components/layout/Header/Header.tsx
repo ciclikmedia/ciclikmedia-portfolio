@@ -15,6 +15,7 @@ import Noise from "@/components/ui/Noise/Noise";
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const logoWrapperRef = useRef<HTMLDivElement>(null);
+  const headerHiddenRef = useRef(false);
 
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -35,48 +36,57 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
-    // Header animation
+  // Header animation + scroll direction
   useLayoutEffect(() => {
-    if (!headerRef.current) return;
-
     const header = headerRef.current;
-
-    gsap.set(header, {
-      clearProps: "all",
-    });
-    header.dataset.blur = window.scrollY > 100 ? "true" : "false";
+    if (!header) return;
 
     let previousScroll = window.scrollY;
     let entrance: gsap.core.Tween | null = null;
 
+    headerHiddenRef.current = false;
+
+    header.dataset.blur = window.scrollY > 400 ? "true" : "false";
+
     const setHeader = (visible: boolean) => {
-  gsap.to(header, {
-    y: visible ? 0 : -120,
-    pointerEvents: visible ? "auto" : "none",
-    duration: 0.95,
-    ease: "power3.out",
-    overwrite: true,
-  });
-};
+      if (headerHiddenRef.current === !visible) return;
+
+      headerHiddenRef.current = !visible;
+
+      gsap.to(header, {
+        y: visible ? 0 : -120,
+        pointerEvents: visible ? "auto" : "none",
+        duration: 0.95,
+        ease: "power3.out",
+        overwrite: true,
+      });
+    };
 
     const handleScroll = () => {
       const currentScroll = window.scrollY;
       const difference = currentScroll - previousScroll;
 
-        header.dataset.blur = currentScroll > 400 ? "true" : "false";
+      header.dataset.blur = currentScroll > 400 ? "true" : "false";
 
-      // Ignorar pequeños movimientos
-      if (Math.abs(difference) < 2) return;
+      if (Math.abs(difference) < 2) {
+        previousScroll = currentScroll;
+        return;
+      }
 
       // Scroll hacia arriba: mostrar
       if (difference < 0) {
         setHeader(true);
       }
 
-      // Scroll hacia abajo: ocultar después de 100px
+      // Scroll hacia abajo: ocultar
       if (difference > 0 && currentScroll > (isHome ? 5 : 100)) {
-  setHeader(false);
-}
+        setHeader(false);
+      }
+
+      // En el inicio de la página siempre visible
+      if (currentScroll <= 5) {
+        setHeader(true);
+      }
 
       previousScroll = currentScroll;
     };
@@ -89,47 +99,39 @@ export default function Header() {
       });
     };
 
-    // Páginas interiores: conservar entrada original
-    if (pathname !== "/") {
-      gsap.set(header, {
-        opacity: 0,
-        y: -20,
-        pointerEvents: "none",
-      });
+    // Entrada inicial: ambas páginas entran desde arriba
+    gsap.set(header, {
+      y: -120,
+      pointerEvents: "none",
+    });
 
-      entrance = gsap.to(header, {
-        opacity: 1,
-        y: 0,
-        pointerEvents: "auto",
-        duration: 0.35,
-        ease: "power3.out",
-        delay: 0.5,
+    headerHiddenRef.current = true;
 
-        onComplete: () => {
+    entrance = gsap.to(header, {
+      y: 0,
+      pointerEvents: "auto",
+      duration: 0.8,
+      ease: "power3.out",
+      delay: isHome ? 0.2 : 0.5,
+
+      onComplete: () => {
+        headerHiddenRef.current = false;
+
+        if (!isHome) {
           window.dispatchEvent(
             new Event("header:intro-ready")
           );
+        }
 
-          enableScrollBehavior();
-        },
-      });
-    } else {
-      // Home
-      gsap.set(header, {
-        opacity: 1,
-        y: 0,
-        pointerEvents: "auto",
-      });
-
-      enableScrollBehavior();
-    }
+        enableScrollBehavior();
+      },
+    });
 
     return () => {
       entrance?.kill();
-
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [pathname]);
+  }, [pathname, isHome]);
 
   // Logo rotation on scroll
   useLayoutEffect(() => {
@@ -158,25 +160,30 @@ export default function Header() {
 
   // Header hide/show events
   useLayoutEffect(() => {
-    if (!headerRef.current) return;
+    const header = headerRef.current;
+    if (!header) return;
 
     const hide = () => {
-      gsap.to(headerRef.current, {
-        opacity: 0,
-        y: -20,
+      headerHiddenRef.current = true;
+
+      gsap.to(header, {
+        y: -120,
         pointerEvents: "none",
         duration: 0.25,
         ease: "power2.out",
+        overwrite: true,
       });
     };
 
     const show = () => {
-      gsap.to(headerRef.current, {
-        opacity: 1,
+      headerHiddenRef.current = false;
+
+      gsap.to(header, {
         y: 0,
         pointerEvents: "auto",
         duration: 0.25,
         ease: "power2.out",
+        overwrite: true,
       });
     };
 
@@ -192,7 +199,6 @@ export default function Header() {
   // Header theme detection
   useLayoutEffect(() => {
     const header = headerRef.current;
-
     if (!header) return;
 
     const sections = gsap.utils.toArray<HTMLElement>(
@@ -261,43 +267,19 @@ export default function Header() {
             className={styles.nav}
             data-cursor="header"
           >
-            <Link
-              href="/work"
-              className={styles.navLink}
-            >
-              <span className={styles.navBase}>
-                Work
-              </span>
-
-              <span className={styles.navAccent}>
-                Work
-              </span>
+            <Link href="/work" className={styles.navLink}>
+              <span className={styles.navBase}>Work</span>
+              <span className={styles.navAccent}>Work</span>
             </Link>
 
-            <Link
-              href="/about"
-              className={styles.navLink}
-            >
-              <span className={styles.navBase}>
-                About
-              </span>
-
-              <span className={styles.navAccent}>
-                About
-              </span>
+            <Link href="/about" className={styles.navLink}>
+              <span className={styles.navBase}>About</span>
+              <span className={styles.navAccent}>About</span>
             </Link>
 
-            <Link
-              href="/contact"
-              className={styles.navLink}
-            >
-              <span className={styles.navBase}>
-                Contact
-              </span>
-
-              <span className={styles.navAccent}>
-                Contact
-              </span>
+            <Link href="/contact" className={styles.navLink}>
+              <span className={styles.navBase}>Contact</span>
+              <span className={styles.navAccent}>Contact</span>
             </Link>
           </nav>
 
@@ -312,9 +294,7 @@ export default function Header() {
             aria-controls="mobile-navigation"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
-            <span className={styles.menuToggleText}>
-              MENU
-            </span>
+            <span className={styles.menuToggleText}>MENU</span>
           </button>
 
           {/* Mobile navigation */}
