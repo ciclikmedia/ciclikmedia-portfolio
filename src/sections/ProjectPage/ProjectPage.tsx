@@ -44,7 +44,7 @@ export default function ProjectPage({ project }: Props) {
   const nextSeparatorRef = useRef<HTMLDivElement>(null);
   const nextProjectRef = useRef<HTMLDivElement>(null);
 
-  // 1. Resetear scroll y propiedades GSAP de forma síncrona cuando el proyecto ya está en top: 0
+  // 1. Resetear scroll y propiedades GSAP de forma síncrona cuando el nuevo proyecto ya está en top: 0
   useLayoutEffect(() => {
     if (ctxRef.current) {
       ctxRef.current.revert();
@@ -58,50 +58,40 @@ export default function ProjectPage({ project }: Props) {
       gsap.set(nextSeparatorRef.current, { clearProps: "all" });
     }
 
-    const html = document.documentElement;
     const body = document.body;
     const header = document.getElementById("site-header");
 
-    html.style.scrollBehavior = "auto";
     body.style.transition = "none";
-
     if (header) {
       header.dataset.blur = "false";
     }
 
-    window.dispatchEvent(new Event("lenis:start"));
     window.scrollTo(0, 0);
     window.dispatchEvent(new Event("lenis:scrollToTop"));
+    window.dispatchEvent(new Event("lenis:start"));
 
     const url = `/work/${activeProject.slug}`;
     if (window.location.pathname !== url) {
       window.history.replaceState(window.history.state, "", url);
     }
 
-    window.dispatchEvent(new Event("scroll"));
     ScrollTrigger.refresh();
+    window.dispatchEvent(new Event("body:refresh-theme"));
     window.dispatchEvent(new Event("header:refresh-theme"));
 
-    // Solo forzamos header:show si hemos saltado a un proyecto nuevo (no en la carga inicial)
-    if (activeProject.slug !== project.slug) {
-      window.dispatchEvent(new Event("header:show"));
-    }
-
-    if (header) {
-      header.dataset.blur = "false";
-    }
-
     const frame = requestAnimationFrame(() => {
-      html.style.scrollBehavior = "";
       body.style.transition = "";
       isTransitioningRef.current = false;
+
+      if (header) {
+        header.dataset.blur = "false";
+      }
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [activeProject, project.slug]);
+  }, [activeProject]);
 
-  // 2. Fase 1: Parallax hasta que desaparece el indicador Next
-  //    Fase 2: Subida suave del proyecto + entrada coordinada del Header sin blur
+  // 2. Escalonamiento: Next sube primero -> al pasar por el centro empieza a asomar el proyecto despacio por abajo -> Next sale por arriba -> proyecto sube suave a top: 0
   useEffect(() => {
     const wrapper = nextTransitionRef.current;
     const separator = nextSeparatorRef.current;
@@ -117,36 +107,21 @@ export default function ProjectPage({ project }: Props) {
       if (header) {
         header.dataset.blur = "false";
       }
-      window.dispatchEvent(new Event("header:hide"));
       window.dispatchEvent(new Event("lenis:stop"));
 
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === wrapper) st.kill(false);
       });
 
-      gsap.to(separator, {
-        opacity: 0,
-        y: "-=60",
-        duration: 0.35,
-        ease: "power2.out",
-      });
-
       const rect = next.getBoundingClientRect();
       const currentY = Number(gsap.getProperty(next, "y")) || 0;
       const targetY = currentY - rect.top;
 
-      gsap.to(next, {
-        y: targetY,
-        duration: 0.85,
-        ease: "power3.out",
-        onStart: () => {
-          gsap.delayedCall(0.35, () => {
-            if (header) {
-              header.dataset.blur = "false";
-            }
-            window.dispatchEvent(new Event("header:show"));
-          });
-        },
+      const sepRect = separator.getBoundingClientRect();
+      const currentSepY = Number(gsap.getProperty(separator, "y")) || 0;
+      const targetSepY = currentSepY - Math.max(0, sepRect.bottom) - 40;
+
+      const ascentTl = gsap.timeline({
         onComplete: () => {
           document.body.style.transition = "none";
           const heroTheme =
@@ -162,19 +137,49 @@ export default function ProjectPage({ project }: Props) {
           setActiveProject(nextProject);
         },
       });
+
+      // 1. El bloque Next termina de salir por arriba
+      ascentTl
+        .to(
+          separator,
+          {
+            y: targetSepY,
+            duration: 0.3,
+            ease: "power2.in",
+          },
+          0
+        )
+        // 2. El proyecto (que viene desde abajo despacito) sube suave hasta top: 0
+        .to(
+          next,
+          {
+            y: targetY,
+            duration: 0.9,
+            ease: "power3.out",
+          },
+          0.08
+        )
+        // 3. Baja el header limpio en la recta final
+        .add(() => {
+          if (header) {
+            header.dataset.blur = "false";
+          }
+          window.dispatchEvent(new Event("header:show"));
+        }, 0.35);
     };
 
-    const ctx = gsap.context(() => {
+        const ctx = gsap.context(() => {
+      // Más abajo inicialmente para retrasar su aparición y que entre muy despacio
+      gsap.set(next, { y: 320 });
+
       const parallaxTl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapper,
-          start: "top 85%",
+          start: "top 95%",
           endTrigger: separator,
           end: "bottom top",
           scrub: true,
-          onLeave: () => {
-            launchSmoothAscent();
-          },
+          onLeave: launchSmoothAscent,
           onUpdate: () => {
             if (separator.getBoundingClientRect().bottom <= 0) {
               launchSmoothAscent();
@@ -183,27 +188,29 @@ export default function ProjectPage({ project }: Props) {
         },
       });
 
-      parallaxTl.to(
-        separator,
-        {
-          y: -180,
-          opacity: 0,
-          duration: 1,
-          ease: "none",
-        },
-        0
-      );
-
-      parallaxTl.to(
-        next,
-        {
-          y: -100,
-          duration: 1,
-          ease: "none",
-        },
-        0
-      );
+      // El bloque Next sube hasta salir por arriba
+      parallaxTl
+        .to(
+          separator,
+          {
+            y: -240,
+            duration: 1,
+            ease: "none",
+          },
+          0
+        )
+        // Entra más tarde (0.45) y recorre poca distancia (320 -> 140) para ir muy lento por abajo
+        .to(
+          next,
+          {
+            y: 140,
+            duration: 0.55,
+            ease: "none",
+          },
+          0.45
+        );
     }, wrapper);
+
 
     ctxRef.current = ctx;
     ScrollTrigger.refresh();
@@ -226,6 +233,7 @@ export default function ProjectPage({ project }: Props) {
       <div
         key={`current-${activeProject.slug}`}
         data-project-slug={activeProject.slug}
+        style={{ position: "relative", zIndex: 1 }}
       >
         <ProjectHero
           project={activeProject}
@@ -245,10 +253,11 @@ export default function ProjectPage({ project }: Props) {
           key={`next-${nextProject.slug}`}
           ref={nextTransitionRef}
           data-project-transition
+          style={{ position: "relative", zIndex: 10 }}
         >
           <div
             ref={nextSeparatorRef}
-            style={{ position: "relative", zIndex: 1 }}
+            style={{ position: "relative", zIndex: 20 }}
           >
             <ProjectNextSection
               current={currentIndex + 1}
@@ -259,7 +268,14 @@ export default function ProjectPage({ project }: Props) {
           <div
             data-project-slug={nextProject.slug}
             ref={nextProjectRef}
-            style={{ position: "relative", zIndex: 2 }}
+            style={{
+              position: "relative",
+              zIndex: 30,
+              backgroundColor:
+                nextProject.slug === "tejidosroca"
+                  ? "var(--color-hero-tejidosroca, #f4f3ef)"
+                  : "var(--color-hero-cliniem, #1d1d20)",
+            }}
           >
             <ProjectHero
               project={nextProject}

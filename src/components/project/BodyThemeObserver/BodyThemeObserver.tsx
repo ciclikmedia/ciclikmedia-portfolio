@@ -27,35 +27,28 @@ export default function BodyThemeObserver() {
         return rect.top <= center && rect.bottom > center;
       });
 
-     if (!activeSection) return;
+      if (!activeSection) return;
 
-clearBodyTheme();
+      clearBodyTheme();
 
-const theme = activeSection.dataset.bodyTheme;
-
-if (theme) {
-  document.body.classList.add(`bg-${theme}`);
-}
+      const theme = activeSection.dataset.bodyTheme;
+      if (theme) {
+        document.body.classList.add(`bg-${theme}`);
+      }
     };
 
-    // Limpiar inmediatamente al cambiar de URL
     clearBodyTheme();
-
-    // Esperar al renderizado de la nueva ruta
     const frame = requestAnimationFrame(updateBodyTheme);
 
-    window.addEventListener("scroll", updateBodyTheme, {
-      passive: true,
-    });
-
+    window.addEventListener("scroll", updateBodyTheme, { passive: true });
     window.addEventListener("resize", updateBodyTheme);
+    window.addEventListener("body:refresh-theme", updateBodyTheme);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", updateBodyTheme);
       window.removeEventListener("resize", updateBodyTheme);
-
-      // Limpiar también al abandonar la ruta
+      window.removeEventListener("body:refresh-theme", updateBodyTheme);
       clearBodyTheme();
     };
   }, [pathname]);

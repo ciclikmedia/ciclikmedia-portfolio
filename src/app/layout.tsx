@@ -6,8 +6,6 @@ import Noise from "@/components/ui/Noise/Noise";
 import Cursor from "@/components/ui/Cursor/Cursor";
 
 import { TransitionProvider } from "@/transition/TransitionProvider";
-import ProjectTransitionProvider from "@/project-transition/ProjectTransitionProvider";
-
 import Providers from "@/providers/Providers";
 import Footer from "@/components/layout/Footer/Footer";
 
@@ -36,24 +34,19 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <Providers>
-          <ProjectTransitionProvider>
-            <Noise />
+          <Noise />
+          <Cursor />
+          <Header />
 
-            <Cursor />
+          <TransitionProvider>
+            {children}
+          </TransitionProvider>
 
-            <Header />
-
-            <TransitionProvider>
-              {children}
-            </TransitionProvider>
-
-            <Footer />
-          </ProjectTransitionProvider>
+          <Footer />
         </Providers>
       </body>
     </html>
