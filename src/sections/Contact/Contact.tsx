@@ -7,9 +7,7 @@ import gsap, { ScrollTrigger } from "@/lib/gsap";
 import styles from "./Contact.module.scss";
 
 export default function Contact() {
- 
-  const sectionRef =
-    useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -19,43 +17,30 @@ export default function Contact() {
 
       ScrollTrigger.create({
         trigger: section,
-
         start: "top 10%",
-
         end: "bottom bottom",
 
         onEnter: () => {
           document.body.classList.add("contact-theme");
-
-          window.dispatchEvent(
-            new CustomEvent("header:hide")
-          );
         },
 
         onLeaveBack: () => {
           document.body.classList.remove("contact-theme");
-
-          window.dispatchEvent(
-            new CustomEvent("header:show")
-          );
         },
       });
-
     });
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section 
-    ref={sectionRef}
-    id="contact-section"
-    className={styles.contact}>
+    <section
+      ref={sectionRef}
+      id="contact-section"
+      className={styles.contact}
+    >
       <div className="site-container">
-
-        <span className={styles.eyebrow}>
-          CONTACT
-        </span>
+        <span className={styles.eyebrow}>CONTACT</span>
 
         <div className={styles.hero}>
           <h2>
@@ -79,9 +64,7 @@ export default function Contact() {
             </span>
           </a>
 
-          <h2>
-            GREAT.
-          </h2>
+          <h2>GREAT.</h2>
         </div>
 
         <div className={styles.content}>
@@ -102,7 +85,6 @@ export default function Contact() {
             <span>START A PROJECT</span>
           </a>
         </div>
-
       </div>
     </section>
   );

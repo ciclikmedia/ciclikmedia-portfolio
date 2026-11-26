@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useLayoutEffect, useRef, useState, useEffect } from "react";
@@ -15,7 +14,6 @@ import Noise from "@/components/ui/Noise/Noise";
 export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const logoWrapperRef = useRef<HTMLDivElement>(null);
-  const headerHiddenRef = useRef(false);
 
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -36,76 +34,102 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
-  // Header animation + scroll direction
+  // Header animation + movimiento ligado al scroll con inercia propia
   useLayoutEffect(() => {
     const header = headerRef.current;
     if (!header) return;
 
+    const MAX_OFFSET = 120;
+    let currentY = 0;
     let previousScroll = window.scrollY;
     let entrance: gsap.core.Tween | null = null;
+    let isLockedByEvent = false;
 
-    headerHiddenRef.current = false;
+    header.dataset.blur = window.scrollY > 5 ? "true" : "false";
 
-    header.dataset.blur = window.scrollY > 400 ? "true" : "false";
+    // Suavizado ligero para que no vaya clavado 1:1 al contenido sino con peso propio
+    const yTo = gsap.quickTo(header, "y", {
+      duration: 0.32,
+      ease: "power2.out",
+    });
 
-    const setHeader = (visible: boolean) => {
-      if (headerHiddenRef.current === !visible) return;
-
-      headerHiddenRef.current = !visible;
-
-      gsap.to(header, {
-        y: visible ? 0 : -120,
-        pointerEvents: visible ? "auto" : "none",
-        duration: 0.95,
-        ease: "power3.out",
-        overwrite: true,
-      });
+    const applyHeaderPosition = (y: number) => {
+      currentY = Math.max(-MAX_OFFSET, Math.min(0, y));
+      yTo(currentY);
+      header.style.pointerEvents =
+        currentY > -MAX_OFFSET * 0.6 ? "auto" : "none";
     };
 
     const handleScroll = () => {
+      if (isLockedByEvent) return;
+
       const currentScroll = window.scrollY;
       const difference = currentScroll - previousScroll;
 
-      header.dataset.blur = currentScroll > 400 ? "true" : "false";
+      header.dataset.blur = currentScroll > 5 ? "true" : "false";
 
-      if (Math.abs(difference) < 2) {
+      if (currentScroll <= 5) {
+        header.dataset.blur = "false";
+        applyHeaderPosition(0);
         previousScroll = currentScroll;
         return;
       }
 
-      // Scroll hacia arriba: mostrar
-      if (difference < 0) {
-        setHeader(true);
-      }
-
-      // Scroll hacia abajo: ocultar
-      if (difference > 0 && currentScroll > (isHome ? 5 : 100)) {
-        setHeader(false);
-      }
-
-      // En el inicio de la página siempre visible
-      if (currentScroll <= 5) {
-        setHeader(true);
-      }
+      // Factor 1.6 para que se desplace más rápido que el contenido
+      applyHeaderPosition(currentY - difference * 1.6);
 
       previousScroll = currentScroll;
     };
 
     const enableScrollBehavior = () => {
       previousScroll = window.scrollY;
+      header.dataset.blur = previousScroll > 5 ? "true" : "false";
 
       window.addEventListener("scroll", handleScroll, {
         passive: true,
       });
     };
 
-    // Entrada inicial: ambas páginas entran desde arriba
+    const hide = () => {
+      isLockedByEvent = true;
+      currentY = -MAX_OFFSET;
+
+      gsap.to(header, {
+        y: -MAX_OFFSET,
+        pointerEvents: "none",
+        duration: 0.35,
+        ease: "power2.out",
+        overwrite: true,
+      });
+    };
+
+    const show = () => {
+      previousScroll = window.scrollY;
+      currentY = 0;
+      header.dataset.blur = window.scrollY > 5 ? "true" : "false";
+
+      gsap.to(header, {
+        y: 0,
+        pointerEvents: "auto",
+        duration: 0.5,
+        ease: "power3.out",
+        overwrite: true,
+        onComplete: () => {
+          isLockedByEvent = false;
+          previousScroll = window.scrollY;
+        },
+      });
+    };
+
+    window.addEventListener("header:hide", hide);
+    window.addEventListener("header:show", show);
+
+    // Entrada inicial: entra desde arriba
     gsap.set(header, {
-      y: -120,
+      y: -MAX_OFFSET,
       pointerEvents: "none",
     });
-
-    headerHiddenRef.current = true;
+    currentY = -MAX_OFFSET;
 
     entrance = gsap.to(header, {
       y: 0,
@@ -115,7 +139,7 @@ export default function Header() {
       delay: isHome ? 0.2 : 0.5,
 
       onComplete: () => {
-        headerHiddenRef.current = false;
+        currentY = 0;
 
         if (!isHome) {
           window.dispatchEvent(
@@ -130,10 +154,12 @@ export default function Header() {
     return () => {
       entrance?.kill();
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("header:hide", hide);
+      window.removeEventListener("header:show", show);
     };
   }, [pathname, isHome]);
 
-  // Logo rotation on scroll
+    // Logo rotation on scroll
   useLayoutEffect(() => {
     if (!logoWrapperRef.current) return;
 
@@ -158,87 +184,58 @@ export default function Header() {
     };
   }, [pathname]);
 
-  // Header hide/show events
-  useLayoutEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-
-    const hide = () => {
-      headerHiddenRef.current = true;
-
-      gsap.to(header, {
-        y: -120,
-        pointerEvents: "none",
-        duration: 0.25,
-        ease: "power2.out",
-        overwrite: true,
-      });
-    };
-
-    const show = () => {
-      headerHiddenRef.current = false;
-
-      gsap.to(header, {
-        y: 0,
-        pointerEvents: "auto",
-        duration: 0.25,
-        ease: "power2.out",
-        overwrite: true,
-      });
-    };
-
-    window.addEventListener("header:hide", hide);
-    window.addEventListener("header:show", show);
-
-    return () => {
-      window.removeEventListener("header:hide", hide);
-      window.removeEventListener("header:show", show);
-    };
-  }, []);
 
   // Header theme detection
   useLayoutEffect(() => {
     const header = headerRef.current;
     if (!header) return;
 
-    const sections = gsap.utils.toArray<HTMLElement>(
-      '[data-header-theme="light"]'
-    );
+    let triggers: ScrollTrigger[] = [];
 
-    if (!sections.length) return;
+    const setupThemeDetection = () => {
+      triggers.forEach((trigger) => trigger.kill());
 
-    const updateTheme = () => {
-      const headerPosition = 36;
+      const sections = gsap.utils.toArray<HTMLElement>(
+        '[data-header-theme="light"]'
+      );
 
-      const isLight = sections.some((section) => {
-        const rect = section.getBoundingClientRect();
+      const updateTheme = () => {
+        const headerPosition = 36;
 
-        return (
-          rect.top <= headerPosition &&
-          rect.bottom > headerPosition
-        );
-      });
+        const isLight = sections.some((section) => {
+          const rect = section.getBoundingClientRect();
 
-      if (isLight) {
-        header.dataset.theme = "light";
-      } else {
-        delete header.dataset.theme;
-      }
+          return (
+            rect.top <= headerPosition &&
+            rect.bottom > headerPosition
+          );
+        });
+
+        if (isLight) {
+          header.dataset.theme = "light";
+        } else {
+          delete header.dataset.theme;
+        }
+      };
+
+      triggers = sections.map((section) =>
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top 36px",
+          end: "bottom 36px",
+          onToggle: updateTheme,
+          onRefresh: updateTheme,
+        })
+      );
+
+      updateTheme();
     };
 
-    const triggers = sections.map((section) =>
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 36px",
-        end: "bottom 36px",
-        onToggle: updateTheme,
-        onRefresh: updateTheme,
-      })
-    );
-
-    updateTheme();
+    setupThemeDetection();
+    window.addEventListener("header:refresh-theme", setupThemeDetection);
 
     return () => {
+      window.removeEventListener("header:refresh-theme", setupThemeDetection);
       triggers.forEach((trigger) => trigger.kill());
       delete header.dataset.theme;
     };
@@ -339,7 +336,7 @@ export default function Header() {
             <div className={styles.mobileMenuFooter}>
               <div className={styles.mobileSocials}>
                 <a
-                  href="https://www.instagram.com/"
+                  href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.mobileSocialLink}
@@ -348,7 +345,7 @@ export default function Header() {
                 </a>
 
                 <a
-                  href="https://www.linkedin.com/"
+                  href="https://linkedin.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.mobileSocialLink}

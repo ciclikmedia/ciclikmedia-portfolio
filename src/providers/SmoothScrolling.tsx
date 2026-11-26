@@ -15,13 +15,15 @@ export default function SmoothScrolling({
 }: SmoothScrollingProps) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.05,
       smoothWheel: true,
+      wheelMultiplier: 1.1,
     });
 
     const resetScroll = () => {
       lenis.scrollTo(0, {
         immediate: true,
+        force: true,
       });
     };
 
@@ -34,8 +36,15 @@ export default function SmoothScrolling({
     };
 
     const startLenis = () => {
+      lenis.resize();
       lenis.start();
     };
+
+    // Recalcular límite real del scroll cuando cambie la altura del contenido
+    const resizeObserver = new ResizeObserver(() => {
+      lenis.resize();
+    });
+    resizeObserver.observe(document.body);
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -47,6 +56,7 @@ export default function SmoothScrolling({
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      resizeObserver.disconnect();
       gsap.ticker.remove(update);
 
       window.removeEventListener('lenis:scrollToTop', resetScroll);
