@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { usePathname } from "next/navigation";
 
 export default function BodyThemeObserver() {
   const pathname = usePathname();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const clearBodyTheme = () => {
       document.body.classList.forEach((className) => {
         if (className.startsWith("bg-")) {
@@ -29,23 +29,25 @@ export default function BodyThemeObserver() {
 
       if (!activeSection) return;
 
-      clearBodyTheme();
-
       const theme = activeSection.dataset.bodyTheme;
-      if (theme) {
-        document.body.classList.add(`bg-${theme}`);
-      }
+      if (!theme) return;
+
+      const nextClass = `bg-${theme}`;
+      if (document.body.classList.contains(nextClass)) return;
+
+      clearBodyTheme();
+      document.body.classList.add(nextClass);
+      window.dispatchEvent(new Event("body:theme-ready"));
     };
 
     clearBodyTheme();
-    const frame = requestAnimationFrame(updateBodyTheme);
+    updateBodyTheme();
 
     window.addEventListener("scroll", updateBodyTheme, { passive: true });
     window.addEventListener("resize", updateBodyTheme);
     window.addEventListener("body:refresh-theme", updateBodyTheme);
 
     return () => {
-      cancelAnimationFrame(frame);
       window.removeEventListener("scroll", updateBodyTheme);
       window.removeEventListener("resize", updateBodyTheme);
       window.removeEventListener("body:refresh-theme", updateBodyTheme);

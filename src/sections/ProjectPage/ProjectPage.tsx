@@ -22,6 +22,7 @@ export default function ProjectPage({ project }: Props) {
   const [activeProject, setActiveProject] = useState(project);
   const isTransitioningRef = useRef(false);
   const ctxRef = useRef<gsap.Context | null>(null);
+  const hasChangedProjectRef = useRef(false);
 
   const currentIndex = projects.findIndex(
     (item) => item.slug === activeProject.slug
@@ -44,7 +45,9 @@ export default function ProjectPage({ project }: Props) {
   const nextSeparatorRef = useRef<HTMLDivElement>(null);
   const nextProjectRef = useRef<HTMLDivElement>(null);
 
-  // 1. Resetear scroll y propiedades GSAP de forma síncrona cuando el nuevo proyecto ya está en top: 0
+  const getProjectBgColor = (slug: string) =>
+    slug === "tejidosroca" ? "#FFCBCE" : "#9B6B58";
+
   useLayoutEffect(() => {
     if (ctxRef.current) {
       ctxRef.current.revert();
@@ -57,12 +60,19 @@ export default function ProjectPage({ project }: Props) {
     if (nextSeparatorRef.current) {
       gsap.set(nextSeparatorRef.current, { clearProps: "all" });
     }
+    if (backgroundTransitionRef.current) {
+      gsap.set(backgroundTransitionRef.current, {
+        y: "200vh",
+        opacity: 0,
+      });
+    }
 
     const body = document.body;
     const header = document.getElementById("site-header");
 
     body.style.transition = "none";
     if (header) {
+      header.style.transition = "none";
       header.dataset.blur = "false";
     }
 
@@ -86,25 +96,42 @@ export default function ProjectPage({ project }: Props) {
       if (header) {
         header.dataset.blur = "false";
       }
+
+      if (hasChangedProjectRef.current) {
+        window.dispatchEvent(new Event("header:show"));
+      }
+
+      requestAnimationFrame(() => {
+        if (header) {
+          header.style.transition = "";
+        }
+      });
     });
 
     return () => cancelAnimationFrame(frame);
   }, [activeProject]);
 
-  // 2. Escalonamiento: Next sube primero -> al pasar por el centro empieza a asomar el proyecto despacio por abajo -> Next sale por arriba -> proyecto sube suave a top: 0
   useEffect(() => {
     const wrapper = nextTransitionRef.current;
     const separator = nextSeparatorRef.current;
     const next = nextProjectRef.current;
+    const bgOverlay = backgroundTransitionRef.current;
 
     if (!wrapper || !separator || !next || !nextProject) return;
+
+    const focusEl = next.querySelector<HTMLElement>('[class*="projectFocus"]');
+    const heroImageEl = next.querySelector<HTMLElement>(
+      "[data-transition-target]"
+    );
 
     const launchSmoothAscent = () => {
       if (isTransitioningRef.current) return;
       isTransitioningRef.current = true;
+      hasChangedProjectRef.current = true;
 
       const header = document.getElementById("site-header");
       if (header) {
+        header.style.transition = "none";
         header.dataset.blur = "false";
       }
       window.dispatchEvent(new Event("lenis:stop"));
@@ -120,6 +147,9 @@ export default function ProjectPage({ project }: Props) {
       const sepRect = separator.getBoundingClientRect();
       const currentSepY = Number(gsap.getProperty(separator, "y")) || 0;
       const targetSepY = currentSepY - Math.max(0, sepRect.bottom) - 40;
+
+      const nextTextColor =
+        nextProject.slug === "tejidosroca" ? "#050505" : "#ffffff";
 
       const ascentTl = gsap.timeline({
         onComplete: () => {
@@ -138,79 +168,122 @@ export default function ProjectPage({ project }: Props) {
         },
       });
 
-      // 1. El bloque Next termina de salir por arriba
       ascentTl
         .to(
           separator,
           {
             y: targetSepY,
-            duration: 0.3,
+            duration: 0.25,
             ease: "power2.in",
           },
           0
         )
-        // 2. El proyecto (que viene desde abajo despacito) sube suave hasta top: 0
+        .to(
+          bgOverlay,
+          {
+            y: "0vh",
+            duration: 0.75,
+            ease: "power3.out",
+          },
+          0
+        )
         .to(
           next,
           {
             y: targetY,
+            color: nextTextColor,
+            duration: 1.05,
+            ease: "power3.out",
+          },
+          0
+        );
+
+      if (focusEl) {
+        ascentTl.to(
+          focusEl,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            ease: "power3.out",
+          },
+          0.3
+        );
+      }
+
+      if (heroImageEl) {
+        ascentTl.to(
+          heroImageEl,
+          {
+            y: 0,
+            opacity: 1,
             duration: 0.9,
             ease: "power3.out",
           },
-          0.08
-        )
-        // 3. Baja el header limpio en la recta final
-        .add(() => {
-          if (header) {
-            header.dataset.blur = "false";
-          }
-          window.dispatchEvent(new Event("header:show"));
-        }, 0.35);
+          0.4
+        );
+      }
     };
 
-        const ctx = gsap.context(() => {
-      // Más abajo inicialmente para retrasar su aparición y que entre muy despacio
-      gsap.set(next, { y: 320 });
+    const ctx = gsap.context(() => {
+      const nextColor = getProjectBgColor(nextProject.slug);
+
+      if (bgOverlay) {
+        gsap.set(bgOverlay, {
+          background: `linear-gradient(to top, ${nextColor} 0%, ${nextColor} 50%, rgba(0, 0, 0, 0) 100%)`,
+          opacity: 1,
+          y: "200vh",
+        });
+      }
+
+      if (focusEl) {
+        gsap.set(focusEl, { y: 80, opacity: 0 });
+      }
+      if (heroImageEl) {
+        gsap.set(heroImageEl, { y: 140, opacity: 0 });
+      }
+
+      gsap.set(next, { y: 260 });
 
       const parallaxTl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapper,
-          start: "top 95%",
-          endTrigger: separator,
-          end: "bottom top",
+          start: "top 85%",
+          end: () => `+=${window.innerHeight * 0.95}`,
           scrub: true,
           onLeave: launchSmoothAscent,
-          onUpdate: () => {
-            if (separator.getBoundingClientRect().bottom <= 0) {
-              launchSmoothAscent();
-            }
-          },
         },
       });
 
-      // El bloque Next sube hasta salir por arriba
       parallaxTl
         .to(
           separator,
           {
-            y: -240,
+            y: () => -window.innerHeight * 0.55,
             duration: 1,
             ease: "none",
           },
           0
         )
-        // Entra más tarde (0.45) y recorre poca distancia (320 -> 140) para ir muy lento por abajo
+        .to(
+          bgOverlay,
+          {
+            y: "10vh",
+            duration: 1,
+            ease: "none",
+          },
+          0
+        )
         .to(
           next,
           {
-            y: 140,
-            duration: 0.55,
+            y: -40,
+            duration: 0.9,
             ease: "none",
           },
-          0.45
+          0.1
         );
     }, wrapper);
-
 
     ctxRef.current = ctx;
     ScrollTrigger.refresh();
@@ -227,9 +300,19 @@ export default function ProjectPage({ project }: Props) {
       <div
         ref={backgroundTransitionRef}
         className={styles.transitionBackground}
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: "200vh",
+          zIndex: 5,
+          pointerEvents: "none",
+          opacity: 0,
+          transform: "translateY(200vh)",
+        }}
       />
 
-      {/* PROYECTO ACTUAL */}
       <div
         key={`current-${activeProject.slug}`}
         data-project-slug={activeProject.slug}
@@ -247,7 +330,6 @@ export default function ProjectPage({ project }: Props) {
         <CurrentProjectComponent project={activeProject} />
       </div>
 
-      {/* SIGUIENTE PROYECTO */}
       {nextProject && (
         <div
           key={`next-${nextProject.slug}`}
@@ -271,10 +353,7 @@ export default function ProjectPage({ project }: Props) {
             style={{
               position: "relative",
               zIndex: 30,
-              backgroundColor:
-                nextProject.slug === "tejidosroca"
-                  ? "var(--color-hero-tejidosroca, #f4f3ef)"
-                  : "var(--color-hero-cliniem, #1d1d20)",
+              backgroundColor: "transparent",
             }}
           >
             <ProjectHero
@@ -284,6 +363,7 @@ export default function ProjectPage({ project }: Props) {
                   ? "hero-tejidosroca"
                   : "hero-cliniem"
               }
+              disableThemeObserver
             />
 
             <NextProjectComponent project={nextProject} />

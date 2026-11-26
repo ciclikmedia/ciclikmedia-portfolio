@@ -20,16 +20,13 @@ export default function Header() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Bloquea el scroll cuando el menú mobile está abierto
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [menuOpen]);
 
-  // Cierra el menú al cambiar de ruta
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
@@ -68,7 +65,6 @@ export default function Header() {
       const currentScroll = window.scrollY;
       const difference = currentScroll - previousScroll;
 
-      // Ignorar el salto de reset de scroll al cambiar de proyecto (ej. de 4500 a 0)
       if (Math.abs(difference) > window.innerHeight) {
         previousScroll = currentScroll;
         if (currentScroll <= 5) {
@@ -87,9 +83,7 @@ export default function Header() {
         return;
       }
 
-      // Factor 1.6 para que se desplace más rápido que el contenido
       applyHeaderPosition(currentY - difference * 1.6);
-
       previousScroll = currentScroll;
     };
 
@@ -123,14 +117,20 @@ export default function Header() {
       header.dataset.blur = window.scrollY > 5 ? "true" : "false";
       header.style.pointerEvents = "auto";
 
-      yTo = createYTo();
-      yTo(0);
+      gsap.to(header, {
+        y: 0,
+        duration: 0.55,
+        ease: "power3.out",
+        onComplete: () => {
+          previousScroll = window.scrollY;
+          yTo = createYTo();
+        },
+      });
     };
 
     window.addEventListener("header:hide", hide);
     window.addEventListener("header:show", show);
 
-    // Entrada inicial: entra desde arriba
     gsap.set(header, {
       y: -MAX_OFFSET,
       pointerEvents: "none",
@@ -189,61 +189,86 @@ export default function Header() {
     };
   }, [pathname]);
 
-  // Header theme detection
+  // Header adaptive color & noise detection (lee fondo y color de texto real de la sección/Hero bajo el header)
   useLayoutEffect(() => {
     const header = headerRef.current;
     if (!header) return;
 
-    let triggers: ScrollTrigger[] = [];
+    const isTransparent = (bg: string) =>
+      !bg || bg === "transparent" || bg === "rgba(0, 0, 0, 0)";
 
-    const setupThemeDetection = () => {
-      triggers.forEach((trigger) => trigger.kill());
-
-      const sections = gsap.utils.toArray<HTMLElement>(
-        '[data-header-theme="light"]'
-      );
-
-      const updateTheme = () => {
-        const headerPosition = 36;
-
-        const isLight = sections.some((section) => {
-          const rect = section.getBoundingClientRect();
-
-          return rect.top <= headerPosition && rect.bottom > headerPosition;
-        });
-
-        if (isLight) {
-          header.dataset.theme = "light";
-        } else {
-          delete header.dataset.theme;
-        }
-      };
-
-      triggers = sections.map((section) =>
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 36px",
-          end: "bottom 36px",
-          onToggle: updateTheme,
-          onRefresh: updateTheme,
-        })
-      );
-
-      updateTheme();
+    const isLightColor = (rgb: string) => {
+      const match = rgb.match(/\d+/g);
+      if (!match || match.length < 3) return false;
+      const [r, g, b] = match.map(Number);
+      return (r * 299 + g * 587 + b * 114) / 1000 > 150;
     };
 
-    setupThemeDetection();
-    window.addEventListener("header:refresh-theme", setupThemeDetection);
+    const updateHeaderColors = () => {
+      const probeY = 55;
+
+      const candidates = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          "[data-body-theme], [data-header-theme], main section"
+        )
+      );
+
+      let activeEl: HTMLElement | null = null;
+      for (const el of candidates) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= probeY && rect.bottom > probeY) {
+          activeEl = el;
+        }
+      }
+
+      const bodyStyles = window.getComputedStyle(document.body);
+      let bg = bodyStyles.backgroundColor;
+      let fg = bodyStyles.color;
+
+      if (activeEl) {
+        const elStyles = window.getComputedStyle(activeEl);
+        if (!isTransparent(elStyles.backgroundColor)) {
+          bg = elStyles.backgroundColor;
+        }
+        if (elStyles.color) {
+          fg = elStyles.color;
+        }
+      }
+
+      header.style.setProperty("--header-bg", bg);
+      header.style.setProperty("--header-fg", fg);
+
+      if (isLightColor(bg)) {
+        header.dataset.theme = "light";
+      } else {
+        delete header.dataset.theme;
+      }
+    };
+
+    updateHeaderColors();
+    window.addEventListener("scroll", updateHeaderColors, { passive: true });
+    window.addEventListener("resize", updateHeaderColors);
+    window.addEventListener("header:refresh-theme", updateHeaderColors);
+
+    const bodyObserver = new MutationObserver(updateHeaderColors);
+    bodyObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
     return () => {
-      window.removeEventListener("header:refresh-theme", setupThemeDetection);
-      triggers.forEach((trigger) => trigger.kill());
-      delete header.dataset.theme;
+      window.removeEventListener("scroll", updateHeaderColors);
+      window.removeEventListener("resize", updateHeaderColors);
+      window.removeEventListener("header:refresh-theme", updateHeaderColors);
+      bodyObserver.disconnect();
     };
   }, [pathname]);
 
   return (
     <header ref={headerRef} id="site-header" className={styles.header}>
+      {/* Capa de noise integrada en los 110px del header */}
+      <div className={styles.headerNoise} aria-hidden="true" />
+
       <div className="site-container">
         <div className={styles.inner}>
           {/* Logo */}
@@ -325,6 +350,8 @@ export default function Header() {
                 Contact
               </Link>
             </nav>
+
+
 
             <div className={styles.mobileMenuFooter}>
               <div className={styles.mobileSocials}>

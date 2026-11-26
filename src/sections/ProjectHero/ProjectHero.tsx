@@ -13,9 +13,14 @@ import { Project } from "@/types/project";
 interface Props {
   project: Project;
   bodyColor?: string;
+  disableThemeObserver?: boolean;
 }
 
-export default function ProjectHero({ project, bodyColor }: Props) {
+export default function ProjectHero({
+  project,
+  bodyColor,
+  disableThemeObserver = false,
+}: Props) {
   const transition = useTransition();
   const heroRef = useRef<HTMLElement>(null);
 
@@ -37,40 +42,29 @@ export default function ProjectHero({ project, bodyColor }: Props) {
     showDefaultCursorPosition();
   }, [transition.isTransitioning]);
 
-  
-
   return (
     <section
       ref={heroRef}
       className={styles.hero}
       data-cursor="hero"
       data-cursor-label="Scroll"
-      data-body-theme={bodyColor}
+      data-body-theme={disableThemeObserver ? undefined : bodyColor}
     >
       <Container>
         <div className={styles.contentWrapper}>
           <div className={styles.contentMask}>
             <div className={styles.content} data-hero-content>
-              <h1 className={styles.title}>
-                {project.title}
-              </h1>
-
-              {/*<p className={styles.subtitle}>
-                {project.subtitle}
-              </p>*/}
+              <h1 className={styles.title}>{project.title}</h1>
             </div>
           </div>
         </div>
 
-       <div className={styles.projectFocus}>
-        <span>PROJECT FOCUS</span>
-        <p>{project.projectFocus}</p>
-      </div>
+        <div className={styles.projectFocus}>
+          <span>PROJECT FOCUS</span>
+          <p>{project.projectFocus}</p>
+        </div>
 
-        <div
-          className={styles.heroImage}
-          data-transition-target
-        >
+        <div className={styles.heroImage} data-transition-target>
           <Image
             src={project.image}
             alt={project.title}
