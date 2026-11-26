@@ -6,256 +6,202 @@ import gsap, { ScrollTrigger } from "@/lib/gsap";
 import styles from "./About.module.scss";
 
 export default function About() {
- 
   const sectionRef = useRef<HTMLElement>(null);
+  const pinContainerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const reelRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  const pinContainerRef =
-    useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      if (!videoRef.current || !sectionRef.current) {
+        return;
+      }
 
-  const contentRef =
-    useRef<HTMLDivElement>(null);
+      const video = videoRef.current;
+      const pinContainer = pinContainerRef.current;
+      const reel = reelRef.current;
 
-  const reelRef =
-    useRef<HTMLDivElement>(null);
+      if (!pinContainer || !reel) return;
 
-  const videoRef =
-    useRef<HTMLVideoElement>(null);
+      // Estado inicial
+      gsap.set(video, {
+        opacity: 0,
+        scale: 1.03,
+      });
 
-      useLayoutEffect(() => {
-         const ctx = gsap.context(() => {
-          if (
-            !videoRef.current ||
-            !sectionRef.current
-          ) {
-            return;
-          }
+      video.pause();
+      video.currentTime = 0;
 
-          const video = videoRef.current;
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top 65%",
+        end: "bottom 35%",
 
-          const pinContainer = pinContainerRef.current;
-          const reel = reelRef.current;
-
-          if (!pinContainer || !reel) return;
-
-          // Estado inicial
-          gsap.set(video, {
-            opacity: 0,
-            scale: 1.03,
-          });
-
+        onEnter: () => {
           video.pause();
           video.currentTime = 0;
 
-          const trigger = ScrollTrigger.create({
-            trigger: sectionRef.current,
+          gsap.killTweensOf(video);
 
-            start: "top 65%",
-
-            end: "bottom 35%",
-
-            onEnter: () => {
-              video.pause();
-              video.currentTime = 0;
-
-              gsap.killTweensOf(video);
-
-              gsap.fromTo(
-                video,
-                {
-                  opacity: 0,
-                  scale: 1.03,
-                },
-                {
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.9,
-                  ease: "power3.out",
-                }
-              );
-
-              video.play();
+          gsap.fromTo(
+            video,
+            {
+              opacity: 0,
+              scale: 1.03,
             },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+            }
+          );
 
-            onEnterBack: () => {
-              video.pause();
-              video.currentTime = 0;
+          video.play();
+        },
 
-              gsap.killTweensOf(video);
+        onEnterBack: () => {
+          video.pause();
+          video.currentTime = 0;
 
-              gsap.fromTo(
-                video,
-                {
-                  opacity: 0,
-                  scale: 1.03,
-                },
-                {
-                  opacity: 1,
-                  scale: 1,
-                  duration: 0.9,
-                  ease: "power3.out",
-                }
-              );
+          gsap.killTweensOf(video);
 
-              video.play();
+          gsap.fromTo(
+            video,
+            {
+              opacity: 0,
+              scale: 1.03,
             },
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 0.9,
+              ease: "power3.out",
+            }
+          );
 
-            onLeave: () => {
-              gsap.to(video, {
-                opacity: 0.45,
-                duration: 0.35,
-                ease: "power2.out",
-              });
+          video.play();
+        },
 
-              video.pause();
-            },
-
-            onLeaveBack: () => {
-              gsap.to(video, {
-                opacity: 0,
-                duration: 0.35,
-                ease: "power2.out",
-              });
-
-              video.pause();
-            },
+        onLeave: () => {
+          gsap.to(video, {
+            opacity: 0.45,
+            duration: 0.35,
+            ease: "power2.out",
           });
 
-          const content = contentRef.current!;
+          video.pause();
+        },
 
-          const getTravel = () =>
-            Math.max(
-              0,
-              video.offsetHeight - content.offsetHeight
-            );
+        onLeaveBack: () => {
+          gsap.to(video, {
+            opacity: 0,
+            duration: 0.35,
+            ease: "power2.out",
+          });
 
-          const getExit = () =>
-            content.offsetHeight;
+          video.pause();
+        },
+      });
 
-            const tl = gsap.timeline({
-              scrollTrigger: {
-                trigger: pinContainer,
+      const content = contentRef.current!;
 
-                start: "top-=80 top",
+      const getTravel = () =>
+        Math.max(0, video.offsetHeight - content.offsetHeight);
 
-                end: () => `+=${getTravel() + getExit()}`,
+      const getExit = () => content.offsetHeight;
 
-                pin: true,
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: pinContainer,
+          start: () => {
+            const headerHeight =
+              document.getElementById("site-header")?.offsetHeight || 110;
+            return `top-=${headerHeight + 24} top`;
+          },
+          end: () => `+=${getTravel() + getExit()}`,
+          pin: true,
+          scrub: true,
+          pinSpacing: false,
+          anticipatePin: -1,
+          invalidateOnRefresh: true,
+        },
+      });
 
-                scrub: true,
-                pinSpacing: false,
+      tl.to(reel, {
+        y: () => -getTravel(),
+        ease: "none",
+      }).to([content, reel], {
+        y: () => `-=${getExit()}`,
+        ease: "none",
+      });
 
-                anticipatePin: -1,
+      ScrollTrigger.refresh();
+    });
 
-                invalidateOnRefresh: true,
-              },
-            });
-
-            tl
-
-            .to(reel, {
-              y: () => -getTravel(),
-              ease: "none",
-            })
-
-            .to(
-              [content, reel],
-              {
-                y: () => `-=${getExit()}`,
-                ease: "none",
-              }
-            );
-
-           ScrollTrigger.refresh();
-
-            });
-
-            return () => ctx.revert();
-
-          }, []);
-    
-    
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section className={styles.about} ref={sectionRef}>
+      <div ref={pinContainerRef} className={styles.pin}>
+        <div className="site-container">
+          <div className={styles.grid}>
+            <div ref={contentRef} className={styles.content}>
+              {/* <span className={styles.eyebrow}>
+                ABOUT
+              </span> */}
 
-            <div
-              ref={pinContainerRef}
-              className={styles.pin}
-            >
+              <h2>
+                DESIGNING
+                <br />
+                DEVELOPING
+                <br />
+                ANIMATING
+                <br />
+                DIGITAL
+                <br />
+                PRODUCTS.
+              </h2>
 
-              <div className="site-container">
+              {/* <p>
+                I design and build digital products with a strong focus on interaction, motion and performance. Every project is crafted to feel intuitive, refined and memorable
+              </p> */}
 
-                <div className={styles.grid}>
+              <a
+                href="/about"
+                className={styles.link}
+                data-cursor="link"
+              >
+                <span>MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→</span>
+                <span className={styles.linkAccent}>
+                  MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→
+                </span>
+              </a>
+            </div>
 
-                  <div
-                    ref={contentRef}
-                    className={styles.content}
-                  >
-
-                 {/*} <span className={styles.eyebrow}>
-                    ABOUT
-                  </span>*/}
-
-                  <h2>
-                    DESIGNING
-                    <br />
-                    DEVELOPING              
-                    <br />
-                    ANIMATING
-                    <br />
-                    DIGITAL
-                    <br />
-                    PRODUCTS.
-                  </h2>
-
-                  {/*<p>
-                    I design and build digital products with a strong focus on interaction, motion and performance. Every project is crafted to feel intuitive, refined and memorable
-                  </p>*/}
-
-                  <a
-                    href="/about"
-                    className={styles.link}
-                    data-cursor="link"
-                  >
-                    <span>
-                      MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→
-                    </span>
-
-                    <span className={styles.linkAccent}>
-                      MORE ABOUT ME&nbsp;&nbsp;&nbsp;&nbsp;→
-                    </span>
-                  </a>
-
-                </div>
-
-               <div className={styles.viewport}>
-
-                  <div
-                    ref={reelRef}
-                    className={styles.track}
-                  >
-
-                    <video
-                      data-cursor="video"
-                      ref={videoRef}
-                      className={styles.video}
-                      muted
-                      playsInline
-                      preload="auto"
-                      loop
-                    >
-                      <source
-                        src="/videos/videoAboutFake.mp4"
-                        type="video/mp4"
-                      />
-                    </video>
-                  </div>
-                </div>
-                </div>
-
+            <div className={styles.viewport}>
+              <div ref={reelRef} className={styles.track}>
+                <video
+                  data-cursor="video"
+                  ref={videoRef}
+                  className={styles.video}
+                  muted
+                  playsInline
+                  preload="auto"
+                  loop
+                >
+                  <source
+                    src="/videos/videoAboutFake.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
             </div>
           </div>
-        
+        </div>
+      </div>
     </section>
   );
 }

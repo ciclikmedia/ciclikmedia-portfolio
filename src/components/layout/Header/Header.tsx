@@ -47,11 +47,13 @@ export default function Header() {
 
     header.dataset.blur = window.scrollY > 5 ? "true" : "false";
 
-    // Suavizado ligero para que no vaya clavado 1:1 al contenido sino con peso propio
-    const yTo = gsap.quickTo(header, "y", {
-      duration: 0.32,
-      ease: "power2.out",
-    });
+    const createYTo = () =>
+      gsap.quickTo(header, "y", {
+        duration: 0.32,
+        ease: "power2.out",
+      });
+
+    let yTo = createYTo();
 
     const applyHeaderPosition = (y: number) => {
       currentY = Math.max(-MAX_OFFSET, Math.min(0, y));
@@ -65,6 +67,16 @@ export default function Header() {
 
       const currentScroll = window.scrollY;
       const difference = currentScroll - previousScroll;
+
+      // Ignorar el salto de reset de scroll al cambiar de proyecto (ej. de 4500 a 0)
+      if (Math.abs(difference) > window.innerHeight) {
+        previousScroll = currentScroll;
+        if (currentScroll <= 5) {
+          header.dataset.blur = "false";
+          applyHeaderPosition(0);
+        }
+        return;
+      }
 
       header.dataset.blur = currentScroll > 5 ? "true" : "false";
 
@@ -93,32 +105,26 @@ export default function Header() {
     const hide = () => {
       isLockedByEvent = true;
       currentY = -MAX_OFFSET;
+      gsap.killTweensOf(header);
 
       gsap.to(header, {
         y: -MAX_OFFSET,
         pointerEvents: "none",
         duration: 0.35,
         ease: "power2.out",
-        overwrite: true,
       });
     };
 
     const show = () => {
+      gsap.killTweensOf(header);
+      isLockedByEvent = false;
       previousScroll = window.scrollY;
       currentY = 0;
       header.dataset.blur = window.scrollY > 5 ? "true" : "false";
+      header.style.pointerEvents = "auto";
 
-      gsap.to(header, {
-        y: 0,
-        pointerEvents: "auto",
-        duration: 0.5,
-        ease: "power3.out",
-        overwrite: true,
-        onComplete: () => {
-          isLockedByEvent = false;
-          previousScroll = window.scrollY;
-        },
-      });
+      yTo = createYTo();
+      yTo(0);
     };
 
     window.addEventListener("header:hide", hide);
@@ -140,11 +146,10 @@ export default function Header() {
 
       onComplete: () => {
         currentY = 0;
+        yTo = createYTo();
 
         if (!isHome) {
-          window.dispatchEvent(
-            new Event("header:intro-ready")
-          );
+          window.dispatchEvent(new Event("header:intro-ready"));
         }
 
         enableScrollBehavior();
@@ -159,12 +164,12 @@ export default function Header() {
     };
   }, [pathname, isHome]);
 
-    // Logo rotation on scroll
+  // Logo rotation on scroll (solo el symbol)
   useLayoutEffect(() => {
     if (!logoWrapperRef.current) return;
 
     const images = logoWrapperRef.current.querySelectorAll("img");
-    const symbol = images[1];
+    const symbol = images.item(1);
 
     if (!symbol) return;
 
@@ -183,7 +188,6 @@ export default function Header() {
       tween.kill();
     };
   }, [pathname]);
-
 
   // Header theme detection
   useLayoutEffect(() => {
@@ -205,10 +209,7 @@ export default function Header() {
         const isLight = sections.some((section) => {
           const rect = section.getBoundingClientRect();
 
-          return (
-            rect.top <= headerPosition &&
-            rect.bottom > headerPosition
-          );
+          return rect.top <= headerPosition && rect.bottom > headerPosition;
         });
 
         if (isLight) {
@@ -242,14 +243,9 @@ export default function Header() {
   }, [pathname]);
 
   return (
-    <header
-      ref={headerRef}
-      id="site-header"
-      className={styles.header}
-    >
+    <header ref={headerRef} id="site-header" className={styles.header}>
       <div className="site-container">
         <div className={styles.inner}>
-
           {/* Logo */}
           <div
             className={styles.logo}
@@ -260,10 +256,7 @@ export default function Header() {
           </div>
 
           {/* Desktop navigation */}
-          <nav
-            className={styles.nav}
-            data-cursor="header"
-          >
+          <nav className={styles.nav} data-cursor="header">
             <Link href="/work" className={styles.navLink}>
               <span className={styles.navBase}>Work</span>
               <span className={styles.navAccent}>Work</span>
@@ -359,7 +352,6 @@ export default function Header() {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </header>

@@ -65,7 +65,6 @@ export default function ProjectPage({ project }: Props) {
     html.style.scrollBehavior = "auto";
     body.style.transition = "none";
 
-    // Quitamos el blur antes de resetear el scroll para evitar el salto visual
     if (header) {
       header.dataset.blur = "false";
     }
@@ -83,7 +82,11 @@ export default function ProjectPage({ project }: Props) {
     ScrollTrigger.refresh();
     window.dispatchEvent(new Event("header:refresh-theme"));
 
-    // Volvemos a forzar blur="false" tras el evento scroll
+    // Solo forzamos header:show si hemos saltado a un proyecto nuevo (no en la carga inicial)
+    if (activeProject.slug !== project.slug) {
+      window.dispatchEvent(new Event("header:show"));
+    }
+
     if (header) {
       header.dataset.blur = "false";
     }
@@ -95,7 +98,7 @@ export default function ProjectPage({ project }: Props) {
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [activeProject]);
+  }, [activeProject, project.slug]);
 
   // 2. Fase 1: Parallax hasta que desaparece el indicador Next
   //    Fase 2: Subida suave del proyecto + entrada coordinada del Header sin blur
@@ -110,22 +113,17 @@ export default function ProjectPage({ project }: Props) {
       if (isTransitioningRef.current) return;
       isTransitioningRef.current = true;
 
-      // Ocultamos el header y limpiamos su blur antes de que suba el proyecto
       const header = document.getElementById("site-header");
       if (header) {
         header.dataset.blur = "false";
       }
       window.dispatchEvent(new Event("header:hide"));
-
-      // Detenemos el scroll del usuario
       window.dispatchEvent(new Event("lenis:stop"));
 
-      // Congelamos el ScrollTrigger sin revertir el transform actual
       ScrollTrigger.getAll().forEach((st) => {
         if (st.trigger === wrapper) st.kill(false);
       });
 
-      // Terminamos de sacar el indicador Next por arriba
       gsap.to(separator, {
         opacity: 0,
         y: "-=60",
@@ -133,18 +131,15 @@ export default function ProjectPage({ project }: Props) {
         ease: "power2.out",
       });
 
-      // Calculamos exactamente cuánto le falta a 'next' para llegar a top: 0
       const rect = next.getBoundingClientRect();
       const currentY = Number(gsap.getProperty(next, "y")) || 0;
       const targetY = currentY - rect.top;
 
-      // Subida suave y coordinada con la bajada del header en la recta final
       gsap.to(next, {
         y: targetY,
         duration: 0.85,
         ease: "power3.out",
         onStart: () => {
-          // A mitad de la subida del proyecto, hacemos bajar el header limpio
           gsap.delayedCall(0.35, () => {
             if (header) {
               header.dataset.blur = "false";
@@ -228,7 +223,10 @@ export default function ProjectPage({ project }: Props) {
       />
 
       {/* PROYECTO ACTUAL */}
-      <div data-project-slug={activeProject.slug}>
+      <div
+        key={`current-${activeProject.slug}`}
+        data-project-slug={activeProject.slug}
+      >
         <ProjectHero
           project={activeProject}
           bodyColor={
@@ -244,6 +242,7 @@ export default function ProjectPage({ project }: Props) {
       {/* SIGUIENTE PROYECTO */}
       {nextProject && (
         <div
+          key={`next-${nextProject.slug}`}
           ref={nextTransitionRef}
           data-project-transition
         >
